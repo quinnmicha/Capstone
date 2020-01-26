@@ -1,24 +1,27 @@
 <?php
     include('db.php');
     
-    //Takes in user and pass, hashes pass, and comes back true or false
+    //Takes in user and pass, hashes pass
+    //Pulls back username and group for SESSION
+    //Comes back false if fail
     function Login($user, $pass) {
         global $db;
         $pass = sha1($pass);
-        echo $pass;
-        $dbLogin = false;
-        $stmt = $db->prepare("SELECT username, password, `group` FROM login_inventory WHERE user = :user && password = :pass");   
+        $stmt = $db->prepare("SELECT username, `group` FROM login_inventory WHERE username = :user && password = :pass");   
         
         $binds = array(
                     ":user" => $user,
                     ":pass" => $pass
                 );
  
-        if ( $stmt->execute($binds) && $stmt->rowCount() > 0 ) {
-             $dbLogin = true;
-                        
-         }
-         return ($dbLogin);
+        $results = array();
+        if ($stmt->execute($binds) && $stmt->rowCount() > 0) {
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return ($results);
+        }
+        else{
+            return false;
+        }
     }
     
     //registers user after js confirms it is correct
@@ -48,7 +51,4 @@
     function isGetRequest() {
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
-    
-    $test= register('test','test','admin');
-    echo $test;
 ?>
