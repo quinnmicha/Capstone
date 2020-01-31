@@ -43,6 +43,8 @@
         return ($success);
     }
     
+    //Adds an item to the inventory table
+    //Sets amount to 0 automatically
     function addItem($itemName, $unitPrice, $parNumber){
         global $db;
         $success=false;
@@ -60,6 +62,21 @@
         return($success);
     }
     
+    //Pulls the id name amount price par from inventory table
+    function getInventory(){
+        global $db;
+        
+        $stmt=$db->prepare("SELECT idItem, `name`, amount, unitPrice, parAmount FROM inventory");
+        
+        if($stmt->execute() && $stmt->rowCount()>0){
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return ($results);
+        }
+        else{
+            return false;
+        }
+    }
+    
     //checks if Post request
     function isPostRequest() {
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' );
@@ -69,6 +86,4 @@
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
     
-    $test=addItem('Beer', 4.50, 12);
-    echo $test;
 ?>
