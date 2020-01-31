@@ -77,6 +77,25 @@
         }
     }
     
+    //Updates the inventory table
+    //Is called within other functions
+    function updateItem($idItem, $amount){
+        global $db;
+        
+        $stmt=$db->prepare("UPDATE inventory SET amount = :amount WHERE idItem = :idItem");
+        
+        $binds = array(
+            ":amount" => $amount,
+            ":idItem" => $idItem
+        );
+        
+        $result=false;
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            $result=true;
+        }
+        return $result;
+    }
+    
     //checks if Post request
     function isPostRequest() {
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' );
@@ -86,4 +105,6 @@
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
     
+    $test=updateItem(2,1);
+    echo $test;
 ?>
