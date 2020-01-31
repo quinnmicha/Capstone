@@ -43,6 +43,23 @@
         return ($success);
     }
     
+    function addItem($itemName, $unitPrice, $parNumber){
+        global $db;
+        $success=false;
+        $stmt=$db->prepare("INSERT INTO inventory (name, amount, unitPrice, parAmount) Values (:itemName, 0, :unitPrice, :parNumber)");
+        
+        $binds = array(
+            ":itemName" => $itemName,
+            ":unitPrice" => $unitPrice,
+            ":parNumber" => $parNumber
+        );
+        
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            $success=true;
+        }
+        return($success);
+    }
+    
     //checks if Post request
     function isPostRequest() {
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' );
@@ -51,4 +68,7 @@
     function isGetRequest() {
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
+    
+    $test=addItem('Beer', 4.50, 12);
+    echo $test;
 ?>
