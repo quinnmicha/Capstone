@@ -2,12 +2,12 @@
     include('db.php');
     
     //Takes in user and pass, hashes pass
-    //Pulls back username and group for SESSION
+    //Pulls back idUser, username, and group for SESSION
     //Comes back false if fail
     function Login($user, $pass) {
         global $db;
         $pass = sha1($pass);
-        $stmt = $db->prepare("SELECT username, `group` FROM login_inventory WHERE username = :user && password = :pass");   
+        $stmt = $db->prepare("SELECT idUser, username, `group` FROM login_inventory WHERE username = :user && password = :pass");   
         
         $binds = array(
                     ":user" => $user,
@@ -96,6 +96,7 @@
         return $result;
     }
     
+    //Deletes item from the inventory table
     function deleteItem($idItem){
         global $db;
         
@@ -111,6 +112,32 @@
         return $result;
     }
     
+    //Will return the most recent week from the purchasing table
+    //Must be adjusted on the website to increase weeks for purchasing
+    //Returns an array of one int (the max week in the purchasing table)
+    //Returns 1 if no purchases
+    //Returns null if db doesn't connect
+    function getWeek(){
+        global $db;
+        
+        $stmt=$db->prepare("SELECT MAX(week) from purchases");
+        
+        if($stmt->execute() && $stmt->rowCount()>0){
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+            if(empty($results)){
+                $results = ['MAX(week)' => 1];
+            }
+            return $results;
+        }
+        else{
+            return null;
+        }
+    }
+    
+    function purchaseItem($idItem, $cost, $amount, $week){
+        global $db;
+    }
+    
     //checks if Post request
     function isPostRequest() {
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' );
@@ -119,7 +146,7 @@
     function isGetRequest() {
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
-   
-    $test=deleteItem(1);
-    echo $test;
+
+    $test=getWeek();
+    var_dump($test);
 ?>
