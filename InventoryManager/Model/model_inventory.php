@@ -96,6 +96,21 @@
         return $result;
     }
     
+    function deleteItem($idItem){
+        global $db;
+        
+        $stmt=$db->prepare("DELETE FROM inventory WHERE idItem = :idItem");
+        
+        $binds = array(
+            ":idItem" => $idItem
+        );
+        $result = false;
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            $result = true;
+        }
+        return $result;
+    }
+    
     //checks if Post request
     function isPostRequest() {
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' );
@@ -104,7 +119,7 @@
     function isGetRequest() {
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
-    
-    $test=updateItem(2,1);
+   
+    $test=deleteItem(1);
     echo $test;
 ?>
