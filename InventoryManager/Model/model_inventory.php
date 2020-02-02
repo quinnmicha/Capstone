@@ -134,8 +134,10 @@
         }
     }
     
-    function purchaseItem($idItem, $cost, $amount, $week){
+    function purchaseItem($idItem, $cost, $amount, $week, $newAmount){ //Seems to be no add() so maybe pull the new amount from the website or call an updateItem()
         global $db;
+        
+        stmt=$db->prepare("INSERT INTO purchases")
     }
     
     //checks if Post request
