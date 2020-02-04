@@ -134,6 +134,24 @@
         }
     }
     
+    function getAmount($idItem){
+        global $db;
+        
+        $stmt=$db->prepare("SELECT amount FROM inventroy WHERE idItem = :idItem");
+        
+        $binds= array(
+            ":idItem"=> $idItem
+        );
+        
+        
+        
+        
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        
+    }
+    
     function purchaseItem($idItem, $cost, $amount, $week, $newAmount){ //Seems to be no add() so maybe pull the new amount from the website or call an updateItem()
         global $db;
         
