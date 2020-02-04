@@ -134,6 +134,8 @@
         }
     }
     
+    //NEEDS TEST
+    //Pulls the amount of a certain item for adding or subtracting
     function getAmount($idItem){
         global $db;
         
@@ -143,15 +145,74 @@
             ":idItem"=> $idItem
         );
         
-        
-        
-        
+        $results=[];
         if($stmt->execute($binds) && $stmt->rowCount()>0){
             $results = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $results;
+        }
+        else{
+            return false;
         }
         
     }
     
+    //NEEDS TEST
+    //Pulls the most recent Sale id for invoice table
+    function getRecentSaleId(){
+        global $db;
+        
+        $stmt=$db->prepare("SELECT MAX(idSale) from sales");
+        
+        $results=[];
+        if($stmt->execute() && $stmt->rowCount()>0){
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        else{
+            $results = false;
+        }
+        return $results
+    }
+    
+    //NEEDS TEST
+    //Pulls sales data off idSale from sales table
+    function getRecentSale($idSale){
+        global $db;
+        
+        $stmt=$db->prepare("SELECT * FROM sales WHERE idSale = :idSale");
+        
+        $binds = array(
+            ":idSale"=>$idSale
+        );
+        
+        results=[];
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        else{
+            $results = false;
+        }
+        return $results
+    }
+    
+    //Needs Test
+    //Pulls most recent purchase id
+    function getRecentPurchaseId(){
+        global $db;
+        
+        $stmt=$db->prepare("SELECT MAX(idPurchase) from purchases");
+        
+        $results=[];
+        if($stmt->execute() && $stmt->rowCount()>0){
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        else{
+            $results = false;
+        }
+        return $results
+    }
+    
+    //NEEDS TEST
+    //Purchases ITEM
     function purchaseItem($idItem, $cost, $amount, $week, $newAmount){ //Seems to be no add() so maybe pull the new amount from the website or call an updateItem()
         global $db;
         
