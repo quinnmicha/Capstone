@@ -134,12 +134,12 @@
         }
     }
     
-    //NEEDS TEST
     //Pulls the amount of a certain item for adding or subtracting
+    //may not need this function....
     function getAmount($idItem){
         global $db;
         
-        $stmt=$db->prepare("SELECT amount FROM inventroy WHERE idItem = :idItem");
+        $stmt=$db->prepare("SELECT amount FROM inventory WHERE idItem = :idItem");
         
         $binds= array(
             ":idItem"=> $idItem
@@ -170,7 +170,7 @@
         else{
             $results = false;
         }
-        return $results
+        return $results;
     }
     
     //NEEDS TEST
@@ -184,14 +184,14 @@
             ":idSale"=>$idSale
         );
         
-        results=[];
+        $results=[];
         if($stmt->execute($binds) && $stmt->rowCount()>0){
             $results = $stmt->fetch(PDO::FETCH_ASSOC);
         }
         else{
             $results = false;
         }
-        return $results
+        return $results;
     }
     
     //Needs Test
@@ -208,7 +208,7 @@
         else{
             $results = false;
         }
-        return $results
+        return $results;
     }
     
     //NEEDS TEST
@@ -216,7 +216,7 @@
     function purchaseItem($idItem, $cost, $amount, $week, $newAmount){ //Seems to be no add() so maybe pull the new amount from the website or call an updateItem()
         global $db;
         
-        stmt=$db->prepare("INSERT INTO purchases")
+        $stmt=$db->prepare("INSERT INTO purchases");
     }
     
     //checks if Post request
@@ -228,6 +228,6 @@
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
 
-    $test=getWeek();
+    $test= getAmount(2);
     var_dump($test);
 ?>
