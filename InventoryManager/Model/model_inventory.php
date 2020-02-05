@@ -213,10 +213,25 @@
     
     //NEEDS TEST
     //Purchases ITEM
-    function purchaseItem($idItem, $cost, $amount, $week, $newAmount){ //Seems to be no add() so maybe pull the new amount from the website or call an updateItem()
+    function purchaseItem($idItem, $cost, $amount, $week){ //Seems to be no add() so maybe pull the new amount from the website or call an updateItem()
         global $db;
         
-        $stmt=$db->prepare("INSERT INTO purchases");
+        $stmt=$db->prepare("INSERT INTO purchases (week, idItem, amount, money) VALUES (:week, :idItem, :amount, :money)");
+        
+        $binds= array (
+            ":week" => $week,
+            ":idItem" => $idItem,
+            ":amount" => $amount,
+            ":money" => $cost
+        );
+        
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            //Run another function on the website to update invoice and inventory table
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     
     //checks if Post request
@@ -228,6 +243,6 @@
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
 
-    $test= getAmount(2);
-    var_dump($test);
+    $test= purchaseItem(2, 4.55, 2, 1);
+    echo $test;
 ?>
