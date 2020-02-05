@@ -194,8 +194,7 @@
         return $results;
     }
     
-    //Needs Test
-    //Pulls most recent purchase id
+    //Pulls most recent purchase id for connecting the invoice table
     function getRecentPurchaseId(){
         global $db;
         
@@ -211,8 +210,9 @@
         return $results;
     }
     
-    //NEEDS TEST
     //Purchases ITEM
+    //adds item to purchases table
+    //returns 1 if true 0 if false
     function purchaseItem($idItem, $cost, $amount, $week){ //Seems to be no add() so maybe pull the new amount from the website or call an updateItem()
         global $db;
         
@@ -243,6 +243,6 @@
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
 
-    $test= purchaseItem(2, 4.55, 2, 1);
-    echo $test;
+    $test= getRecentPurchaseId();
+    var_dump($test);
 ?>
