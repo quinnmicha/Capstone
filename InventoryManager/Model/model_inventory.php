@@ -134,12 +134,12 @@
         }
     }
     
-    //NEEDS TEST
     //Pulls the amount of a certain item for adding or subtracting
+    //may not need this function....
     function getAmount($idItem){
         global $db;
         
-        $stmt=$db->prepare("SELECT amount FROM inventroy WHERE idItem = :idItem");
+        $stmt=$db->prepare("SELECT amount FROM inventory WHERE idItem = :idItem");
         
         $binds= array(
             ":idItem"=> $idItem
@@ -170,7 +170,7 @@
         else{
             $results = false;
         }
-        return $results
+        return $results;
     }
     
     //NEEDS TEST
@@ -184,18 +184,17 @@
             ":idSale"=>$idSale
         );
         
-        results=[];
+        $results=[];
         if($stmt->execute($binds) && $stmt->rowCount()>0){
             $results = $stmt->fetch(PDO::FETCH_ASSOC);
         }
         else{
             $results = false;
         }
-        return $results
+        return $results;
     }
     
-    //Needs Test
-    //Pulls most recent purchase id
+    //Pulls most recent purchase id for connecting the invoice table
     function getRecentPurchaseId(){
         global $db;
         
@@ -208,15 +207,31 @@
         else{
             $results = false;
         }
-        return $results
+        return $results;
     }
     
-    //NEEDS TEST
     //Purchases ITEM
-    function purchaseItem($idItem, $cost, $amount, $week, $newAmount){ //Seems to be no add() so maybe pull the new amount from the website or call an updateItem()
+    //adds item to purchases table
+    //returns 1 if true 0 if false
+    function purchaseItem($idItem, $cost, $amount, $week){ //Seems to be no add() so maybe pull the new amount from the website or call an updateItem()
         global $db;
         
-        stmt=$db->prepare("INSERT INTO purchases")
+        $stmt=$db->prepare("INSERT INTO purchases (week, idItem, amount, money) VALUES (:week, :idItem, :amount, :money)");
+        
+        $binds= array (
+            ":week" => $week,
+            ":idItem" => $idItem,
+            ":amount" => $amount,
+            ":money" => $cost
+        );
+        
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            //Run another function on the website to update invoice and inventory table
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     
     //checks if Post request
@@ -228,6 +243,6 @@
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
 
-    $test=getWeek();
+    $test= getRecentPurchaseId();
     var_dump($test);
 ?>
