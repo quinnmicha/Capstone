@@ -78,10 +78,10 @@
     }
     
     //Gives abiltity to update every part of an item
-    function updateItemAmount($idItem, $name, $amount, $unitPrice, $salesPrice, $parAmount){
+    function updateItem($idItem, $name, $amount, $unitPrice, $salesPrice, $parAmount){
         global $db;
         
-        $stmt=$db->prepare("UPDATE inventory SET name = :name, amount = :amount, unitPrice = :unitPrice, salesPrice = :salesPrice, parAmount - :parAmount WHERE idItem = :idItem");
+        $stmt=$db->prepare("UPDATE inventory SET name = :name, amount = :amount, unitPrice = :unitPrice, salesPrice = :salesPrice, parAmount = :parAmount WHERE idItem = :idItem");
         
         $binds = array(
             ":name" => $name,
@@ -383,7 +383,6 @@
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
     
-    $test = sellItem(2, 4.55, 2, 2, 1);
-    echo $test;
+   
     
 ?>
