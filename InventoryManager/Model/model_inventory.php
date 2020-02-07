@@ -77,9 +77,31 @@
         }
     }
     
-    //Updates the inventory table
+    //Gives abiltity to update every part of an item
+    function updateItemAmount($idItem, $name, $amount, $unitPrice, $salesPrice, $parAmount){
+        global $db;
+        
+        $stmt=$db->prepare("UPDATE inventory SET name = :name, amount = :amount, unitPrice = :unitPrice, salesPrice = :salesPrice, parAmount - :parAmount WHERE idItem = :idItem");
+        
+        $binds = array(
+            ":name" => $name,
+            ":unitPrice" => $unitPrice,
+            ":salesPrice" => $salesPrice,
+            ":parAmount" => $parAmount,
+            ":amount" => $amount,
+            ":idItem" => $idItem
+        );
+        
+        $result=false;
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            $result=true;
+        }
+        return $result;
+    }
+    
+    //Updates item's amount in the inventory table
     //Is called within other functions
-    function updateItem($idItem, $amount){
+    function updateItemAmount($idItem, $amount){
         global $db;
         
         $stmt=$db->prepare("UPDATE inventory SET amount = :amount WHERE idItem = :idItem");
@@ -217,9 +239,12 @@
     
     //Purchases ITEM
     //adds item to purchases table
+    //also updates inventory and invoice table
     //returns 1 if true 0 if false
-    function purchaseItem($idItem, $cost, $amount, $week){ //Seems to be no add() so maybe pull the new amount from the website or call an updateItem()
+    function purchaseItem($idItem, $unitCost, $amount, $week){ //Seems to be no add() so maybe pull the new amount from the website or call an updateItemAmount()
         global $db;
+        
+        $money = $amount * $unitCost;
         
         $stmt=$db->prepare("INSERT INTO purchases (week, idItem, amount, money) VALUES (:week, :idItem, :amount, :money)");
         
@@ -231,16 +256,22 @@
         );
         
         if($stmt->execute($binds) && $stmt->rowCount()>0){
-            //Run another function on the website to update invoice and inventory table
-            return true;
+            //Runs functions to keep the other dataTables working
+            addExpense($week, $cost);
+            $invAmount = getAmount($idItem);
+            $netAmount = $invAmount['amount'] + $amount;
+            return updateItemAmount($idItem, $netAmount);//returns true if successful
+            
         }
         else{
             return false;
         }
     }
     
-    function sellItem($idItem, $money, $amount, $week, $idUser){ //Seems to be no add() so maybe pull the new amount from the website or call an updateItem()
+    function sellItem($idItem, $unitCost, $amount, $week, $idUser){ //Seems to be no add() so maybe pull the new amount from the website or call an updateItemAmount()
         global $db;
+        
+        $money = $amount * $unitCost;
         
         $stmt=$db->prepare("INSERT INTO sales (week, idUser, idItem, amount, money) VALUES (:week, :idUser, :idItem, :amount, :money)");
         
@@ -253,8 +284,12 @@
         );
         
         if($stmt->execute($binds) && $stmt->rowCount()>0){
-            //Run another function on the website to update invoice and inventory table
-            return true;
+            //Runs functions to keep the other dataTables working
+            
+            addIncome($week, $money);
+            $invAmount = getAmount($idItem);
+            $netAmount = $invAmount['amount'] - $amount;
+            return updateItemAmount($idItem, $netAmount);//returns true if successful
         }
         else{
             return false;
@@ -326,6 +361,7 @@
         return $results;
     }
     
+    //Returns the Year to date profit/loss
     function getProfitYTD(){
         global $db;
         
@@ -347,7 +383,7 @@
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
     
-    $test = getProfitYTD();
-    echo $test['profit'];
+    $test = sellItem(2, 4.55, 2, 2, 1);
+    echo $test;
     
 ?>
