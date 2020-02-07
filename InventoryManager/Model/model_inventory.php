@@ -261,6 +261,27 @@
         }
     }
     
+    function addIncome($week, $money){
+        global $db;
+        
+        $get = getRecentSaleId();
+        $idSale=$get['idSale'];
+        echo $idSale;
+        $stmt =$db->prepare("INSERT INTO invoices (week, revenue, idSale) VALUES (:week, :revenue, :idSale)");
+        
+        $binds= array(
+            ":week"=> $week,
+            ":revenue"=> $money,
+            ":idSale"=>$idSale
+        );
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
     //checks if Post request
     function isPostRequest() {
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' );
@@ -270,5 +291,7 @@
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
     
+    $test = addIncome(1, 9);
+    echo $test;
     
 ?>
