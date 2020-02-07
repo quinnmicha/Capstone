@@ -77,9 +77,31 @@
         }
     }
     
-    //Updates the inventory table
+    //Gives abiltity to update every part of an item
+    function updateItem($idItem, $name, $amount, $unitPrice, $salesPrice, $parAmount){
+        global $db;
+        
+        $stmt=$db->prepare("UPDATE inventory SET name = :name, amount = :amount, unitPrice = :unitPrice, salesPrice = :salesPrice, parAmount = :parAmount WHERE idItem = :idItem");
+        
+        $binds = array(
+            ":name" => $name,
+            ":unitPrice" => $unitPrice,
+            ":salesPrice" => $salesPrice,
+            ":parAmount" => $parAmount,
+            ":amount" => $amount,
+            ":idItem" => $idItem
+        );
+        
+        $result=false;
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            $result=true;
+        }
+        return $result;
+    }
+    
+    //Updates item's amount in the inventory table
     //Is called within other functions
-    function updateItem($idItem, $amount){
+    function updateItemAmount($idItem, $amount){
         global $db;
         
         $stmt=$db->prepare("UPDATE inventory SET amount = :amount WHERE idItem = :idItem");
@@ -120,12 +142,12 @@
     function getWeek(){
         global $db;
         
-        $stmt=$db->prepare("SELECT MAX(week) from purchases");
+        $stmt=$db->prepare("SELECT MAX(week) AS 'week' from purchases");
         
         if($stmt->execute() && $stmt->rowCount()>0){
             $results = $stmt->fetch(PDO::FETCH_ASSOC);
             if(empty($results)){
-                $results = ['MAX(week)' => 1];
+                $results = ['week' => 1];
             }
             return $results;
         }
@@ -156,12 +178,17 @@
         
     }
     
-    //NEEDS TEST
+    /*
+    ## getRecentSaleId returns an array ##
+    $recentSale= getRecentSaleId();
+    $test =getRecentSale($recentSale['idSale']);  << must access value like this
+    var_dump($test);
+     */
     //Pulls the most recent Sale id for invoice table
     function getRecentSaleId(){
         global $db;
         
-        $stmt=$db->prepare("SELECT MAX(idSale) from sales");
+        $stmt=$db->prepare("SELECT MAX(idSale) AS 'idSale' from sales"); //<<sets column name from MAX(idSale) to idSale
         
         $results=[];
         if($stmt->execute() && $stmt->rowCount()>0){
@@ -173,7 +200,7 @@
         return $results;
     }
     
-    //NEEDS TEST
+    
     //Pulls sales data off idSale from sales table
     function getRecentSale($idSale){
         global $db;
@@ -198,7 +225,7 @@
     function getRecentPurchaseId(){
         global $db;
         
-        $stmt=$db->prepare("SELECT MAX(idPurchase) from purchases");
+        $stmt=$db->prepare("SELECT MAX(idPurchase)AS idPurchase from purchases");
         
         $results=[];
         if($stmt->execute() && $stmt->rowCount()>0){
@@ -212,9 +239,12 @@
     
     //Purchases ITEM
     //adds item to purchases table
+    //also updates inventory and invoice table
     //returns 1 if true 0 if false
-    function purchaseItem($idItem, $cost, $amount, $week){ //Seems to be no add() so maybe pull the new amount from the website or call an updateItem()
+    function purchaseItem($idItem, $unitCost, $amount, $week){ //Seems to be no add() so maybe pull the new amount from the website or call an updateItemAmount()
         global $db;
+        
+        $money = $amount * $unitCost;
         
         $stmt=$db->prepare("INSERT INTO purchases (week, idItem, amount, money) VALUES (:week, :idItem, :amount, :money)");
         
@@ -226,12 +256,122 @@
         );
         
         if($stmt->execute($binds) && $stmt->rowCount()>0){
-            //Run another function on the website to update invoice and inventory table
+            //Runs functions to keep the other dataTables working
+            addExpense($week, $cost);
+            $invAmount = getAmount($idItem);
+            $netAmount = $invAmount['amount'] + $amount;
+            return updateItemAmount($idItem, $netAmount);//returns true if successful
+            
+        }
+        else{
+            return false;
+        }
+    }
+    
+    function sellItem($idItem, $unitCost, $amount, $week, $idUser){ //Seems to be no add() so maybe pull the new amount from the website or call an updateItemAmount()
+        global $db;
+        
+        $money = $amount * $unitCost;
+        
+        $stmt=$db->prepare("INSERT INTO sales (week, idUser, idItem, amount, money) VALUES (:week, :idUser, :idItem, :amount, :money)");
+        
+        $binds= array (
+            ":week" => $week,
+            ":idItem" => $idItem,
+            ":amount" => $amount,
+            ":idUser" => $idUser,
+            ":money" => $money
+        );
+        
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            //Runs functions to keep the other dataTables working
+            
+            addIncome($week, $money);
+            $invAmount = getAmount($idItem);
+            $netAmount = $invAmount['amount'] - $amount;
+            return updateItemAmount($idItem, $netAmount);//returns true if successful
+        }
+        else{
+            return false;
+        }
+    }
+    
+    //Adds income to the invoices table
+    //Pulls the Recent idSale and then adds rect to the invoices table
+    function addIncome($week, $money){
+        global $db;
+        
+        $get = getRecentSaleId();
+        $idSale=$get['idSale'];
+        $stmt =$db->prepare("INSERT INTO invoices (week, revenue, idSale) VALUES (:week, :revenue, :idSale)");
+        
+        $binds= array(
+            ":week"=> $week,
+            ":revenue"=> $money,
+            ":idSale"=>$idSale
+        );
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
             return true;
         }
         else{
             return false;
         }
+    }
+    
+    //Adds expense to the invoices table
+    //Pulls the Recent idPurchase and then adds rect to the invoices table
+    function addExpense($week, $money){
+        global $db;
+        
+        $get = getRecentPurchaseId();
+        $idPurchase=$get['idPurchase'];
+        $stmt =$db->prepare("INSERT INTO invoices (week, expense, idPurchase) VALUES (:week, :expense, :idPurchase)");
+        
+        $binds= array(
+            ":week"=> $week,
+            ":expense"=> $money,
+            ":idPurchase"=>$idPurchase
+        );
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    //Pulls the most recent week from purchases table
+    //Returns the profit of that week in an array
+    //Can be modulated to get Profit of anyweek
+    function getProfitLastWeek(){
+        global $db;
+        
+        $get = getWeek();//Pulls most recent week from purchasing table
+        $week = $get['week'];
+        
+        $stmt=$db->prepare("SELECT SUM(revenue) - SUM(expense) AS 'profit' FROM invoices WHERE week = :week");
+        
+        $binds=array(
+            ":week"=>$week
+        );
+        $results= false;
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        return $results;
+    }
+    
+    //Returns the Year to date profit/loss
+    function getProfitYTD(){
+        global $db;
+        
+        $stmt=$db->prepare("SELECT SUM(revenue) - SUM(expense) AS 'profit' FROM invoices");
+        
+        $results=false;
+        if($stmt->execute() && $stmt->rowCount()>0){
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        return $results;
     }
     
     //checks if Post request
@@ -242,7 +382,7 @@
     function isGetRequest() {
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
-
-    $test= getRecentPurchaseId();
-    var_dump($test);
+    
+   
+    
 ?>
