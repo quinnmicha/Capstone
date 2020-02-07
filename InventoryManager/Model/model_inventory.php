@@ -305,6 +305,9 @@
         }
     }
     
+    //Pulls the most recent week from purchases table
+    //Returns the profit of that week in an array
+    //Can be modulated to get Profit of anyweek
     function getProfitLastWeek(){
         global $db;
         
@@ -323,6 +326,18 @@
         return $results;
     }
     
+    function getProfitYTD(){
+        global $db;
+        
+        $stmt=$db->prepare("SELECT SUM(revenue) - SUM(expense) AS 'profit' FROM invoices");
+        
+        $results=false;
+        if($stmt->execute() && $stmt->rowCount()>0){
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        return $results;
+    }
+    
     //checks if Post request
     function isPostRequest() {
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' );
@@ -332,7 +347,7 @@
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
     
-    $test = getProfitLastWeek();
+    $test = getProfitYTD();
     echo $test['profit'];
     
 ?>
