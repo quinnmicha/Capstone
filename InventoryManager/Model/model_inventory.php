@@ -234,6 +234,28 @@
         }
     }
     
+    function sellItem($idItem, $money, $amount, $week, $idUser){ //Seems to be no add() so maybe pull the new amount from the website or call an updateItem()
+        global $db;
+        
+        $stmt=$db->prepare("INSERT INTO sales (week, idUser, idItem, amount, money) VALUES (:week, :idUser, :idItem, :amount, :money)");
+        
+        $binds= array (
+            ":week" => $week,
+            ":idItem" => $idItem,
+            ":amount" => $amount,
+            ":idUser" => $idUser,
+            ":money" => $money
+        );
+        
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            //Run another function on the website to update invoice and inventory table
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
     //checks if Post request
     function isPostRequest() {
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' );
@@ -243,6 +265,6 @@
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
 
-    $test= getRecentPurchaseId();
+    $test= getRecentSale(1);
     var_dump($test);
 ?>
