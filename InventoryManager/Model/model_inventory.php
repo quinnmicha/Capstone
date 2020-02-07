@@ -203,7 +203,7 @@
     function getRecentPurchaseId(){
         global $db;
         
-        $stmt=$db->prepare("SELECT MAX(idPurchase) from purchases");
+        $stmt=$db->prepare("SELECT MAX(idPurchase)AS idPurchase from purchases");
         
         $results=[];
         if($stmt->execute() && $stmt->rowCount()>0){
@@ -261,18 +261,41 @@
         }
     }
     
+    //Adds income to the invoices table
+    //Pulls the Recent idSale and then adds rect to the invoices table
     function addIncome($week, $money){
         global $db;
         
         $get = getRecentSaleId();
         $idSale=$get['idSale'];
-        echo $idSale;
         $stmt =$db->prepare("INSERT INTO invoices (week, revenue, idSale) VALUES (:week, :revenue, :idSale)");
         
         $binds= array(
             ":week"=> $week,
             ":revenue"=> $money,
             ":idSale"=>$idSale
+        );
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    //Adds expense to the invoices table
+    //Pulls the Recent idPurchase and then adds rect to the invoices table
+    function addExpense($week, $money){
+        global $db;
+        
+        $get = getRecentPurchaseId();
+        $idPurchase=$get['idPurchase'];
+        $stmt =$db->prepare("INSERT INTO invoices (week, expense, idPurchase) VALUES (:week, :expense, :idPurchase)");
+        
+        $binds= array(
+            ":week"=> $week,
+            ":expense"=> $money,
+            ":idPurchase"=>$idPurchase
         );
         if($stmt->execute($binds) && $stmt->rowCount()>0){
             return true;
@@ -291,7 +314,7 @@
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
     
-    $test = addIncome(1, 9);
+    $test = addExpense(1, 9);
     echo $test;
     
 ?>
