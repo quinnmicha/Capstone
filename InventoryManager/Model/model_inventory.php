@@ -120,12 +120,12 @@
     function getWeek(){
         global $db;
         
-        $stmt=$db->prepare("SELECT MAX(week) from purchases");
+        $stmt=$db->prepare("SELECT MAX(week) AS 'week' from purchases");
         
         if($stmt->execute() && $stmt->rowCount()>0){
             $results = $stmt->fetch(PDO::FETCH_ASSOC);
             if(empty($results)){
-                $results = ['MAX(week)' => 1];
+                $results = ['week' => 1];
             }
             return $results;
         }
@@ -305,6 +305,24 @@
         }
     }
     
+    function getProfitLastWeek(){
+        global $db;
+        
+        $get = getWeek();//Pulls most recent week from purchasing table
+        $week = $get['week'];
+        
+        $stmt=$db->prepare("SELECT SUM(revenue) - SUM(expense) AS 'profit' FROM invoices WHERE week = :week");
+        
+        $binds=array(
+            ":week"=>$week
+        );
+        $results= false;
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        return $results;
+    }
+    
     //checks if Post request
     function isPostRequest() {
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' );
@@ -314,7 +332,7 @@
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
     
-    $test = addExpense(1, 9);
-    echo $test;
+    $test = getProfitLastWeek();
+    echo $test['profit'];
     
 ?>
