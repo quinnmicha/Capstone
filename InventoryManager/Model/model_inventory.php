@@ -156,12 +156,17 @@
         
     }
     
-    //NEEDS TEST
+    /*
+    ## getRecentSaleId returns an array ##
+    $recentSale= getRecentSaleId();
+    $test =getRecentSale($recentSale['idSale']);  << must access value like this
+    var_dump($test);
+     */
     //Pulls the most recent Sale id for invoice table
     function getRecentSaleId(){
         global $db;
         
-        $stmt=$db->prepare("SELECT MAX(idSale) from sales");
+        $stmt=$db->prepare("SELECT MAX(idSale) AS 'idSale' from sales"); //<<sets column name from MAX(idSale) to idSale
         
         $results=[];
         if($stmt->execute() && $stmt->rowCount()>0){
@@ -173,7 +178,7 @@
         return $results;
     }
     
-    //NEEDS TEST
+    
     //Pulls sales data off idSale from sales table
     function getRecentSale($idSale){
         global $db;
@@ -264,7 +269,6 @@
     function isGetRequest() {
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
-
-    $test= getRecentSale(1);
-    var_dump($test);
+    
+    
 ?>
