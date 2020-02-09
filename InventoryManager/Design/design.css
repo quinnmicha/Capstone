@@ -1,14 +1,13 @@
 .block1{
-    display: block;
     background-color: #254063;
     height: 10%;
     margin-bottom: 1%;
 }
 
 .block2{
-    display: block;
     background-color: #254063;
     height: 1%;
+    width:100%;
 }
 
 .container{
