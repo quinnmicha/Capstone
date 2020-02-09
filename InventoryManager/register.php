@@ -48,47 +48,35 @@ if(isPostRequest()){
 <?php include __DIR__.'/model/navbar.php';?>
 
 <div class="container">
-    <div class="row align-items-start">
-        <header>
-            <div class="block1">
-
-            </div>
-            <div class="block2">
-
-            </div>
-        </header>
-    </div>
     
-    <div class="row align-items-center">
-        <h2 style="text-align: center; margin-top: 10%; margin-bottom: 2%">Welcome to the Inventory Management System</h2>
-        <h3 style="text-align: center; margin-bottom: 8%">The Only Inventory You'll Ever Need !</h3>
-        <form class="form-horizontal" action="register.php" method="post">
-            <div class="form-group">
-                <label class="control-label col-sm-offset-1 col-sm-2" for="user name">User Name:</label>
-                <div class="col-sm-6">          
+        
+        <form class="form-group" action="register.php" method="post">
+            <h2 style="text-align: center; margin-top: 10%; margin-bottom: 2%">Welcome to the Inventory Management System</h2>
+            <h3 style="text-align: center; margin-bottom: 8%">The Only Inventory You'll Ever Need !</h3>
+            <div class="row mb-3 justify-content-center">
+                
+                <label class="control-label col-2" for="user name">User Name:</label>
+                <div class="col-6">          
                     <input type="text" class="form-control" id="username" placeholder="Enter User Name" name="username" >
                 </div>
             </div>
-            <div class="form-group">
-                <label class="control-label col-sm-offset-1 col-sm-2" for="password">Password:</label>
-                <div class="col-sm-6">          
+            <div class="row mb-3 justify-content-center">
+                <label class="control-label col-2" for="password">Password:</label>
+                <div class="col-6">          
                     <input type="text" class="form-control" id="password" placeholder="Enter Password" name="password" >
                 </div>
             </div>
-            <div class="form-group">
-                <label class="control-label col-sm-offset-1 col-sm-2" for="confirm_password">Confirm Password:</label>
-                <div class="col-sm-6">          
+            <div class="row mb-3 justify-content-center">
+                <label class="control-label col-2" for="confirm_password">Confirm Password:</label>
+                <div class="col-6">          
                     <input type="text" class="form-control is-invalid" id="confirm_password" placeholder="Confirm Password" name="confirm_password" >
                 </div>
             </div>
-            <div class="form-group">        
-                <div class="col-sm-offset-4 col-sm-8">
-                    <button type="submit" name="submit" onclick='return checkData()' value="Register" class="col-sm-offset-2 col-sm-2 btn btn-default btn-lg">Sign Up</button>
-                </div>
+            <div class="row mb-3 justify-content-center">
+                    <button type="submit" name="submit" onclick='return checkData()' value="Register" class="btn btn-primary offset-6 ">Sign Up</button>
             </div>    
         </form>
-    </div>
-    <div class="footer row align-items-end">
+</div>
         <script>
             var user = $("username");
             var pass = $("#password");
@@ -103,11 +91,8 @@ if(isPostRequest()){
                 
             }
         </script>
-            
-    </div>
-        
-   
-</div>
+      
+      
 </body>
 </html>    
     
