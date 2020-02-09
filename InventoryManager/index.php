@@ -4,8 +4,12 @@ include_once __DIR__. "/Model/includes/functions.php";
 //include_once __DIR__. "/../Model/model_movies.php";
 
 if(isPostRequest()){
+    $user = filter_input(INPUT_POST, 'user');
+           $pass = filter_input(INPUT_POST, 'pass');
+           $login = Login($user, $pass);
+           if($login===true){
     session_start();
-
+    
     $_SESSION['username'] = filter_input(INPUT_POST, 'username');
     $_SESSION['password'] = filter_input(INPUT_POST, 'password');
     $_SESSION['usertype'] = filter_input(INPUT_POST, 'usertype');
@@ -40,9 +44,9 @@ if(isPostRequest()){
         <h3 style="text-align: center; margin-bottom: 8%">The Only Inventory You'll Ever Need !</h3>
         <form class="form-horizontal" action="manager_home.php" method="post">
             <div class="form-group">
-                <label class="control-label col-sm-offset-1 col-sm-2" for="user name">User Name:</label>
+                <label class="control-label col-sm-offset-1 col-sm-2" for="username">User Name:</label>
                 <div class="col-sm-6">          
-                    <input type="text" class="form-control" style="border-color: #5380b7;" id="username" placeholder="Enter User Name" name="username" required>
+                    <input type="text" class="form-control" style="border-color: #5380b7;" id="username" id="username" placeholder="Enter User Name" name="username" required>
                 </div>
             </div>
             <div class="form-group">
@@ -51,6 +55,16 @@ if(isPostRequest()){
                     <input type="text" class="form-control" style="border-color: #5380b7;" id="password" placeholder="Enter Password" name="password" required>
                 </div>
             </div>
+            <?php
+                if(isPostRequest())
+                    {
+                        echo 
+                        '<div class="alert alert-dismissible alert-danger col-6" style="float:left">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Login Failed</strong> check your spelling
+                        </div>';
+                    } 
+            ?>
             <div class="form-group">        
                 <div class="col-sm-offset-5 col-sm-7" style="padding-top: 2%">
                     <button type="submit" name="submit" value="Login" class="col-sm-2 btn btn-default btn-lg" style="border-color: #5380b7; color: #5380b7;">Login</button>
