@@ -42,7 +42,7 @@ if(isPostRequest()){
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  <!--<script type="text/javascript" src='../InventoryManager/Model/validation.js'></script>-->
+    <script type="text/javascript" src='../InventoryManager/Model/validation.js'></script>
 </head>
 <body>
 <?php include __DIR__.'/model/navbar.php';?>
@@ -69,28 +69,17 @@ if(isPostRequest()){
             <div class="row mb-3 justify-content-center">
                 <label class="control-label col-2" for="confirm_password">Confirm Password:</label>
                 <div class="col-6">          
-                    <input type="text" class="form-control is-invalid" id="confirm_password" placeholder="Confirm Password" name="confirm_password" >
+                    <input type="text" class="form-control" id="confirm_password" placeholder="Confirm Password" name="confirm_password" >
+                    <div class="invalid-feedback">
+                        Password and Confirm Password must match.
+                    </div>
                 </div>
             </div>
             <div class="row mb-3 justify-content-center">
-                    <button type="submit" name="submit" onclick='return checkData()' value="Register" class="btn btn-primary offset-6 ">Sign Up</button>
+                    <button type="submit" name="submit" onclick='return checkData()' value="Register" class="btn btn-outline-primary">Sign Up</button>
             </div>    
         </form>
 </div>
-        <script>
-            var user = $("username");
-            var pass = $("#password");
-            var confPass = $("#confirm_password");
-            var all = (user, pass, confPass);
-            $("input").blur( function() {
-                if($(this).val()===""){
-                    $(this).addClass('form-control is-invalid');
-                }
-              });
-            function checkData(){
-                
-            }
-        </script>
       
       
 </body>
