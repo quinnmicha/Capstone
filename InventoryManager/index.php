@@ -7,13 +7,13 @@ if(isPostRequest()){
     $user = filter_input(INPUT_POST, 'username');
     $pass = filter_input(INPUT_POST, 'password');
     $login = login($user, $pass);
-    if($login===true){
+    if($login!=FALSE){
         session_start();
 
         $_SESSION['username'] = filter_input(INPUT_POST, 'username');
         $_SESSION['password'] = filter_input(INPUT_POST, 'password');
         $_SESSION['usertype'] = filter_input(INPUT_POST, 'usertype');
-        header("Location: /manager_home.php");
+        header("Location: ../InventoryManager/manager_home.php");
     }
 }
 ?>
@@ -56,22 +56,29 @@ if(isPostRequest()){
                 <div class="col-sm-6">          
                     <input type="text" class="form-control" style="border-color: #5380b7;" id="password" placeholder="Enter Password" name="password" required>
                 </div>
+             
             </div>
-            <?php
-                if(isPostRequest())
-                    {
-                        echo 
-                        '<div class="alert alert-dismissible alert-danger col-6" style="float:left">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <strong>Login Failed</strong> check your spelling
-                        </div>';
-                    } 
-            ?>
-            <div class="form-group">        
+            
+            <div class="form-group">
+            
                 <div class="col-sm-offset-5 col-sm-7" style="padding-top: 2%">
                     <button type="submit" name="submit" value="Login" class="col-sm-2 btn btn-default btn-lg" style="border-color: #5380b7; color: #5380b7;">Login</button>
                 </div>
-            </div>    
+            
+            </div>  
+                        <?php
+                if(isPostRequest())
+                    {
+                        echo 
+                        '<div style="width:50%; margin:auto;">
+                            <div class="alert alert-dismissible alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong>Login Failed</strong> check your spelling
+                            </div>
+                        </div>';
+                    } 
+            ?>
+            
         </form>
     </div>
         
