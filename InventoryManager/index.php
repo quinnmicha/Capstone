@@ -1,18 +1,20 @@
 <?php
 
-include_once __DIR__. "/Model/includes/functions.php";
-//include_once __DIR__. "/../Model/model_movies.php";
+//include_once __DIR__. "/Model/includes/functions.php";
+include __DIR__ . '/Model/model_inventory.php';
 
 if(isPostRequest()){
-    $user = filter_input(INPUT_POST, 'user');
-           $pass = filter_input(INPUT_POST, 'pass');
-           $login = Login($user, $pass);
-           if($login===true){
-    session_start();
-    
-    $_SESSION['username'] = filter_input(INPUT_POST, 'username');
-    $_SESSION['password'] = filter_input(INPUT_POST, 'password');
-    $_SESSION['usertype'] = filter_input(INPUT_POST, 'usertype');
+    $user = filter_input(INPUT_POST, 'username');
+    $pass = filter_input(INPUT_POST, 'password');
+    $login = login($user, $pass);
+    if($login===true){
+        session_start();
+
+        $_SESSION['username'] = filter_input(INPUT_POST, 'username');
+        $_SESSION['password'] = filter_input(INPUT_POST, 'password');
+        $_SESSION['usertype'] = filter_input(INPUT_POST, 'usertype');
+        header("Location: /manager_home.php");
+    }
 }
 ?>
 <html lang="en">
@@ -42,7 +44,7 @@ if(isPostRequest()){
     <div class="row align-items-center">
         <h2 style="text-align: center; margin-top: 10%; margin-bottom: 2%">Welcome to the Inventory Management System</h2>
         <h3 style="text-align: center; margin-bottom: 8%">The Only Inventory You'll Ever Need !</h3>
-        <form class="form-horizontal" action="manager_home.php" method="post">
+        <form class="form-horizontal" action="index.php" method="post">
             <div class="form-group">
                 <label class="control-label col-sm-offset-1 col-sm-2" for="username">User Name:</label>
                 <div class="col-sm-6">          
