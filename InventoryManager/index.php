@@ -1,18 +1,18 @@
 <?php
 
-//include_once __DIR__. "/Model/includes/functions.php";
+include_once __DIR__. "/Model/includes/functions.php";
 include __DIR__ . '/Model/model_inventory.php';
 
 if(isPostRequest()){
+    session_destroy();
     $user = filter_input(INPUT_POST, 'username');
     $pass = filter_input(INPUT_POST, 'password');
     $login = login($user, $pass);
-    if($login!=FALSE){
+    if($login!=false){
         session_start();
 
-        $_SESSION['username'] = filter_input(INPUT_POST, 'username');
-        $_SESSION['password'] = filter_input(INPUT_POST, 'password');
-        $_SESSION['usertype'] = filter_input(INPUT_POST, 'usertype');
+        $_SESSION['username'] = $login[0]['username'];
+        $_SESSION['usertype'] = $login[0]['group'];
         header("Location: ../InventoryManager/manager_home.php");
     }
 }
