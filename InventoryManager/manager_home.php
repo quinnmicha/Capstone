@@ -5,6 +5,7 @@ include_once __DIR__. "/Model/includes/functions.php";
 
 session_start();
 
+<<<<<<< HEAD
 if(isPostRequest()){
     $_SESSION['username'] = filter_input(INPUT_POST, 'username');
     $_SESSION['password'] = filter_input(INPUT_POST, 'password');
@@ -29,6 +30,19 @@ if(isPostRequest()){
     var_dump($password);
     var_dump($usertype);*/
 }
+=======
+if( isset($_SESSION["usertype"])){
+    if($_SESSION["usertype"]=="admin"){
+        echo "userName: " . $_SESSION["username"];
+        echo " userType: " . $_SESSION["usertype"];
+    }
+    else{
+        header('Location: ../InventoryManager/index.php');
+    }
+} 
+
+
+>>>>>>> 681f72f6e67bb7dab76ed3fa8815abf777328fd6
 
 /*if($_SESSION['submit'] == 'Register'){
         header('Location: register.php');

@@ -4,7 +4,7 @@
     //Takes in user and pass, hashes pass
     //Pulls back idUser, username, and group for SESSION
     //Comes back false if fail
-    function Login($user, $pass) {
+    function login($user, $pass) {
         global $db;
         $pass = sha1($pass);
         $stmt = $db->prepare("SELECT idUser, username, `group` FROM login_inventory WHERE username = :user && password = :pass");   
@@ -374,6 +374,7 @@
         return $results;
     }
     
+    /*
     //checks if Post request
     function isPostRequest() {
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' );
@@ -382,7 +383,7 @@
     function isGetRequest() {
         return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
     }
-    
+    */
    
     
 ?>
