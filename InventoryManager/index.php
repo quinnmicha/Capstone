@@ -42,25 +42,21 @@ if(isPostRequest()){
             <div class="form-group">
                 <label class="control-label col-sm-offset-1 col-sm-2" for="user name">User Name:</label>
                 <div class="col-sm-6">          
-                    <input type="text" class="form-control" id="username" placeholder="Enter User Name" name="username" required>
+                    <input type="text" class="form-control" style="border-color: #5380b7;" id="username" placeholder="Enter User Name" name="username" required>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-offset-1 col-sm-2" for="password">Password:</label>
                 <div class="col-sm-6">          
-                    <input type="text" class="form-control" id="password" placeholder="Enter Password" name="password" required>
+                    <input type="text" class="form-control" style="border-color: #5380b7;" id="password" placeholder="Enter Password" name="password" required>
                 </div>
             </div>
             <div class="form-group">        
-                <div class="col-sm-offset-4 col-sm-8">
-                    <button type="submit" name="submit" value="Login" class="col-sm-2 btn btn-default btn-lg">Login</button>
-                    <button type="submit" name="submit" value="Register" class="col-sm-offset-2 col-sm-2 btn btn-default btn-lg">Sign Up</button>
+                <div class="col-sm-offset-5 col-sm-7" style="padding-top: 2%">
+                    <button type="submit" name="submit" value="Login" class="col-sm-2 btn btn-default btn-lg" style="border-color: #5380b7; color: #5380b7;">Login</button>
                 </div>
             </div>    
         </form>
-    </div>
-    <div class="footer row align-items-end">
-            
     </div>
         
    
