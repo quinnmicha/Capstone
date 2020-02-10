@@ -35,31 +35,27 @@ if(isPostRequest()){
 <div class="container">
 
     
-    <div class="row align-items-center">
-        <h2 style="text-align: center; margin-top: 10%; margin-bottom: 2%">Welcome to the Inventory Management System</h2>
-        <h3 style="text-align: center; margin-bottom: 8%">The Only Inventory You'll Ever Need !</h3>
-        <form class="form-horizontal" action="index.php" method="post">
+    <div class="row justify-content-center">
+        <h2 style="margin-top: 10%; margin-bottom: 2%">Welcome to the Inventory Management System</h2>
+        <h3 style="margin-bottom: 8%">The Only Inventory You'll Ever Need !</h3>
+    </div>
+    <div class="row justify-content-center">
+        <form action="manager_home.php" method="post" class="col-sm-6">
             <div class="form-group">
-                <label class="control-label col-sm-offset-1 col-sm-2" for="username">User Name:</label>
-                <div class="col-sm-6">          
-                    <input type="text" class="form-control" style="border-color: #5380b7;" id="username" id="username" placeholder="Enter User Name" name="username" required>
-                </div>
+                <label class="contorl-label" for="user name">User Name:</label>
+                <input type="text" class="form-control" style="border-color: #5380b7;" id="username" placeholder="Enter User Name" name="username" required>
+            </div>              
+            <div class="form-group">
+                <label class="control-label" for="password">Password:</label>        
+                <input type="text" class="form-control" style="border-color: #5380b7;" id="password" placeholder="Enter Password" name="password" required>
             </div>
-            <div class="form-group">
-                <label class="control-label col-sm-offset-1 col-sm-2" for="password">Password:</label>
-                <div class="col-sm-6">          
-                    <input type="text" class="form-control" style="border-color: #5380b7;" id="password" placeholder="Enter Password" name="password" required>
+            <div class="row justify-content-center">        
+                <div style="padding-top: 2%">
+                    <button type="submit" name="submit" value="Login" class=" btn btn-default btn-lg" style="border-color: #5380b7; color: #5380b7;">Login</button>
                 </div>
-             
-            </div>
-            
-            <div class="form-group">
-            
-                <div class="col-sm-offset-5 col-sm-7" style="padding-top: 2%">
-                    <button type="submit" name="submit" value="Login" class="col-sm-2 btn btn-default btn-lg" style="border-color: #5380b7; color: #5380b7;">Login</button>
-                </div>
-            
-            </div>  
+            </div>    
+        </form>
+    </div> 
                         <?php
                 if(isPostRequest())
                     {

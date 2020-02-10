@@ -1,7 +1,7 @@
 //window.addEventListener("load", init);
 $(document).ready(function() {
     //Checks if input is correct when user clicks out of the text box
-    $("input").blur( function() {
+    $("input[type=text]").blur( function() {
         if($(this).val()===""){
             $(this).addClass('is-invalid');
             $(this).removeClass('is-valid');

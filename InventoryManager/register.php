@@ -75,6 +75,20 @@ if(isPostRequest()){
                     </div>
                 </div>
             </div>
+            <div class="row justify-content-center mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="group" id="user" value="user" checked>
+                    <label class="form-check-label" for="user">
+                      Server
+                    </label>
+                </div>
+                <div class="form-check offset-1">
+                    <input class="form-check-input" type="radio" name="group" id="admin" value="admin">
+                    <label class="form-check-label" for="admin">
+                      Manager
+                    </label>
+                </div>
+            </div>
             <div class="row mb-3 justify-content-center">
                     <button type="submit" name="submit" onclick='return checkData()' value="Register" class="btn btn-outline-primary">Sign Up</button>
             </div>    
