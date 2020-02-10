@@ -24,16 +24,17 @@
         <li class="nav-item">
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
         </li>
-      </ul>
         <li class="nav-item">
-                <?php
-                if(isset($_SESSION["login"])){
-                    if($_SESSION["login"] == true){
-                    echo "<a class='btn btn-danger my-2 my-sm-0' href='login.php?action=false'>Logout</a>";
-                    }
+            <?php
+            if(isset($_SESSION["login"])){
+                if(isset($_SESSION["username"])){
+                echo "<a class='btn btn-danger my-2 my-sm-0' href='login.php?action=false'>Logout</a>";
                 }
-                ?>
-            </li>
+            }
+            ?>
+        </li>
+      </ul>
+        
     </div>
 
   </nav>
