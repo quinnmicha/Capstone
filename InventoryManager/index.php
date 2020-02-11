@@ -33,7 +33,7 @@ if(isPostRequest()){
 <body>
     
     <?php include __DIR__.'/model/navbar.php';?>
-    
+    <div class="container">
     <div class="row justify-content-center">
         <h2 style="margin-top: 10%; margin-bottom: 2%">Welcome to the Inventory Management System</h2>
         <h3 style="margin-bottom: 8%">The Only Inventory You'll Ever Need !</h3>
