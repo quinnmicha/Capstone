@@ -1,13 +1,16 @@
+html,body{
+    height:100%;
+}
+
 .block1{
     background-color: #254063;
-    height: 10%;
-    margin-bottom: 1%;
+    height: 96px;
+    margin-bottom: 10px;
 }
 
 .block2{
     background-color: #254063;
-    height: 1%;
-    width:100%;
+    height: 10px;
 }
 
 .btn-outline-primary{
