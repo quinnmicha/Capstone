@@ -1,29 +1,24 @@
+html,body{
+    height:100%;
+}
+
 .block1{
-    display: block;
     background-color: #254063;
-    height: 10%;
-    width:100%;
-    margin-bottom: 1%;
+    height: 96px;
+    margin-bottom: 10px;
 }
 
 .block2{
-    display: block;
-    background-color: white;//#254063;
-    height: 1%;
+    background-color: #254063;
+    height: 10px;
 }
 
-.container{
-    height: 100%;
+.btn-outline-primary{
+    color:#5380b7;
+    border-color:#5380b7;
 }
 
-<<<<<<< HEAD
-.nav-item a{
-    margin-top:5%;
+.btn-outline-primary:hover{
+    background-color:#5380b7;
 }
 
-.nav {
-    margin-top: 2%;
-}
-=======
-
->>>>>>> 681f72f6e67bb7dab76ed3fa8815abf777328fd6
