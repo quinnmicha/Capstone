@@ -4,11 +4,10 @@ include_once __DIR__. "/Model/includes/functions.php";
 include __DIR__ . '/Model/model_inventory.php';
 
 if(isPostRequest()){
-    session_destroy();
     $user = filter_input(INPUT_POST, 'username');
     $pass = filter_input(INPUT_POST, 'password');
     $login = login($user, $pass);
-    if($login!=false){
+    if($login=='false'){
         session_start();
         $_SESSION['login'] = true;
         $_SESSION['username'] = $login[0]['username'];
@@ -39,8 +38,19 @@ if(isPostRequest()){
         <h3 style="margin-bottom: 8%">The Only Inventory You'll Ever Need !</h3>
     </div>
     <div class="row justify-content-center">
-        <form action="manager_home.php" method="post" class="col-sm-6">
-
+        <form action="index.php" method="post" class="col-sm-6">
+            <?php
+                if(isPostRequest())
+                    {
+                        echo 
+                        '<div style="width:70%; margin:auto;">
+                            <div class="alert alert-dismissible alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong>Login Failed</strong> check your spelling
+                            </div>
+                        </div>';
+                    } 
+            ?>
             <div class="form-group">
                 <label class="contorl-label" for="user name">User Name:</label>
                 <input type="text" class="form-control" style="border-color: #5380b7;" id="username" placeholder="Enter User Name" name="username" required>
@@ -56,18 +66,7 @@ if(isPostRequest()){
             </div>    
         </form>
     </div>
-                        <?php
-                if(isPostRequest())
-                    {
-                        echo 
-                        '<div style="width:50%; margin:auto;">
-                            <div class="alert alert-dismissible alert-danger">
-                                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                <strong>Login Failed</strong> check your spelling
-                            </div>
-                        </div>';
-                    } 
-            ?>
+
             
         </form>
     </div>
