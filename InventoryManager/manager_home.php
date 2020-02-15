@@ -8,7 +8,6 @@ session_start();
 if( isset($_SESSION["usertype"])){
     if($_SESSION["usertype"]=="admin"){
         $inventory = getInventory();
-        var_dump($inventory);
     }
     else{
         header('Location: ../InventoryManager/index.php');
