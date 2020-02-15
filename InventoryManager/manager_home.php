@@ -1,14 +1,13 @@
 <?php
 
 include_once __DIR__. "/Model/includes/functions.php";
-//include_once __DIR__. "/../Model/model_movies.php";
+include __DIR__ . '/Model/model_inventory.php';
 
 session_start();
 
 if( isset($_SESSION["usertype"])){
     if($_SESSION["usertype"]=="admin"){
-        echo "userName: " . $_SESSION["username"];
-        echo " userType: " . $_SESSION["usertype"];
+        $inventory = getInventory();
     }
     else{
         header('Location: ../InventoryManager/index.php');
@@ -127,27 +126,29 @@ if( isset($_SESSION["usertype"])){
                         <th>ID</th>
                         <th></th>
                         <th>Name</th>
-                        <th>Quantity</th>
-                        <th>Description</th>
-                        <th>Image</th>
+                        <th>Unit Price</th>
+                        <th>Sales Price</th>
+                        <th>Par Amount</th>
+                        <th>Current Amount</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
 
 
-                <?php// foreach ($movies as $row): ?>
+                <?php foreach ($inventory as $item): ?>
                     <tr>
-                        <td><?php //echo $row['id']; ?>a</td>
+                        <td><?php echo $item['idItem'] ?></td>
                         <td><input type="hidden" name="i-d" value="<?php //echo $row['id'] ?>" /></td>
-                        <td><?php// echo $row['MovieName']; ?>b</td>
-                        <td><?php// echo $row['ReleaseDate']; ?>c</td>
-                        <td><?php// echo $row['Description']; ?>d</td>
-                        <td><?php// echo $row['Image']; ?>e</td>
+                        <td><?php echo$item['name'] ?></td>
+                        <td>$<?php echo number_format($item['unitPrice'], 2) ?></td>
+                        <td>$<?php echo number_format($item['salesPrice'], 2) ?></td>
+                        <td><?php echo$item['parAmount'] ?></td>
+                        <td><?php echo$item['amount'] ?></td>
+                        <td></td>
                         <td><a class="btn" style="color:#5380b7; border-color: #5380b7;"href="edit.php?id=<?php// echo $row['id']; ?>">Edit</a></td>
                     </tr>
-                <?php// endforeach; ?>
-                </tbody>
+                <?php endforeach; ?>
             </table>
 
             <br />
