@@ -136,18 +136,18 @@ if( isset($_SESSION["usertype"])){
                 <tbody>
 
 
-                <?php// foreach ($movies as $row): ?>
+                <?php foreach ($inventory as $item): ?>
                     <tr>
-                        <td><?php //echo $row['id']; ?>a</td>
+                        <td><?php echo $item['idItem'] ?>a</td>
                         <td><input type="hidden" name="i-d" value="<?php //echo $row['id'] ?>" /></td>
                         <td><?php// echo $row['MovieName']; ?>b</td>
                         <td><?php// echo $row['ReleaseDate']; ?>c</td>
                         <td><?php// echo $row['Description']; ?>d</td>
                         <td><?php// echo $row['Image']; ?>e</td>
+                        <td></td>
                         <td><a class="btn" style="color:#5380b7; border-color: #5380b7;"href="edit.php?id=<?php// echo $row['id']; ?>">Edit</a></td>
                     </tr>
-                <?php// endforeach; ?>
-                </tbody>
+                <?php endforeach; ?>
             </table>
 
             <br />
