@@ -21,7 +21,17 @@ $(document).ready(function() {
           $(this).removeClass('is-valid');
         }
     });
-
+    //Login Validation
+    $(".login").blur(function(){
+        if($(this).val()===""){
+            $(this).addClass('is-invalid');
+            $(this).removeClass('is-valid');
+        }
+        else{
+            $(this).addClass('is-valid');
+            $(this).removeClass('is-invalid');
+        }
+    });
 
 });
 
