@@ -7,7 +7,7 @@ if(isPostRequest()){
     $user = filter_input(INPUT_POST, 'username');
     $pass = filter_input(INPUT_POST, 'password');
     $login = login($user, $pass);
-    if($login=='false'){
+    if($login!=false){
         session_start();
         $_SESSION['login'] = true;
         $_SESSION['username'] = $login[0]['username'];
@@ -52,12 +52,14 @@ if(isPostRequest()){
                     } 
             ?>
             <div class="form-group">
-                <label class="contorl-label" for="user name">User Name:</label>
+                <label class="contorl-label" for="username">User Name:</label>
                 <input type="text" class="form-control login" style="border-color: #5380b7;" id="username" placeholder="Enter User Name" name="username" >
+                <div class="invalid-feedback">Please type your User Name.</div>
             </div>              
             <div class="form-group">
                 <label class="control-label" for="password">Password:</label>        
                 <input type="text" class="form-control login" style="border-color: #5380b7;" id="password" placeholder="Enter Password" name="password" >
+                <div class="invalid-feedback">Please type your Password.</div>
             </div>
             <div class="row justify-content-center">        
                 <div style="padding-top: 2%">
