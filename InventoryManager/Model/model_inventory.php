@@ -45,15 +45,16 @@
     
     //Adds an item to the inventory table
     //Sets amount to 0 automatically
-    function addItem($itemName, $unitPrice, $parNumber){
+    function addItem($itemName, $unitPrice, $parNumber, $salesPrice){
         global $db;
         $success=false;
-        $stmt=$db->prepare("INSERT INTO inventory (name, amount, unitPrice, parAmount) Values (:itemName, 0, :unitPrice, :parNumber)");
+        $stmt=$db->prepare("INSERT INTO inventory (name, amount, unitPrice, salesPrice, parAmount) Values (:itemName, 0, :unitPrice, :salesPrice, :parNumber)");
         
         $binds = array(
             ":itemName" => $itemName,
             ":unitPrice" => $unitPrice,
-            ":parNumber" => $parNumber
+            ":parNumber" => $parNumber,
+            ":salesPrice"=>$salesPrice
         );
         
         if($stmt->execute($binds) && $stmt->rowCount()>0){
