@@ -47,6 +47,26 @@ if(isPostRequest()){
         <form class="form-group" action="register.php" method="post">
             <h2 style="text-align: center; margin-top: 10%; margin-bottom: 2%">Welcome to the Inventory Management System</h2>
             <h3 style="text-align: center; margin-bottom: 8%">The Only Inventory You'll Ever Need !</h3>
+            <?php
+                if(isPostRequest()){
+                    if($answer === 0){
+                    echo '<div style="width:70%; margin:auto;">
+                            <div class="alert alert-dismissible alert-danger text-center">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong>Registration Failed </strong> "' .$username. '" is already registered
+                            </div>
+                        </div>';
+                    }
+                    if($answer === 1){
+                    echo '<div style="width:70%; margin:auto;">
+                            <div class="alert alert-dismissible alert-success text-center">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong>Success </strong> "' .$username. '" is now registered
+                            </div>
+                        </div>';
+                    }
+                }
+            ?>
             <div class="row mb-3 justify-content-center">
                 
                 <label class="control-label col-2" for="user name">User Name:</label>

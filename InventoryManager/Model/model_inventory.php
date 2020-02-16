@@ -410,9 +410,5 @@
     }
     */
    
-    $test = register('asdfs', 'abc', 'admin');
-    $test1 = getUserNames();
-    var_dump($test1);
-    echo $test;
     
 ?>
