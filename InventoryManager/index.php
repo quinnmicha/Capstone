@@ -3,18 +3,32 @@
 include_once __DIR__. "/Model/includes/functions.php";
 include __DIR__ . '/Model/model_inventory.php';
 
-if(isPostRequest()){
+session_start();
+
+if( isset($_SESSION["login"])){
+    $action=  filter_input(INPUT_GET, 'action');
+    if( $action=='false'){
+        session_unset();
+        session_destroy();
+    }
+    
+    else {
+        header("Location: ../InventoryManager/manager_home.php");
+    }
+}
+else if(isPostRequest()){
     $user = filter_input(INPUT_POST, 'username');
     $pass = filter_input(INPUT_POST, 'password');
     $login = login($user, $pass);
     if($login!=false){
-        session_start();
+        
         $_SESSION['login'] = true;
         $_SESSION['username'] = $login[0]['username'];
         $_SESSION['usertype'] = $login[0]['group'];
         header("Location: ../InventoryManager/manager_home.php");
     }
 }
+
 ?>
 <html lang="en">
 <head>
