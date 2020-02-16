@@ -20,24 +20,10 @@ if(isPostRequest()){
     $username = filter_input(INPUT_POST, 'username');
     $password = filter_input(INPUT_POST, 'password');
     $userType = filter_input(INPUT_POST, 'group');
-    echo $userType;
+    //echo $userType;
+    $answer = register($username, $password, $userType);
 }
-   /* $login = checkLogin($username, $password);
-    
-    if(is_string($login)){
-        if(strpos($login, "Error") !== true){
-            //$_SESSION['validationMsg'] = "Username and Password Do Not Match Existing User";
-            header('Location: login.php');
-        }else{
-           // unset($_SESSION['validationMsg']);
-            var_dump($login);
-        }
-    }*/
-    //var_dump($username);
-   // var_dump($password);
-//}
-
-
+  
     
 ?>   
 <html lang="en">

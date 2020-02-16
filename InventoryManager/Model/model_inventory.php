@@ -25,6 +25,7 @@
     }
     
     //registers user after js confirms it is correct
+    //returns false if fails or true if success
     function register($user, $pass, $group){
         global $db;
         $pass = sha1($pass);
