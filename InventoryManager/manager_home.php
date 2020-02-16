@@ -6,13 +6,17 @@ include __DIR__ . '/Model/model_inventory.php';
 session_start();
 
 if( isset($_SESSION["usertype"])){
+    echo $_SESSION['usertype'];
     if($_SESSION["usertype"]=="admin"){
         $inventory = getInventory();
     }
     else{
         header('Location: ../InventoryManager/index.php');
     }
-} 
+}
+else{
+        header('Location: ../InventoryManager/index.php');
+    }
 
 /*if($_SESSION['submit'] == 'Register'){
         header('Location: register.php');
@@ -62,7 +66,7 @@ if( isset($_SESSION["usertype"])){
             <a href="reports.php"><b>Reports</b></a>
         </div>
         <div class="nav-item col-sm-2" style="text-align: right; margin-top: 1%;">
-            <a href="index.php"><b>Log Out</b></a>
+            <a href="index.php?action=false"><b>Log Out</b></a>
         </div>      
     </div>
     
