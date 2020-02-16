@@ -1,19 +1,27 @@
 <?php
 
 include_once __DIR__. "/Model/includes/functions.php";
-//include_once __DIR__. "/../Model/model_movies.php";
+include __DIR__ . '/Model/model_inventory.php';
 
-//session_start();
-/*
+session_start();
+
+if( isset($_SESSION["usertype"])){
+    //echo $_SESSION['usertype'];
+    if($_SESSION["usertype"]=="admin"){
+    }
+    else{
+        header('Location: ../InventoryManager/index.php');
+    }
+}
+else{
+        header('Location: ../InventoryManager/index.php');
+    }
 if(isPostRequest()){
-    $_SESSION['username'] = filter_input(INPUT_POST, 'username');
-    $_SESSION['password'] = filter_input(INPUT_POST, 'password');
-    $_SESSION['submit'] = filter_input(INPUT_POST, 'submit');
-    
-    $username = $_SESSION['username'];
-    $password = $_SESSION['password'];
-    $usertype = $_SESSION['submit'];
-    
+    $username = filter_input(INPUT_POST, 'username');
+    $password = filter_input(INPUT_POST, 'password');
+    $userType = filter_input(INPUT_POST, 'group');
+    echo $userType;
+}
    /* $login = checkLogin($username, $password);
     
     if(is_string($login)){

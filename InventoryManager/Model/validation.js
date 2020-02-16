@@ -12,7 +12,7 @@ $(document).ready(function() {
         }
       });
     $("#confirm_password").blur(function() {
-        if($(this).val()===$("#password").val() && $(this).val()!=""){
+        if(($(this).val()===$("#password").val()) && ($(this).val()!="")){
           $(this).addClass('is-valid');
           $(this).removeClass('is-invalid');
         }
@@ -48,11 +48,13 @@ function checkData(){
         $("#password").removeClass('is-valid');
         errorCheck++;
     }
-    if($("#confirm_password").val()!=$("#password").val() || $("#confirm_password").val()!=""){
+    if($("#confirm_password").val()!=$("#password").val() || $("#confirm_password").val()===""){
         $("#confirm_password").addClass('is-invalid');
         $("#confirm_password").removeClass('is-valid');
+        console.log('tripped up here');
         errorCheck++;
       }
+    console.log('working');
   if(errorCheck>0){
     return false;
     }
