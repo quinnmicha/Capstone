@@ -1,35 +1,29 @@
 <?php
 
 include_once __DIR__. "/Model/includes/functions.php";
-//include_once __DIR__. "/../Model/model_movies.php";
+include __DIR__ . '/Model/model_inventory.php';
 
-//session_start();
-/*
+session_start();
+
+if( isset($_SESSION["usertype"])){
+    //echo $_SESSION['usertype'];
+    if($_SESSION["usertype"]=="admin"){
+    }
+    else{
+        header('Location: ../InventoryManager/index.php');
+    }
+}
+else{
+        header('Location: ../InventoryManager/index.php');
+    }
 if(isPostRequest()){
-    $_SESSION['username'] = filter_input(INPUT_POST, 'username');
-    $_SESSION['password'] = filter_input(INPUT_POST, 'password');
-    $_SESSION['submit'] = filter_input(INPUT_POST, 'submit');
-    
-    $username = $_SESSION['username'];
-    $password = $_SESSION['password'];
-    $usertype = $_SESSION['submit'];
-    
-   /* $login = checkLogin($username, $password);
-    
-    if(is_string($login)){
-        if(strpos($login, "Error") !== true){
-            //$_SESSION['validationMsg'] = "Username and Password Do Not Match Existing User";
-            header('Location: login.php');
-        }else{
-           // unset($_SESSION['validationMsg']);
-            var_dump($login);
-        }
-    }*/
-    //var_dump($username);
-   // var_dump($password);
-//}
-
-
+    $username = filter_input(INPUT_POST, 'username');
+    $password = filter_input(INPUT_POST, 'password');
+    $userType = filter_input(INPUT_POST, 'group');
+    //echo $userType;
+    $answer = register($username, $password, $userType);
+}
+  
     
 ?>   
 <html lang="en">
@@ -53,6 +47,26 @@ if(isPostRequest()){
         <form class="form-group" action="register.php" method="post">
             <h2 style="text-align: center; margin-top: 10%; margin-bottom: 2%">Welcome to the Inventory Management System</h2>
             <h3 style="text-align: center; margin-bottom: 8%">The Only Inventory You'll Ever Need !</h3>
+            <?php
+                if(isPostRequest()){
+                    if($answer === 0){
+                    echo '<div style="width:70%; margin:auto;">
+                            <div class="alert alert-dismissible alert-danger text-center">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong>Registration Failed </strong> "' .$username. '" is already registered
+                            </div>
+                        </div>';
+                    }
+                    if($answer === 1){
+                    echo '<div style="width:70%; margin:auto;">
+                            <div class="alert alert-dismissible alert-success text-center">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong>Success </strong> "' .$username. '" is now registered
+                            </div>
+                        </div>';
+                    }
+                }
+            ?>
             <div class="row mb-3 justify-content-center">
                 
                 <label class="control-label col-2" for="user name">User Name:</label>
