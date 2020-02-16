@@ -4,7 +4,7 @@ include_once __DIR__. "/Model/includes/functions.php";
 include __DIR__ . '/Model/model_inventory.php';
 
 session_start();
-
+/*
 if( isset($_SESSION["usertype"])){
     if($_SESSION["usertype"]=="admin"){
         $inventory = getInventory();
@@ -40,11 +40,8 @@ if( isset($_SESSION["usertype"])){
     
     <div class="row nav" style="margin-top: 1%;">
         
-        <div class="nav-item col-sm-2" style="margin-top: 1%;">
+        <div class="nav-item col-sm-4" style="margin-top: 1%;">
             <a href="manager_home.php"><b>Home</b></a>
-        </div>
-        <div class="nav-item col-sm-2" style="margin-top: 1%;">
-            <a href="register.php"><b>Add User</b></a>
         </div>
         <div class="form col-sm-4">
             <form>
@@ -58,87 +55,24 @@ if( isset($_SESSION["usertype"])){
                 </div>
             </form>
         </div>
-        <div class="nav-item col-sm-2" style="text-align: right; margin-top: 1%;">
-            <a href="reports.php"><b>Reports</b></a>
-        </div>
-        <div class="nav-item col-sm-2" style="text-align: right; margin-top: 1%;">
+        <div class="nav-item col-sm-4" style="text-align: right; margin-top: 1%;">
             <a href="index.php"><b>Log Out</b></a>
         </div>      
     </div>
     
-    <!--
-    <div style="text-align: center; margin-top: 2%;">
+    
+    <div style="text-align: center; margin-top: 4%;">
         <h2>Liquor Store Inventory</h2>
     </div>
-    -->
-    <div class="row justify-content-around" style="margin-top: 6%;">
-        <div class="col-sm-offset-1 col-sm-3">
-            <div class="card card-border">
-                <div class="card-header">
-                    <h4>Best Selling</h4>
-                </div>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Cras justo odio</li>
-                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                  <li class="list-group-item">Vestibulum at eros</li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-sm-offset-1 col-sm-3">
-           
-            <div class="card card-border">
-                <div class="card-header">
-                    <h4>Low Inventory</h4>
-                </div>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Cras justo odio</li>
-                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                  <li class="list-group-item">Vestibulum at eros</li>
-                </ul>
-            </div>
-        </div>
-        <div class=" col-sm-offset-1 col-sm-3">
-            
-            <div class="card card-border">
-                <div class="card-header">
-                    <h4>Recent Sales</h4>
-                </div>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Cras justo odio</li>
-                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                  <li class="list-group-item">Vestibulum at eros</li>
-                </ul>
-            </div>
-        </div>
-    </div>
     
-    <div class="row justify-content-between" style="margin-top: 4%;">
-        <div class="col-4">
-            <h3>Inventory</h3>
-        </div>
+    
+    
+    <div class="row justify-content-end" style="margin-top: 4%;">
         <div class="col-3" style="text-align: right;">
-            
-                <!--Add Button-->
-                <button type="button" id="addBtn" class="btn-lg fas fa-plus" style="color:#5380b7; border-color: #5380b7; background-color: white;" onclick="addFunction()"></button>
-
-                <div id="addModal" class="modal">
-
-                  <div class="modal-content">
-                      <div>
-                          <span class="close">&times;</span>
-                      </div>
-                      <div style="text-align: center;">
-                          <p>Some text in the Modal..</p>
-                      </div>
-                  </div>
-
-                </div>
                 
-                <!--Purchase Button-->
-                <button type="button" id="purchaseBtn" class="btn-lg fas fa-shopping-cart" style="color:#5380b7; border-color: #5380b7; background-color: white;" onclick="orderFunction()"></button>
-
-                <!--Delete Button-->
-                <button type="button" id="deleteBtn" class="btn-lg fas fa-trash-alt" style="color:#5380b7; border-color: #5380b7; background-color: white;" onclick="deleteFunction()"></button>        
+            <!--Purchase Button-->
+            <button type="button" id="purchaseBtn" class="btn-lg fas fa-shopping-cart" style="color:#5380b7; border-color: #5380b7; background-color: white;" onclick="orderFunction()"></button>         
+               
         </div>
     </div>
     <div class="row" style="margin-top: 2%;">
@@ -214,30 +148,6 @@ if( isset($_SESSION["usertype"])){
 
                           </div>
                         </td>
-                        <td class="delSelectTd">
-                            <button type="button" id="delIcon" class="btn- far fa-trash-alt" style="color:#5380b7; border-color: #5380b7; border-radius: 10%; background-color: white;" onclick="confirmDel()"></button>
-                            
-                            <div id="confirmDelModal" class="modal">
-
-                            <div class="modal-content">
-                                <div>
-                                  <span class="close">&times;</span>
-                                </div>
-    
-                                <div style="text-align: center;">
-                                  <div>
-                                      <p>Are you sure you want to delete this item?</p>
-                                  </div>
-                                  <div>
-                                      <button type="button" onclick="closeConfirmDel()">Confirm</button>
-                                      <button type='button' onclick='closeDelModal()'>Cancel</button>
-                                  </div>
-                                </div>    
-                              
-                            </div>
-
-                          </div>
-                        </td>
                     </tr>
                 <?php endforeach; ?>
             </table>
@@ -246,4 +156,5 @@ if( isset($_SESSION["usertype"])){
 </div>
 </body>
 </html>
+
 
