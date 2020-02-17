@@ -6,7 +6,9 @@ include __DIR__ . '/Model/model_inventory.php';
 session_start();
 
 if( isset($_SESSION["usertype"])){
-    echo $_SESSION['usertype'];
+    if(isPostRequest()){
+        echo "this is a post request";
+    }
     if($_SESSION["usertype"]=="admin"){
         $inventory = getInventory();
     }
@@ -131,8 +133,38 @@ else{
                       <div>
                           <span class="close">&times;</span>
                       </div>
+                      <form action="manager_home.php" method="post" role="form">
+				<div class="modal-body">
+                                    <div class="form-group">
+                                        <label class="contorl-label" for="username">User Name:</label>
+                                        <input type="text" class="form-control login" style="border-color: #5380b7;" id="username" placeholder="Enter User Name" name="username" >
+                                        <div class="invalid-feedback">Please type your User Name.</div>
+                                    </div>              
+                                    <div class="form-group">
+                                        <label class="control-label" for="password">Password:</label>        
+                                        <input type="text" class="form-control login" style="border-color: #5380b7;" id="password" placeholder="Enter Password" name="password" >
+                                        <div class="invalid-feedback">Please type your Password.</div>
+                                    </div>
+                                    <div class="form-group">
+                                            <label class="control-label" for="name">Name</label>
+                                            <input type="text" name="name" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                            <label class="control-label" for="email">Email</label>
+                                            <input type="email" name="email" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                            <label class="control-label" for="message">Message</label>
+                                            <textarea name="message" class="form-control"></textarea>
+                                    </div>					
+				</div>
+				<div class="modal-footer">
+					<input type="submit" class="btn btn-success" id="submitAdd">
+                                        <script type="text/javascript" src="Model/addItemModal.js"></script>
+				</div>
+			</form>
                       <div style="text-align: center;">
-                          <p>Some text in the Modal..</p>
+                          <p>Some text This is add item'sin the Modal..</p>
                       </div>
                   </div>
 
