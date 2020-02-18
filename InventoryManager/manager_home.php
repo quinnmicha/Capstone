@@ -235,27 +235,30 @@ else{
                         <td><?php echo$item['parAmount'] ?></td>
                         <td><?php echo$item['amount'] ?></td>
                         <td class="numSelectTd">
-                            <input class="d-block m-auto" type="number" id="quantity" name="quantity" min="1" max="25">
+                            <input class="d-block m-auto" type="number" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo$item['name'] ?>" data-unit-price="<?php echo number_format($item['unitPrice'], 2) ?>" data-amount="<?php echo$item['amount'] ?>" id="quantity" name="quantity" min="1" max="25">
                             
                         
                             <div id="confirmOrderModal" class="modal">
 
-                            <div class="modal-content">
-                                <div>
-                                  <span class="close">&times;</span>
+                                <div class="modal-content">
+                                    <div>
+                                      <span class="close">&times;</span>
+                                    </div>
+                                    <table class="table" id="invTable">
+                
+                                        <tbody id="purchaseConfirmOutput">
+                                          
+                                        </tbody>
+                                            
+                                    </table>
+                                    <div style="text-align: center;">
+                                      <div>
+                                          <button type="button" onclick="closeConfirmOrder()">Confirm</button>
+                                          <button type='button' onclick='closeOrderModal()'>Cancel</button>
+                                      </div>
+                                    </div>    
+
                                 </div>
-    
-                                <div style="text-align: center;">
-                                  <div>
-                                      <p>Are you sure you want to complete this order?</p>
-                                  </div>
-                                  <div>
-                                      <button type="button" onclick="closeConfirmOrder()">Confirm</button>
-                                      <button type='button' onclick='closeOrderModal()'>Cancel</button>
-                                  </div>
-                                </div>    
-                              
-                            </div>
 
                           </div>
                         </td>

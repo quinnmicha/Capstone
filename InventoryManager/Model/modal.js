@@ -52,7 +52,22 @@ function confirmOrder(){
 
     // When the user clicks on the button, open the modal
     modal.style.display = "block";
-
+    
+    //Loops through the number pickers
+    var output="";
+    var count = 0;//will hold the count of items purchased for php loop
+    $("input[name=quantity").each(function(index){
+        
+        if($(this).val()>1){
+            
+            output+="<tr>";
+            output+='<td>' + $(this).data("name") + '</td>';
+            output+='<td>' + $(this).val() + '</td>';
+            output+='</tr>';
+            $("#purchaseConfirmOutput").html(output);
+            console.log($(this).data("name"));
+        }
+    });
 
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
@@ -159,3 +174,6 @@ function editFunction(){
     };
 }
 
+function outputForPurchaseConf(){
+    
+}
