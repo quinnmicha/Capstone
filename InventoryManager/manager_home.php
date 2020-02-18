@@ -157,13 +157,10 @@ else{
                                     </div>					
 				</div>
 				<div class="modal-footer">
-					<input type="submit" class="btn btn-success" onclick='return checkData()' value="Add Item" id="submitAdd">
+                                    <button type="submit" class="btn btn-success" onclick='return checkData()' id="submitAdd">Add Item</button>
                                         <script type="text/javascript" src="Model/addItemModal.js"></script>
 				</div>
 			</form>
-                      <div style="text-align: center;">
-                          <p>Some text This is add item'sin the Modal..</p>
-                      </div>
                   </div>
 
                 </div>
