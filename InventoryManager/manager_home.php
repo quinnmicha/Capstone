@@ -133,33 +133,31 @@ else{
                       <div>
                           <span class="close">&times;</span>
                       </div>
-                      <form action="manager_home.php" method="post" role="form">
+                      <form action="manager_home.php" method="post">
 				<div class="modal-body">
                                     <div class="form-group">
-                                        <label class="contorl-label" for="username">User Name:</label>
-                                        <input type="text" class="form-control login" style="border-color: #5380b7;" id="username" placeholder="Enter User Name" name="username" >
+                                        <label class="contorl-label" for="itemName">Item Name:</label>
+                                        <input type="text" class="form-control" style="border-color: #5380b7;" id="itemName" placeholder="Enter Item Name" name="itemName" >
                                         <div class="invalid-feedback">Please type your User Name.</div>
-                                    </div>              
-                                    <div class="form-group">
-                                        <label class="control-label" for="password">Password:</label>        
-                                        <input type="text" class="form-control login" style="border-color: #5380b7;" id="password" placeholder="Enter Password" name="password" >
-                                        <div class="invalid-feedback">Please type your Password.</div>
                                     </div>
                                     <div class="form-group">
-                                            <label class="control-label" for="name">Name</label>
-                                            <input type="text" name="name" class="form-control">
+                                        <label class="control-label" for="unitCost">Unit Cost:</label>        
+                                        <input type="text" class="form-control" style="border-color: #5380b7;" id="unitCost" placeholder='Enter Unit Cost example: 4.50' name="unitCost" >
+                                        <div class="invalid-feedback">Please enter a unit price. Only use numbers and one decimal point</div>
                                     </div>
                                     <div class="form-group">
-                                            <label class="control-label" for="email">Email</label>
-                                            <input type="email" name="email" class="form-control">
+                                        <label class="control-label" for="salesPrice">Sales Price:</label>        
+                                        <input type="text" class="form-control" style="border-color: #5380b7;" id="salesPrice" placeholder="Enter Sales Price example: 7.50" name="salesPrice" >
+                                        <div class="invalid-feedback">Please enter a sales price. Only use numbers and one decimal point</div>
                                     </div>
                                     <div class="form-group">
-                                            <label class="control-label" for="message">Message</label>
-                                            <textarea name="message" class="form-control"></textarea>
+                                        <label class="control-label" for="parAmount">Par Amount:</label>        
+                                        <input type="text" class="form-control" style="border-color: #5380b7;" id="parAmount" placeholder="Enter Par Amount example: 24" name="parAmount" >
+                                        <div class="invalid-feedback">Please enter your Par Amount as a whole number.</div>
                                     </div>					
 				</div>
 				<div class="modal-footer">
-					<input type="submit" class="btn btn-success" id="submitAdd">
+					<input type="submit" class="btn btn-success" onclick='return checkData()' value="Add Item" id="submitAdd">
                                         <script type="text/javascript" src="Model/addItemModal.js"></script>
 				</div>
 			</form>
