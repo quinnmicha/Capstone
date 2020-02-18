@@ -56,7 +56,7 @@ if( isset($_SESSION["usertype"])){
             </form>
         </div>
         <div class="nav-item col-sm-4" style="text-align: right; margin-top: 1%;">
-            <a href="index.php"><b>Log Out</b></a>
+            <a  href="index.php?action=false"><b>Log Out</b></a>
         </div>      
     </div>
     
