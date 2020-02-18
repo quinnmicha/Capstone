@@ -4,7 +4,6 @@ include_once __DIR__. "/Model/includes/functions.php";
 include __DIR__ . '/Model/model_inventory.php';
 
 session_start();
-var_dump($_SESSION["itemId"]);
 
 if( isset($_SESSION["usertype"])){
     if($_SESSION["usertype"]=="admin"){
@@ -16,6 +15,20 @@ if( isset($_SESSION["usertype"])){
                 $salesPrice = filter_input(INPUT_POST, 'salesPrice');
                 $parAmount = filter_input(INPUT_POST, 'parAmount');
                 addItem($itemName, $unitCost, $parAmount, $salesPrice);
+            }
+            else if($action === 'purchaseItem'){
+                $count = count($_SESSION["itemId"]);
+                if($count>0){
+                    for( $i=0; $i<$count; $i++){
+                        $answer = purchaseItem($_SESSION["itemId"][$i], $_SESSION["unitPrice"][$i], $_SESSION["purchaseAmount"][$i], 3);
+                        if($answer == false){
+                            echo 'Something Broke';
+                        }
+                    }
+                }
+                $_SESSION["itemId"] = array();
+                $_SESSION["unitPrice"] = array();
+                $_SESSION["purchaseAmount"] = array();
             }
         }
         $inventory = getInventory();
@@ -246,25 +259,28 @@ else{
                                     <div>
                                       <span class="close">&times;</span>
                                     </div>
-                                    <table class="table" id="invTable">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Purchase</th>
-                                            </tr>
-                                        </thead>
-                
-                                        <tbody id="purchaseConfirmOutput">
-                                          
-                                        </tbody>
-                                            
-                                    </table>
-                                    <div style="text-align: center;">
-                                      <div>
-                                          <button type="button" onclick="closeConfirmOrder()">Confirm</button>
-                                          <button type='button' onclick='closeOrderModal()'>Cancel</button>
-                                      </div>
-                                    </div>    
+                                    <form action="manager_home.php" method="POST">
+                                        <input type="hidden" name="action" value ="purchaseItem">
+                                        <table class="table" id="invTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Purchase</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody id="purchaseConfirmOutput">
+
+                                            </tbody>
+
+                                        </table>
+                                        <div style="text-align: center;">
+                                          <div>
+                                              <button type="submit">Confirm</button>
+                                              <button type='button' onclick='closeOrderModal()'>Cancel</button>
+                                          </div>
+                                        </div>  
+                                    </form>
 
                                 </div>
 
