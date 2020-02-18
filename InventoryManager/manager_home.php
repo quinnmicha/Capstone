@@ -4,6 +4,7 @@ include_once __DIR__. "/Model/includes/functions.php";
 include __DIR__ . '/Model/model_inventory.php';
 
 session_start();
+var_dump($_SESSION["itemId"]);
 
 if( isset($_SESSION["usertype"])){
     if($_SESSION["usertype"]=="admin"){
@@ -18,6 +19,10 @@ if( isset($_SESSION["usertype"])){
             }
         }
         $inventory = getInventory();
+        //These Session arrays are used for Purchasing
+        $_SESSION["itemId"] = array();
+        $_SESSION["unitPrice"] = array();
+        $_SESSION["purchaseAmount"] = array();
         
     }
     else{
@@ -41,7 +46,7 @@ else{
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
   <link rel="stylesheet" href="Design/design.css">
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   <script type="text/javascript" src="Model/modal.js"></script>
@@ -235,7 +240,7 @@ else{
                         <td><?php echo$item['parAmount'] ?></td>
                         <td><?php echo$item['amount'] ?></td>
                         <td class="numSelectTd">
-                            <input class="d-block m-auto" type="number" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo$item['name'] ?>" data-unit-price="<?php echo number_format($item['unitPrice'], 2) ?>" data-amount="<?php echo$item['amount'] ?>" id="quantity" name="quantity" min="1" max="25">
+                            <input class="d-block m-auto" type="number" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo$item['name'] ?>" data-unit-price="<?php echo number_format($item['unitPrice'], 2) ?>" data-current-amount="<?php echo$item['amount'] ?>" id="quantity" name="quantity" min="1" max="25">
                             
                         
                             <div id="confirmOrderModal" class="modal">
@@ -245,6 +250,12 @@ else{
                                       <span class="close">&times;</span>
                                     </div>
                                     <table class="table" id="invTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Purchase</th>
+                                            </tr>
+                                        </thead>
                 
                                         <tbody id="purchaseConfirmOutput">
                                           
