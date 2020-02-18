@@ -21,9 +21,6 @@ if( isset($_SESSION["usertype"])){
                 if($count>0){
                     for( $i=0; $i<$count; $i++){
                         $answer = purchaseItem($_SESSION["itemId"][$i], $_SESSION["unitPrice"][$i], $_SESSION["purchaseAmount"][$i], 3);
-                        if($answer == false){
-                            echo 'Something Broke';
-                        }
                     }
                 }
                 $_SESSION["itemId"] = array();
