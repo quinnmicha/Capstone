@@ -16,8 +16,20 @@ if( isset($_SESSION["usertype"])){
                 $parAmount = filter_input(INPUT_POST, 'parAmount');
                 addItem($itemName, $unitCost, $parAmount, $salesPrice);
             }
+            else if($action === 'purchaseItem'){
+                $count = count($_SESSION["itemId"]);
+                if($count>0){
+                    for( $i=0; $i<$count; $i++){
+                        $answer = purchaseItem($_SESSION["itemId"][$i], $_SESSION["unitPrice"][$i], $_SESSION["purchaseAmount"][$i], 3);
+                    }
+                }
+                $_SESSION["itemId"] = array();
+                $_SESSION["unitPrice"] = array();
+                $_SESSION["purchaseAmount"] = array();
+            }
         }
         $inventory = getInventory();
+        
         
     }
     else{
@@ -41,7 +53,7 @@ else{
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
   <link rel="stylesheet" href="Design/design.css">
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   <script type="text/javascript" src="Model/modal.js"></script>
@@ -193,16 +205,14 @@ else{
         <table class="table" id="invTable">
                 <thead class="thead-light-blue">
                     <tr>
-                        <th style="text-align: center;">ID</th>
+                        <th style="text-align: center; display:none;">ID</th>
                         <th></th>
                         <th>Name</th>
                         <th>Unit Price</th>
                         <th>Sales Price</th>
                         <th>Par Amount</th>
                         <th>Current Amount</th>
-                        <th id="numSelectTh">
-                            
-                        </th>
+                        <th id="numSelectTh"><button class="d-block m-auto" type="button" id="orderBtn" style="color:#5380b7; border-color: #5380b7; border-radius: 10%; background-color: white;" onclick="confirmOrder()">Order</button>Purchase Amount</th>
                         <th id="delSelectTh">
                             
                         </th>
@@ -213,7 +223,6 @@ else{
 
                 <?php foreach ($inventory as $item): ?>
                     <tr>
-                        <td><?php echo $item['idItem'] ?></td>
                         <td><input type="hidden" name="i-d" value="<?php echo $item['idItem'] ?>" /></td>
                         <td style="text-align: left;">
                             <!-- Trigger the modal with a button -->
@@ -238,27 +247,39 @@ else{
                         <td><?php echo$item['parAmount'] ?></td>
                         <td><?php echo$item['amount'] ?></td>
                         <td class="numSelectTd">
-                            <input type="number" id="quantity" name="quantity" min="1" max="25">
-                            <button type="button" id="orderBtn" style="color:#5380b7; border-color: #5380b7; border-radius: 10%; background-color: white;" onclick="confirmOrder()">Order</button>
+                            <input class="d-block m-auto" type="number" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo$item['name'] ?>" data-unit-price="<?php echo number_format($item['unitPrice'], 2) ?>" data-current-amount="<?php echo$item['amount'] ?>" id="quantity" name="quantity" min="1" max="25">
+                            
                         
                             <div id="confirmOrderModal" class="modal">
 
-                            <div class="modal-content">
-                                <div>
-                                  <span class="close">&times;</span>
+                                <div class="modal-content">
+                                    <div>
+                                      <span class="close">&times;</span>
+                                    </div>
+                                    <form action="manager_home.php" method="POST">
+                                        <input type="hidden" name="action" value ="purchaseItem">
+                                        <table class="table" id="invTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Purchase</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody id="purchaseConfirmOutput">
+
+                                            </tbody>
+
+                                        </table>
+                                        <div style="text-align: center;">
+                                          <div>
+                                              <button type="submit">Confirm</button>
+                                              <button type='button' onclick='closeOrderModal()'>Cancel</button>
+                                          </div>
+                                        </div>  
+                                    </form>
+
                                 </div>
-    
-                                <div style="text-align: center;">
-                                  <div>
-                                      <p>Are you sure you want to complete this order?</p>
-                                  </div>
-                                  <div>
-                                      <button type="button" onclick="closeConfirmOrder()">Confirm</button>
-                                      <button type='button' onclick='closeOrderModal()'>Cancel</button>
-                                  </div>
-                                </div>    
-                              
-                            </div>
 
                           </div>
                         </td>

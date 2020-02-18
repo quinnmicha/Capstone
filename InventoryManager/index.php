@@ -28,6 +28,10 @@ else if(isPostRequest()){
         $_SESSION['login'] = true;
         $_SESSION['username'] = $login[0]['username'];
         $_SESSION['usertype'] = $login[0]['group'];
+        //These Session arrays are used for Purchasing
+        $_SESSION["itemId"] = array();
+        $_SESSION["unitPrice"] = array();
+        $_SESSION["purchaseAmount"] = array();
         header("Location: ../InventoryManager/manager_home.php");
     }
 }
