@@ -6,9 +6,19 @@ include __DIR__ . '/Model/model_inventory.php';
 session_start();
 
 if( isset($_SESSION["usertype"])){
-    echo $_SESSION['usertype'];
     if($_SESSION["usertype"]=="admin"){
+        if(isPostRequest()){
+            $action = filter_input(INPUT_POST, 'action');               //Checks if the POST is for the adding an Item
+            if($action === 'addItem'){
+                $itemName = filter_input(INPUT_POST, 'itemName');
+                $unitCost = filter_input(INPUT_POST, 'unitCost');
+                $salesPrice = filter_input(INPUT_POST, 'salesPrice');
+                $parAmount = filter_input(INPUT_POST, 'parAmount');
+                addItem($itemName, $unitCost, $parAmount, $salesPrice);
+            }
+        }
         $inventory = getInventory();
+        
     }
     else{
         header('Location: ../InventoryManager/index.php');
@@ -131,9 +141,35 @@ else{
                       <div>
                           <span class="close">&times;</span>
                       </div>
-                      <div style="text-align: center;">
-                          <p>Some text in the Modal..</p>
-                      </div>
+                      <form action="manager_home.php" method="post">
+				<div class="modal-body">
+                                    <div class="form-group">
+                                        <input type="hidden" name="action" value ="addItem">
+                                        <label class="contorl-label" for="itemName">Item Name:</label>
+                                        <input type="text" class="form-control" style="border-color: #5380b7;" id="itemName" placeholder="Enter Item Name" name="itemName" >
+                                        <div class="invalid-feedback">Please type your User Name.</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="unitCost">Unit Cost:</label>        
+                                        <input type="text" class="form-control" style="border-color: #5380b7;" id="unitCost" placeholder='Enter Unit Cost example: 4.50' name="unitCost" >
+                                        <div class="invalid-feedback">Please enter a unit price. Only use numbers and one decimal point</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="salesPrice">Sales Price:</label>        
+                                        <input type="text" class="form-control" style="border-color: #5380b7;" id="salesPrice" placeholder="Enter Sales Price example: 7.50" name="salesPrice" >
+                                        <div class="invalid-feedback">Please enter a sales price. Only use numbers and one decimal point</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="parAmount">Par Amount:</label>        
+                                        <input type="text" class="form-control" style="border-color: #5380b7;" id="parAmount" placeholder="Enter Par Amount example: 24" name="parAmount" >
+                                        <div class="invalid-feedback">Please enter your Par Amount as a whole number.</div>
+                                    </div>					
+				</div>
+				<div class="modal-footer">
+                                    <button type="submit" class="btn btn-success" onclick='return checkData()' id="submitAdd">Add Item</button>
+                                        <script type="text/javascript" src="Model/addItemModal.js"></script>
+				</div>
+			</form>
                   </div>
 
                 </div>
