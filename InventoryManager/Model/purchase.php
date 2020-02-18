@@ -1,12 +1,14 @@
 <?php
 
-include __DIR__ . '/Model/model_inventory.php';
+session_start();
 
 $id = filter_input(INPUT_POST, 'id');
 $unitPrice=filter_input(INPUT_POST, 'unitPrice');
 $purchaseAmount=filter_input(INPUT_POST, 'purchaseAmount');
 
-$answer = purchaseItem($id, $unitPrice, $purchaseAmount, 3);
+array_push($_SESSION['itemId'], $id);
+array_push($_SESSION['unitPrice'], $unitPrice);
+array_push($_SESSION['purchaseAmount'], $purchaseAmount);
 
 /*
 $_SESSION["itemId"] = filter_input(INPUT_POST, 'id');
