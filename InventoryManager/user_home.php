@@ -4,9 +4,9 @@ include_once __DIR__. "/Model/includes/functions.php";
 include __DIR__ . '/Model/model_inventory.php';
 
 session_start();
-/*
+
 if( isset($_SESSION["usertype"])){
-    if($_SESSION["usertype"]=="admin"){
+    if($_SESSION["usertype"]=="user"){
         $inventory = getInventory();
     }
     else{
@@ -14,9 +14,6 @@ if( isset($_SESSION["usertype"])){
     }
 } 
 
-/*if($_SESSION['submit'] == 'Register'){
-        header('Location: register.php');
-    }*/
 ?>
 
 <html lang="en">
@@ -56,7 +53,7 @@ if( isset($_SESSION["usertype"])){
             </form>
         </div>
         <div class="nav-item col-sm-4" style="text-align: right; margin-top: 1%;">
-            <a href="index.php"><b>Log Out</b></a>
+            <a  href="index.php?action=false"><b>Log Out</b></a>
         </div>      
     </div>
     

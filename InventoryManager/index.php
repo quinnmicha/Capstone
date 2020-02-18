@@ -12,8 +12,11 @@ if( isset($_SESSION["login"])){
         session_destroy();
     }
     
-    else {
+    else if($_SESSION['usertype']==='admin') {
         header("Location: ../InventoryManager/manager_home.php");
+    }
+    else if($_SESSION['usertype']==='user'){
+        header("Location: ../InventoryManager/user_home.php");
     }
 }
 else if(isPostRequest()){
