@@ -200,7 +200,7 @@ else{
                         <th>Sales Price</th>
                         <th>Par Amount</th>
                         <th>Current Amount</th>
-                        <th id="numSelectTh">Purchase Amount</th>
+                        <th id="numSelectTh"><button class="d-block m-auto" type="button" id="orderBtn" style="color:#5380b7; border-color: #5380b7; border-radius: 10%; background-color: white;" onclick="confirmOrder()">Order</button>Purchase Amount</th>
                         <th id="delSelectTh">
                             
                         </th>
@@ -235,8 +235,8 @@ else{
                         <td><?php echo$item['parAmount'] ?></td>
                         <td><?php echo$item['amount'] ?></td>
                         <td class="numSelectTd">
-                            <input type="number" id="quantity" name="quantity" min="1" max="25">
-                            <button type="button" id="orderBtn" style="color:#5380b7; border-color: #5380b7; border-radius: 10%; background-color: white;" onclick="confirmOrder()">Order</button>
+                            <input class="d-block m-auto" type="number" id="quantity" name="quantity" min="1" max="25">
+                            
                         
                             <div id="confirmOrderModal" class="modal">
 
