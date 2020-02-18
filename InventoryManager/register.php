@@ -42,7 +42,27 @@ if(isPostRequest()){
 <?php include __DIR__.'/model/navbar.php';?>
 
 <div class="container">
-    
+    <div class="row nav" style="margin-top: 1%;">
+        
+        <div class="nav-item col-sm-4" style="margin-top: 1%;">
+            <a href="manager_home.php"><b>Home</b></a>
+        </div>
+        <div class="form col-sm-4">
+            <form>
+                <div class="form-row">
+                    <div class="col-9">
+                        
+                    </div>
+                    <div class="col-3">
+                        
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="nav-item col-sm-4" style="text-align: right; margin-top: 1%;">
+            <a href="index.php"><b>Log Out</b></a>
+        </div>      
+    </div>
         
         <form class="form-group" action="register.php" method="post">
             <h2 style="text-align: center; margin-top: 10%; margin-bottom: 2%">Welcome to the Inventory Management System</h2>
