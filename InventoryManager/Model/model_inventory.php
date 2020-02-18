@@ -277,12 +277,12 @@
             ":week" => $week,
             ":idItem" => $idItem,
             ":amount" => $amount,
-            ":money" => $cost
+            ":money" => $money
         );
         
         if($stmt->execute($binds) && $stmt->rowCount()>0){
             //Runs functions to keep the other dataTables working
-            addExpense($week, $cost);
+            addExpense($week, $money);
             $invAmount = getAmount($idItem);
             $netAmount = $invAmount['amount'] + $amount;
             return updateItemAmount($idItem, $netAmount);//returns true if successful

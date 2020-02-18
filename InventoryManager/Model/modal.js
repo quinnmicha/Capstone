@@ -63,7 +63,7 @@ function confirmOrder(){
             output+='<td>' + $(this).val() + '</td>';
             output+='</tr>';
             $("#purchaseConfirmOutput").html(output);
-            $.post( "purchase.php", { id: $(this).data("idItem"), unitPrice: $(this).data("unitPrice"), purchaseAmount: $(this).val() } );
+            $.post( "../InventoryManager/Model/purchase.php", { id: $(this).data("idItem"), unitPrice: $(this).data("unitPrice"), purchaseAmount: $(this).val() } );
         }
         
     });

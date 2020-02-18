@@ -19,10 +19,7 @@ if( isset($_SESSION["usertype"])){
             }
         }
         $inventory = getInventory();
-        //These Session arrays are used for Purchasing
-        $_SESSION["itemId"] = array();
-        $_SESSION["unitPrice"] = array();
-        $_SESSION["purchaseAmount"] = array();
+        
         
     }
     else{
