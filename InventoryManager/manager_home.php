@@ -6,11 +6,19 @@ include __DIR__ . '/Model/model_inventory.php';
 session_start();
 
 if( isset($_SESSION["usertype"])){
-    if(isPostRequest()){
-        echo "this is a post request";
-    }
     if($_SESSION["usertype"]=="admin"){
+        if(isPostRequest()){
+            $action = filter_input(INPUT_POST, 'action');               //Checks if the POST is for the adding an Item
+            if($action === 'addItem'){
+                $itemName = filter_input(INPUT_POST, 'itemName');
+                $unitCost = filter_input(INPUT_POST, 'unitCost');
+                $salesPrice = filter_input(INPUT_POST, 'salesPrice');
+                $parAmount = filter_input(INPUT_POST, 'parAmount');
+                addItem($itemName, $unitCost, $parAmount, $salesPrice);
+            }
+        }
         $inventory = getInventory();
+        
     }
     else{
         header('Location: ../InventoryManager/index.php');
@@ -136,6 +144,7 @@ else{
                       <form action="manager_home.php" method="post">
 				<div class="modal-body">
                                     <div class="form-group">
+                                        <input type="hidden" name="action" value ="addItem">
                                         <label class="contorl-label" for="itemName">Item Name:</label>
                                         <input type="text" class="form-control" style="border-color: #5380b7;" id="itemName" placeholder="Enter Item Name" name="itemName" >
                                         <div class="invalid-feedback">Please type your User Name.</div>
