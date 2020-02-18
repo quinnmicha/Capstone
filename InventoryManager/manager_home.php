@@ -193,16 +193,14 @@ else{
         <table class="table" id="invTable">
                 <thead class="thead-light-blue">
                     <tr>
-                        <th style="text-align: center;">ID</th>
+                        <th style="text-align: center; display:none;">ID</th>
                         <th></th>
                         <th>Name</th>
                         <th>Unit Price</th>
                         <th>Sales Price</th>
                         <th>Par Amount</th>
                         <th>Current Amount</th>
-                        <th id="numSelectTh">
-                            
-                        </th>
+                        <th id="numSelectTh">Purchase Amount</th>
                         <th id="delSelectTh">
                             
                         </th>
@@ -213,7 +211,6 @@ else{
 
                 <?php foreach ($inventory as $item): ?>
                     <tr>
-                        <td><?php echo $item['idItem'] ?></td>
                         <td><input type="hidden" name="i-d" value="<?php echo $item['idItem'] ?>" /></td>
                         <td style="text-align: left;">
                             <!-- Trigger the modal with a button -->
