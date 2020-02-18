@@ -63,10 +63,13 @@ if(isPostRequest()){
             <a  href="index.php?action=false"><b>Log Out</b></a>
         </div>      
     </div>
-        
-        <form class="form-group" action="register.php" method="post">
-            <h2 style="text-align: center; margin-top: 10%; margin-bottom: 2%">Welcome to the Inventory Management System</h2>
-            <h3 style="text-align: center; margin-bottom: 8%">The Only Inventory You'll Ever Need !</h3>
+    <div class="row justify-content-center">
+        <h2 style="text-align: center; margin-top: 10%; margin-bottom: 2%">Welcome to the Inventory Management System</h2>
+        <h3 style="text-align: center; margin-bottom: 4%">The Only Inventory You'll Ever Need !</h3>
+    </div>
+    <div class="row justify-content-center">    
+        <form class="col-sm-6" action="register.php" method="post">
+            
             <?php
                 if(isPostRequest()){
                     if($answer === 0){
@@ -87,27 +90,27 @@ if(isPostRequest()){
                     }
                 }
             ?>
-            <div class="row mb-3 justify-content-center">
+            <div class="form-group">
                 
-                <label class="control-label col-2" for="user name">User Name:</label>
-                <div class="col-6">          
-                    <input type="text" class="form-control" id="username" placeholder="Enter User Name" name="username" >
-                </div>
+                <label class="control-label" for="user name">User Name:</label>
+                          
+                    <input type="text" class="form-control login" style="border-color: #5380b7;" id="username" placeholder="Enter User Name" name="username" >
+                
             </div>
-            <div class="row mb-3 justify-content-center">
-                <label class="control-label col-2" for="password">Password:</label>
-                <div class="col-6">          
-                    <input type="text" class="form-control" id="password" placeholder="Enter Password" name="password" >
-                </div>
+            <div class="form-group">
+                <label class="control-label" for="password">Password:</label>
+                          
+                    <input type="text" class="form-control login" style="border-color: #5380b7;" id="password" placeholder="Enter Password" name="password" >
+                
             </div>
-            <div class="row mb-3 justify-content-center">
-                <label class="control-label col-2" for="confirm_password">Confirm Password:</label>
-                <div class="col-6">          
-                    <input type="text" class="form-control" id="confirm_password" placeholder="Confirm Password" name="confirm_password" >
+            <div class="form-group">
+                <label class="control-label" for="confirm_password">Confirm Password:</label>
+                          
+                    <input type="text" class="form-control login" style="border-color: #5380b7;" id="confirm_password" placeholder="Confirm Password" name="confirm_password" >
                     <div class="invalid-feedback">
                         Password and Confirm Password must match.
                     </div>
-                </div>
+                
             </div>
             <div class="row justify-content-center mb-4">
                 <div class="form-check">
@@ -127,6 +130,7 @@ if(isPostRequest()){
                     <button type="submit" name="submit" onclick='return checkData()' value="Register" class="btn btn-outline-primary">Sign Up</button>
             </div>    
         </form>
+    </div>
 </div>
       
       

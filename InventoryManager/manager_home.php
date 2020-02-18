@@ -104,9 +104,26 @@ else{
                     <h4>Best Selling</h4>
                 </div>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Cras justo odio</li>
-                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                  <li class="list-group-item">Vestibulum at eros</li>
+                    <li class="list-group-item">
+                        <!-- Trigger the modal with a button -->
+                            <button type="button" class="reg-btn display" onclick="displayFunction()">Cras justo odio</button>
+
+                            <!-- Modal -->
+                            <div class="modal" id="displayModal0">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div>
+                                       <span class="closeModal">&times;</span> 
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <p>Some text in the Modal..</p>
+                                    </div>                                   
+                                </div>           
+                            </div>
+                    </li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
                 </ul>
             </div>
         </div>
@@ -139,8 +156,11 @@ else{
     </div>
     
     <div class="row justify-content-between" style="margin-top: 4%;">
-        <div class="col-4">
-            <h3>Inventory</h3>
+        <div class="col-3">
+            <h3 style="margin-bottom: 0%;">Inventory</h3>
+        </div>
+        <div id="orderDiv" class="col-3 btn-lg" style="padding:0%; height:100%; display:none;">
+            <button class="d-block m-auto" type="button" id="orderBtn" style="color:#5380b7; border-color: #5380b7; border-radius: 7%; background-color: white;" onclick="confirmOrder()">Purchase</button>
         </div>
         <div class="col-3" style="text-align: right;">
             
@@ -212,7 +232,7 @@ else{
                         <th>Sales Price</th>
                         <th>Par Amount</th>
                         <th>Current Amount</th>
-                        <th id="numSelectTh"><button class="d-block m-auto" type="button" id="orderBtn" style="color:#5380b7; border-color: #5380b7; border-radius: 10%; background-color: white;" onclick="confirmOrder()">Order</button>Purchase Amount</th>
+                        <th id="numSelectTh">Purchase Amount</th>
                         <th id="delSelectTh">
                             
                         </th>

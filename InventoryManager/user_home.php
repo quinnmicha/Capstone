@@ -64,19 +64,24 @@ if( isset($_SESSION["usertype"])){
     
     
     
-    <div class="row justify-content-end" style="margin-top: 4%;">
-        <div class="col-3" style="text-align: right;">
+    <div class="row" style="margin-top: 4%;">
+        <div class="col-6">
                 
             <!--Purchase Button-->
-            <button type="button" id="purchaseBtn" class="btn-lg fas fa-shopping-cart" style="color:#5380b7; border-color: #5380b7; background-color: white;" onclick="orderFunction()"></button>         
+            <button type="button" id="purchaseBtn" class="btn-lg" style="color:#5380b7; border-color: #5380b7; background-color: white;" onclick="orderFunction()">Sell Items</button>         
                
         </div>
+        
+        <div id="orderDiv" class="col-6 btn-lg" style="padding:0%; height:100%; display:none; text-align: right;">
+            <button class="btn-lg" type="button" id="orderBtn" style="color:#5380b7; border-color: #5380b7; border-radius: 7%; background-color: white;" onclick="confirmOrder()">Confirm</button>
+        </div>
+        
     </div>
     <div class="row" style="margin-top: 2%;">
         <table class="table" id="invTable">
                 <thead class="thead-light-blue">
                     <tr>
-                        <th style="text-align: center;">ID</th>
+                        <th style="text-align: center; display:none;">ID</th>
                         <th></th>
                         <th>Name</th>
                         <th>Unit Price</th>
@@ -84,7 +89,7 @@ if( isset($_SESSION["usertype"])){
                         <th>Par Amount</th>
                         <th>Current Amount</th>
                         <th id="numSelectTh">
-                            
+                            Sell Amount
                         </th>
                         <th id="delSelectTh">
                             
@@ -96,7 +101,7 @@ if( isset($_SESSION["usertype"])){
 
                 <?php foreach ($inventory as $item): ?>
                     <tr>
-                        <td><?php echo $item['idItem'] ?></td>
+                        <td style="display:none;"><?php echo $item['idItem'] ?></td>
                         <td><input type="hidden" name="i-d" value="<?php echo $item['idItem'] ?>" /></td>
                         <td style="text-align: left;">
                             <!-- Trigger the modal with a button -->
@@ -120,9 +125,9 @@ if( isset($_SESSION["usertype"])){
                         <td>$<?php echo number_format($item['salesPrice'], 2) ?></td>
                         <td><?php echo$item['parAmount'] ?></td>
                         <td><?php echo$item['amount'] ?></td>
-                        <td class="numSelectTd">
+                        <td class="numSelectTd" style="text-align: center;">
                             <input type="number" id="quantity" name="quantity" min="1" max="25">
-                            <button type="button" id="orderBtn" style="color:#5380b7; border-color: #5380b7; border-radius: 10%; background-color: white;" onclick="confirmOrder()">Order</button>
+                            
                         
                             <div id="confirmOrderModal" class="modal">
 

@@ -55,7 +55,13 @@ a {
 }
 
 /* The Close Button */
-.close {
+.close{
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.closeModal{
   color: #aaa;
   float: right;
   font-size: 28px;
@@ -63,13 +69,18 @@ a {
 }
 
 .close:hover,
-.close:focus {
+.close:focus{
   color: black;
   text-decoration: none;
   cursor: pointer;
 }
 
-
+.closeModal:hover,
+.closeModal:focus{
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
 
 #delSelectTh{
     display:none;

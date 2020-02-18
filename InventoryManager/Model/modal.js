@@ -27,14 +27,34 @@ function orderFunction(){
 
     var th = document.getElementById("numSelectTh");
     var td = document.getElementsByClassName("numSelectTd");
-
-    // When the user clicks on the button, display the selector
-    th.style.display = "table-cell";
+    var btn = document.getElementById("orderDiv");
     
-    var x = 0;
-    for(x = 0; x < td.length; x++){
-        td[x].style.display = "table-cell";
+    if(th.style.display === "none"){
+        // When the user clicks on the button, display the selector
+        th.style.display = "table-cell";
+        btn.style.display = "inline";
+        
+        var x = 0;
+        for(x = 0; x < td.length; x++){
+        
+            td[x].style.display = "table-cell";
+        
+        }
+    }else{
+        th.style.display = "none";
+        btn.style.display = "none";
+        
+        var y = 0;
+        for(y = 0; y < td.length; y++){
+        
+            td[y].style.display = "none";
+        
+        }
+        
     }
+    
+    
+    
     
 }
 
@@ -98,12 +118,25 @@ function deleteFunction(){
     var th = document.getElementById("delSelectTh");
     var td = document.getElementsByClassName("delSelectTd");
 
-    // When the user clicks on the button, display the selector
-    th.style.display = "table-cell";
-    
-    var x = 0;
-    for(x = 0; x < td.length; x++){
-        td[x].style.display = "table-cell";
+    if(th.style.display === "none"){
+        // When the user clicks on the button, display the selector
+        th.style.display = "table-cell";
+        
+        var x = 0;
+        for(x = 0; x < td.length; x++){
+        
+            td[x].style.display = "table-cell";
+        
+        }
+    }else{
+        th.style.display = "none";
+        
+        var y = 0;
+        for(y = 0; y < td.length; y++){
+        
+            td[y].style.display = "none";
+        
+        }
     }
     
 }
@@ -155,6 +188,30 @@ function editFunction(){
 
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[1];
+
+    // When the user clicks on the button, open the modal
+    modal.style.display = "block";
+
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+}
+
+function displayFunction(){    
+    // Get the modal
+    var modal = document.getElementById("displayModal0");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("closeModal")[0];
 
     // When the user clicks on the button, open the modal
     modal.style.display = "block";
