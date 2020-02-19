@@ -28,6 +28,7 @@ else if(isPostRequest()){
         $_SESSION['login'] = true;
         $_SESSION['username'] = $login[0]['username'];
         $_SESSION['usertype'] = $login[0]['group'];
+        $_SESSION['userId'] = $login[0]['idUser'];
         //These Session arrays are used for Purchasing
         $_SESSION["itemId"] = array();
         $_SESSION["unitPrice"] = array();
