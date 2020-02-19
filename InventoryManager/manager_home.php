@@ -248,7 +248,18 @@ else{
 
 
                 <?php foreach ($inventory as $item): ?>
-                    <tr>
+                    <?php //To set proper row colors
+                        $color='';//default nothing if amount above par
+                        if($item['amount']<$item['parAmount']){
+                            if(($item['parAmount']/$item['amount']*100)<50){
+                                $color = 'bg-danger';//bootstrap background color red
+                            }
+                            else{
+                                $color = 'bg-warning';//boostrap background color yellow
+                            }
+                        }
+                    ?>
+                    <tr class="<?php echo $color; ?>">
                         <td><input type="hidden" name="i-d" value="<?php echo $item['idItem'] ?>" /></td>
                         <td style="text-align: left;">
                             <!-- Trigger the modal with a button -->
