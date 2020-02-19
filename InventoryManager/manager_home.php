@@ -34,7 +34,7 @@ if( isset($_SESSION["usertype"])){
                 $_SESSION["purchaseAmount"] = array();
             }
         }
-        $inventory = getInventory();
+        $inventory = getInventoryOrderedLow();
         
         
     }
