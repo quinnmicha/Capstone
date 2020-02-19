@@ -9,6 +9,7 @@ if( isset($_SESSION["usertype"])){
     if($_SESSION["usertype"]=="admin"){
         $salesWeek = getWeekSale();//Most recent week in sales table
         $currentWeek = getWeek();//Most recent week in purchasing table
+        $bestSelling = getBestSellingLastWeek($salesWeek['week']);//Pulls the most beers sold in the most recent week ordered by most sold
         if($salesWeek['week']===$currentWeek['week']){//Increases the current week only if there is already sales for the week
             $currentWeek['week']++;
         }
@@ -111,7 +112,7 @@ else{
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <!-- Trigger the modal with a button -->
-                            <button type="button" class="reg-btn display" onclick="displayFunction()">Cras justo odio</button>
+                            <button type="button" class="reg-btn display" onclick="displayFunction()"><?php echo $bestSelling[0]['name']; ?></button>
 
                             <!-- Modal -->
                             <div class="modal" id="displayModal0">
@@ -127,8 +128,8 @@ else{
                                 </div>           
                             </div>
                     </li>
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Vestibulum at eros</li>
+                    <li class="list-group-item"><?php echo $bestSelling[1]['name']; ?></li>
+                    <li class="list-group-item"><?php echo $bestSelling[2]['name']; ?></li>
                 </ul>
             </div>
         </div>

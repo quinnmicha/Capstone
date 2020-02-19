@@ -392,11 +392,12 @@
             ":week" => $week
         );
         
-        $result=false;
+        $results=[];
         if($stmt->execute($binds) && $stmt->rowCount()>0){
-            $result=true;
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
         }
-        return $result;
+        
     }
     
     //Pulls the most recent week from purchases table
