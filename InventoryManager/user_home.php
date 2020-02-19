@@ -14,7 +14,7 @@ if( isset($_SESSION["usertype"])){
                 $count = count($_SESSION["itemId"]);
                 if($count>0){
                     for( $i=0; $i<$count; $i++){
-                        $answer = sellItem($_SESSION["itemId"][$i], $_SESSION["unitPrice"][$i], $_SESSION["purchaseAmount"][$i], $currentWeek, $_SESSION['userId']);
+                        $answer = sellItem($_SESSION["itemId"][$i], $_SESSION["unitPrice"][$i], $_SESSION["purchaseAmount"][$i], $currentWeek['week'], $_SESSION['userId']);
                     }
                 }
                 $_SESSION["itemId"] = array();
