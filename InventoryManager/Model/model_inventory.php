@@ -102,6 +102,21 @@
         }
     }
     
+    //Orders the inventory by lowest quantity first
+    function getInventoryOrderedLow(){
+        global $db;
+        
+        $stmt=$db->prepare("SELECT idItem, `name`, amount, unitPrice, salesPrice, parAmount FROM inventory ORDER BY amount ASC;");
+        
+        if($stmt->execute() && $stmt->rowCount()>0){
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return ($results);
+        }
+        else{
+            return false;
+        }
+    }
+    
     //Gives abiltity to update every part of an item
     function updateItem($idItem, $name, $amount, $unitPrice, $salesPrice, $parAmount){
         global $db;
