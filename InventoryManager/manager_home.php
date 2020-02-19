@@ -251,7 +251,10 @@ else{
                     <?php //To set proper row colors
                         $color='';//default nothing if amount above par
                         if($item['amount']<$item['parAmount']){
-                            if(($item['parAmount']/$item['amount']*100)<50){
+                            if($item['amount']===0){//This is to catch error
+                                $color = 'bg-danger';//bootstrap background color red
+                            }
+                            else if(($item['amount']/$item['parAmount']*100)<50){
                                 $color = 'bg-danger';//bootstrap background color red
                             }
                             else{
