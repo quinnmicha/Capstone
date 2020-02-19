@@ -382,6 +382,24 @@
         }
     }
     
+    //Returns the most sold beers for the most recent sales week
+    function getBestSellingLastWeek($week){
+        global $db;
+        
+        $stmt=$db->prepare("SELECT week, sales.idItem, inventory.`name`, SUM(sales.amount) AS totalAmount FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem WHERE `week` = :week GROUP BY sales.idItem ORDER BY totalAmount DESC;");
+        
+        $binds = array(
+            ":week" => $week
+        );
+        
+        $results=[];
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        }
+        
+    }
+    
     //Pulls the most recent week from purchases table
     //Returns the profit of that week in an array
     //Can be modulated to get Profit of anyweek
