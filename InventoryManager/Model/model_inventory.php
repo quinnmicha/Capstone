@@ -181,6 +181,23 @@
         }
     }
     
+    function getWeekSale(){
+        global $db;
+        
+        $stmt=$db->prepare("SELECT MAX(week) AS 'week' from sales");
+        
+        if($stmt->execute() && $stmt->rowCount()>0){
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+            if(empty($results)){
+                $results = ['week' => 1];
+            }
+            return $results;
+        }
+        else{
+            return null;
+        }
+    }
+    
     //Pulls the amount of a certain item for adding or subtracting
     //may not need this function....
     function getAmount($idItem){

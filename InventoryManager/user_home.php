@@ -8,12 +8,13 @@ session_start();
 if( isset($_SESSION["usertype"])){
     if($_SESSION["usertype"]=="user"){
         if(isPostRequest()){
+            $currentWeek = getWeek();//Pulls the most recent purchasing week and sets the week to that
             $action = filter_input(INPUT_POST, 'action');               //Checks if the POST is for the adding an Item
             if($action === 'sellItem'){
                 $count = count($_SESSION["itemId"]);
                 if($count>0){
                     for( $i=0; $i<$count; $i++){
-                        $answer = sellItem($_SESSION["itemId"][$i], $_SESSION["unitPrice"][$i], $_SESSION["purchaseAmount"][$i], 3, $_SESSION['userId']);
+                        $answer = sellItem($_SESSION["itemId"][$i], $_SESSION["unitPrice"][$i], $_SESSION["purchaseAmount"][$i], $currentWeek, $_SESSION['userId']);
                     }
                 }
                 $_SESSION["itemId"] = array();
