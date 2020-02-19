@@ -192,6 +192,8 @@ function editFunction(){
     // When the user clicks on the button, open the modal
     modal.style.display = "block";
 
+	//JQuery AJAX call
+	$.post( "../InventoryManager/Model/edit.php", { id: $(this).data("idItem") } );
 
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
