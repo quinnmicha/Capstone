@@ -252,13 +252,13 @@ else{
                         $color='';//default nothing if amount above par
                         if($item['amount']<$item['parAmount']){
                             if($item['amount']===0){//This is to catch error
-                                $color = 'bg-danger';//bootstrap background color red
+                                $color = 'table-danger';//bootstrap background color red
                             }
                             else if(($item['amount']/$item['parAmount']*100)<50){
-                                $color = 'bg-danger';//bootstrap background color red
+                                $color = 'table-danger';//bootstrap background color red
                             }
                             else{
-                                $color = 'bg-warning';//boostrap background color yellow
+                                $color = 'table-warning';//boostrap background color yellow
                             }
                         }
                     ?>
