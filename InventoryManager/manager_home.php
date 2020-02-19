@@ -5,6 +5,8 @@ include __DIR__ . '/Model/model_inventory.php';
 
 session_start();
 
+$_SESSION['editItem']=array();
+
 if( isset($_SESSION["usertype"])){
     if($_SESSION["usertype"]=="admin"){
         $salesWeek = getWeekSale();//Most recent week in sales table
@@ -33,6 +35,15 @@ if( isset($_SESSION["usertype"])){
                 $_SESSION["unitPrice"] = array();
                 $_SESSION["purchaseAmount"] = array();
             }
+			else if ($action === 'editItem'){
+				$itemId = filter_input(INPUT_POST, 'id');
+				$itemName = filter_input(INPUT_POST, 'itemName');
+				$amount = filter_input(INPUT_POST, 'amount');
+                $unitCost = filter_input(INPUT_POST, 'unitCost');
+                $salesPrice = filter_input(INPUT_POST, 'salesPrice');
+                $parAmount = filter_input(INPUT_POST, 'parAmount');
+				updateItem($itemId, $itemName, $amount, $unitCost, $salesPrice, $parAmount);
+			}
         }
         $inventory = getInventoryOrderedLow();
         
