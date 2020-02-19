@@ -292,29 +292,37 @@ else{
 											<div class="form-group">
 												<div class="form-row">
 													<input type="hidden" name="action" value ="editItem">
+													<input type="hidden" name="id" value="">
 													<label class="control-label" for="itemName">Item Name:</label>
-													<input type="text" class="form-control" style="border-color: #5380b7;" id="itemName" placeholder="Enter Item Name" name="itemName" >
+													<input type="text" class="form-control" style="border-color: #5380b7;" id="itemName" value="<?php echo $_SESSION['editItem'][0]['name'];?>"  name="itemName" >
 													<div class="invalid-feedback">Please type the item's name.</div>
 												</div>
 											</div>
 											<div class="form-group">
 												<div class="form-row">
+													<label class="control-label" for="unitCost">Current Amount in Inventory:</label>        
+													<input type="text" class="form-control" style="border-color: #5380b7;" id="unitCost"  value="<?php echo $_SESSION['editItem']['amount'];?>"  name="unitCost" >
+													<div class="invalid-feedback">Please enter your Current Inventory Amount as a whole number.</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="form-row">
 													<label class="control-label" for="unitCost">Unit Cost:</label>        
-													<input type="text" class="form-control" style="border-color: #5380b7;" id="unitCost" placeholder='Enter Unit Cost example: 4.50' name="unitCost" >
+													<input type="text" class="form-control" style="border-color: #5380b7;" id="unitCost"  name="unitCost" >
 													<div class="invalid-feedback">Please enter a unit price. Only use numbers and one decimal point</div>
 												</div>
 											</div>
 											<div class="form-group">
 												<div class="form-row">
 													<label class="control-label" for="salesPrice">Sales Price:</label>        
-													<input type="text" class="form-control" style="border-color: #5380b7;" id="salesPrice" placeholder="Enter Sales Price example: 7.50" name="salesPrice" >
+													<input type="text" class="form-control" style="border-color: #5380b7;" id="salesPrice" name="salesPrice" >
 													<div class="invalid-feedback">Please enter a sales price. Only use numbers and one decimal point</div>
 												</div>
 											</div>
 											<div class="form-group">
 												<div class="form-row">
 													<label class="control-label" for="parAmount">Par Amount:</label>        
-													<input type="text" class="form-control" style="border-color: #5380b7;" id="parAmount" placeholder="Enter Par Amount example: 24" name="parAmount" >
+													<input type="text" class="form-control" style="border-color: #5380b7;" id="parAmount" name="parAmount" >
 													<div class="invalid-feedback">Please enter your Par Amount as a whole number.</div>
 												</div>
 											</div>					
