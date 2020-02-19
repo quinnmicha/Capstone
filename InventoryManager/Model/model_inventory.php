@@ -293,7 +293,7 @@
         }
     }
     
-    function sellItem($idItem, $unitCost, $amount, $week, $idUser){ //Seems to be no add() so maybe pull the new amount from the website or call an updateItemAmount()
+    function sellItem($idItem, $unitCost, $amount, $week, $idUser){
         global $db;
         
         $money = $amount * $unitCost;

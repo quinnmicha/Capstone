@@ -7,6 +7,20 @@ session_start();
 
 if( isset($_SESSION["usertype"])){
     if($_SESSION["usertype"]=="user"){
+        if(isPostRequest()){
+            $action = filter_input(INPUT_POST, 'action');               //Checks if the POST is for the adding an Item
+            if($action === 'sellItem'){
+                $count = count($_SESSION["itemId"]);
+                if($count>0){
+                    for( $i=0; $i<$count; $i++){
+                        $answer = sellItem($_SESSION["itemId"][$i], $_SESSION["unitPrice"][$i], $_SESSION["purchaseAmount"][$i], 3, $_SESSION['userId']);
+                    }
+                }
+                $_SESSION["itemId"] = array();
+                $_SESSION["unitPrice"] = array();
+                $_SESSION["purchaseAmount"] = array();
+            }
+        }
         $inventory = getInventory();
     }
     else{
@@ -24,7 +38,7 @@ if( isset($_SESSION["usertype"])){
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css">
   <link rel="stylesheet" href="Design/design.css">
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   <script type="text/javascript" src="Model/modal.js"></script>
@@ -126,7 +140,7 @@ if( isset($_SESSION["usertype"])){
                         <td><?php echo$item['parAmount'] ?></td>
                         <td><?php echo$item['amount'] ?></td>
                         <td class="numSelectTd" style="text-align: center;">
-                            <input type="number" id="quantity" name="quantity" min="1" max="25">
+                            <input class="d-block m-auto" type="number" id="quantity" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo $item['name'] ?>" data-unit-price="<?php echo number_format($item['salesPrice'], 2); //This is read as 'unitPrice' but is supposed to be salesPrice !this is not a mistake ?>" data-current-amount="<?php echo$item['amount'] ?>" name="quantity" min="1" max="25">
                             
                         
                             <div id="confirmOrderModal" class="modal">
@@ -136,15 +150,28 @@ if( isset($_SESSION["usertype"])){
                                   <span class="close">&times;</span>
                                 </div>
     
-                                <div style="text-align: center;">
-                                  <div>
-                                      <p>Are you sure you want to complete this order?</p>
-                                  </div>
-                                  <div>
-                                      <button type="button" onclick="closeConfirmOrder()">Confirm</button>
-                                      <button type='button' onclick='closeOrderModal()'>Cancel</button>
-                                  </div>
-                                </div>    
+                                <form action="user_home.php" method="POST">
+                                      <input type="hidden" name="action" value ="sellItem">
+                                      <table class="table" id="invTable">
+                                          <thead>
+                                              <tr>
+                                                  <th>Name</th>
+                                                  <th>Purchase</th>
+                                              </tr>
+                                          </thead>
+
+                                          <tbody id="purchaseConfirmOutput">
+
+                                          </tbody>
+
+                                      </table>
+                                      <div style="text-align: center;">
+                                        <div>
+                                            <button type="submit">Confirm</button>
+                                            <button type='button' onclick='closeOrderModal()'>Cancel</button>
+                                        </div>
+                                      </div>  
+                                  </form>  
                               
                             </div>
 
