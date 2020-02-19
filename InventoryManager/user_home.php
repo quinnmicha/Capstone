@@ -8,20 +8,12 @@ session_start();
 if( isset($_SESSION["usertype"])){
     if($_SESSION["usertype"]=="user"){
         if(isPostRequest()){
-            echo 'is post';
             $action = filter_input(INPUT_POST, 'action');               //Checks if the POST is for the adding an Item
             if($action === 'sellItem'){
-                echo 'action==selItem';
                 $count = count($_SESSION["itemId"]);
-                var_dump($_SESSION['itemId']);
-                var_dump($_SESSION['unitPrice']);
-                var_dump($_SESSION['purchaseAmount']);
                 if($count>0){
-                    echo 'count>0';
                     for( $i=0; $i<$count; $i++){
                         $answer = sellItem($_SESSION["itemId"][$i], $_SESSION["unitPrice"][$i], $_SESSION["purchaseAmount"][$i], 3, $_SESSION['userId']);
-                        echo $answer;
-                        echo 'Hello';
                     }
                 }
                 $_SESSION["itemId"] = array();
