@@ -172,7 +172,7 @@
         if($stmt->execute() && $stmt->rowCount()>0){
             $results = $stmt->fetch(PDO::FETCH_ASSOC);
             if(empty($results)){
-                $results = ['week' => 1];
+                $results = ['week' => 0];
             }
             return $results;
         }
@@ -189,7 +189,7 @@
         if($stmt->execute() && $stmt->rowCount()>0){
             $results = $stmt->fetch(PDO::FETCH_ASSOC);
             if(empty($results)){
-                $results = ['week' => 1];
+                $results = ['week' => 0];
             }
             return $results;
         }
