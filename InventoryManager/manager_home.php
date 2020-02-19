@@ -254,7 +254,7 @@ else{
                             if($item['amount']===0){//This is to catch error
                                 $color = 'table-danger';//bootstrap background color red
                             }
-                            else if(($item['amount']/$item['parAmount']*100)<50){
+                            else if(($item['amount']/$item['parAmount']*100)<50){//Yellow if 50% or above, Red if bellow 50%
                                 $color = 'table-danger';//bootstrap background color red
                             }
                             else{
