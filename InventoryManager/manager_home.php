@@ -266,7 +266,7 @@ else{
                         <td><input type="hidden" name="i-d" value="<?php echo $item['idItem'] ?>" /></td>
                         <td style="text-align: left;">
                             <!-- Trigger the modal with a button -->
-                            <button type="button" id="editBtn" class="reg-btn" onclick="editFunction()"><?php echo$item['name'] ?></button>
+                            <button type="button" id="editBtn" class="reg-btn" data-id-item="<?php echo $item['idItem'] ?>" onclick="editFunction()"><?php echo$item['name'] ?></button>
 
                             <!-- Modal -->
                             <div class="modal" id="editModal">
@@ -276,9 +276,43 @@ else{
                                     <div>
                                        <span class="close">&times;</span> 
                                     </div>
-                                    <div style="text-align: center;">
-                                        <p>Some text in the Modal..</p>
-                                    </div>                                   
+                                    <form action="manager_home.php" method="post">
+										<div class="modal-body container-fluid">
+											<div class="form-group">
+												<div class="form-row">
+													<input type="hidden" name="action" value ="editItem">
+													<label class="control-label" for="itemName">Item Name:</label>
+													<input type="text" class="form-control" style="border-color: #5380b7;" id="itemName" placeholder="Enter Item Name" name="itemName" >
+													<div class="invalid-feedback">Please type the item's name.</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="form-row">
+													<label class="control-label" for="unitCost">Unit Cost:</label>        
+													<input type="text" class="form-control" style="border-color: #5380b7;" id="unitCost" placeholder='Enter Unit Cost example: 4.50' name="unitCost" >
+													<div class="invalid-feedback">Please enter a unit price. Only use numbers and one decimal point</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="form-row">
+													<label class="control-label" for="salesPrice">Sales Price:</label>        
+													<input type="text" class="form-control" style="border-color: #5380b7;" id="salesPrice" placeholder="Enter Sales Price example: 7.50" name="salesPrice" >
+													<div class="invalid-feedback">Please enter a sales price. Only use numbers and one decimal point</div>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="form-row">
+													<label class="control-label" for="parAmount">Par Amount:</label>        
+													<input type="text" class="form-control" style="border-color: #5380b7;" id="parAmount" placeholder="Enter Par Amount example: 24" name="parAmount" >
+													<div class="invalid-feedback">Please enter your Par Amount as a whole number.</div>
+												</div>
+											</div>					
+										</div>
+										<div class="modal-footer">
+											<button type="submit" class="btn btn-success" onclick='return checkData()' id="submitAdd">Add Item</button>
+												<script type="text/javascript" src="Model/addItemModal.js"></script>
+										</div>
+								</form>                                   
                                 </div>           
                             </div>
                         </td>
