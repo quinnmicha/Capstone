@@ -33,11 +33,11 @@ if( isset($_SESSION["usertype"])){
                 $_SESSION["unitPrice"] = array();
                 $_SESSION["purchaseAmount"] = array();
             }
-			else if ($action === 'editItem'){
-				var_dump($_SESSION['editItem'];
-				$itemId = filter_input(INPUT_POST, 'id');
-				$itemName = filter_input(INPUT_POST, 'itemName');
-				$amount = filter_input(INPUT_POST, 'amount');
+            else if ($action === 'editItem'){
+                var_dump($_SESSION['editItem']);
+                $itemId = filter_input(INPUT_POST, 'id');
+                $itemName = filter_input(INPUT_POST, 'itemName');
+                $amount = filter_input(INPUT_POST, 'amount');
                 $unitCost = filter_input(INPUT_POST, 'unitCost');
                 $salesPrice = filter_input(INPUT_POST, 'salesPrice');
                 $parAmount = filter_input(INPUT_POST, 'parAmount');
@@ -293,14 +293,14 @@ else{
 													<input type="hidden" name="action" value ="editItem">
 													<input type="hidden" name="id" value="">
 													<label class="control-label" for="itemName">Item Name:</label>
-													<input type="text" class="form-control" style="border-color: #5380b7;" id="itemName" value="<?php //echo $_SESSION['editItem'][0]['name'];?>"  name="itemName" >
+													<input type="text" class="form-control" style="border-color: #5380b7;" id="itemName" value="<?php echo $item['name']; ?>"  name="itemName" >
 													<div class="invalid-feedback">Please type the item's name.</div>
 												</div>
 											</div>
 											<div class="form-group">
 												<div class="form-row">
 													<label class="control-label" for="unitCost">Current Amount in Inventory:</label>        
-													<input type="text" class="form-control" style="border-color: #5380b7;" id="unitCost"  value="<?php //echo $_SESSION['editItem']['amount'];?>"  name="unitCost" >
+													<input type="text" class="form-control" style="border-color: #5380b7;" id="unitCost"  value="<?php //echo $_SESSION['editItem']['amount']; ?>"  name="unitCost" >
 													<div class="invalid-feedback">Please enter your Current Inventory Amount as a whole number.</div>
 												</div>
 											</div>
