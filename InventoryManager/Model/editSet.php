@@ -6,8 +6,8 @@ $id = filter_input(INPUT_POST, 'id');
 
 $answer = getItem($id);
 array_push($_SESSION['editItem'], $answer);
-
-
+var_dump($_SESSION['editItem']);
+var_dump($answer);
 
 
 ?>

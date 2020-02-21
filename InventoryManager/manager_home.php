@@ -276,7 +276,7 @@ else{
                         <td><input type="hidden" name="i-d" value="<?php echo $item['idItem'] ?>" /></td>
                         <td style="text-align: left;">
                             <!-- Trigger the modal with a button -->
-                            <button type="button" id="editBtn" class="reg-btn" data-id-item="<?php echo $item['idItem'] ?>" onclick="editFunction()"><?php echo$item['name'] ?></button>
+                            <button type="button" id="editBtn" class="reg-btn editBtn" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo$item['name'] ?>" data-sales-price="<?php echo number_format($item['salesPrice'], 2);?>" data-unit-price="<?php echo number_format($item['unitPrice'], 2) ?>" data-current-amount="<?php echo$item['amount'] ?>" onclick="editFunction()"><?php echo$item['name'] ?></button>
 
                             <!-- Modal -->
                             <div class="modal" id="editModal">
@@ -287,50 +287,50 @@ else{
                                        <span class="close">&times;</span> 
                                     </div>
                                     <form action="manager_home.php" method="post">
-										<div class="modal-body container-fluid">
-											<div class="form-group">
-												<div class="form-row">
-													<input type="hidden" name="action" value ="editItem">
-													<input type="hidden" name="id" value="">
-													<label class="control-label" for="itemName">Item Name:</label>
-													<input type="text" class="form-control" style="border-color: #5380b7;" id="itemName" value="<?php echo $item['name']; ?>"  name="itemName" >
-													<div class="invalid-feedback">Please type the item's name.</div>
-												</div>
-											</div>
-											<div class="form-group">
-												<div class="form-row">
-													<label class="control-label" for="unitCost">Current Amount in Inventory:</label>        
-													<input type="text" class="form-control" style="border-color: #5380b7;" id="unitCost"  value="<?php //echo $_SESSION['editItem']['amount']; ?>"  name="unitCost" >
-													<div class="invalid-feedback">Please enter your Current Inventory Amount as a whole number.</div>
-												</div>
-											</div>
-											<div class="form-group">
-												<div class="form-row">
-													<label class="control-label" for="unitCost">Unit Cost:</label>        
-													<input type="text" class="form-control" style="border-color: #5380b7;" id="unitCost"  name="unitCost" >
-													<div class="invalid-feedback">Please enter a unit price. Only use numbers and one decimal point</div>
-												</div>
-											</div>
-											<div class="form-group">
-												<div class="form-row">
-													<label class="control-label" for="salesPrice">Sales Price:</label>        
-													<input type="text" class="form-control" style="border-color: #5380b7;" id="salesPrice" name="salesPrice" >
-													<div class="invalid-feedback">Please enter a sales price. Only use numbers and one decimal point</div>
-												</div>
-											</div>
-											<div class="form-group">
-												<div class="form-row">
-													<label class="control-label" for="parAmount">Par Amount:</label>        
-													<input type="text" class="form-control" style="border-color: #5380b7;" id="parAmount" name="parAmount" >
-													<div class="invalid-feedback">Please enter your Par Amount as a whole number.</div>
-												</div>
-											</div>					
-										</div>
-										<div class="modal-footer">
-											<button type="submit" class="btn btn-success" onclick='return checkData()' id="submitAdd">Add Item</button>
-												<script type="text/javascript" src="Model/addItemModal.js"></script>
-										</div>
-								</form>                                   
+                                        <div class="modal-body container-fluid">
+                                            <div class="form-group">
+                                                <div class="form-row">
+                                                    <input type="hidden" name="action" value ="editItem">
+                                                    <input type="hidden" name="idEdit" value="">
+                                                    <label class="control-label" for="itemNameEdit">Item Name:</label>
+                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="itemNameEdit" value=""  name="itemName" >
+                                                    <div class="invalid-feedback">Please type the item's name.</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="form-row">
+                                                    <label class="control-label" for="unitCost">Current Amount in Inventory:</label>        
+                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="unitCostEdit"  value=""  name="unitCost" >
+                                                    <div class="invalid-feedback">Please enter your Current Inventory Amount as a whole number.</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="form-row">
+                                                    <label class="control-label" for="unitCost">Unit Cost:</label>        
+                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="unitCostEdit"  name="unitCost" >
+                                                    <div class="invalid-feedback">Please enter a unit price. Only use numbers and one decimal point</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="form-row">
+                                                    <label class="control-label" for="salesPrice">Sales Price:</label>        
+                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="salesPriceEdit" name="salesPrice" >
+                                                    <div class="invalid-feedback">Please enter a sales price. Only use numbers and one decimal point</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="form-row">
+                                                    <label class="control-label" for="parAmount">Par Amount:</label>        
+                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="parAmountEdit" name="parAmount" >
+                                                    <div class="invalid-feedback">Please enter your Par Amount as a whole number.</div>
+                                                </div>
+                                            </div>					
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-success" onclick='return checkData()' id="submitEdit">Submit Changes</button>
+                                                <script type="text/javascript" src="Model/addItemModal.js"></script>
+                                        </div>
+                                    </form>                                   
                                 </div>           
                             </div>
                         </td>
