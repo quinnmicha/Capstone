@@ -192,29 +192,9 @@ function editFunction(){
     // When the user clicks on the button, open the modal
     modal.style.display = "block";
     
-    //var id = $(this).data("idItem").val();
-    //Setting the current info into the form
-    
-    /*//JQuery AJAX call
-    $.post( "../InventoryManager/Model/editSet.php", { id: $(this).data("idItem") });
-    $.get ("../InventoryManager/Model/editGet.php", function (data) {
-        item = $.parseJSON(data);
-        $("#itemNameEdit").val(item['name']);
-    });*/
-    
-    id = $(this).data('idItem');
-    name = $(this).data("name");
-    console.log($(this).data("name"));
-    
-    //Sets the modal info with the current info
-    $("#idEdit").val($(this).data('idItem'));
-    $("#itemNameEdit").val(name);
-    $("#amountEdit").val($(".editBtn").data('currentAmount'));
-    $("#unitCostEdit").val($(".editBtn").data('unitCost'));
-    $("#salesPriceEdit").val($(".editBtn").data('salesPrice'));
-    $("#parAmountEdit").val($(".editBtn").data('parAmount'));
-    
-    
+    //JQuery AJAX call
+    //$.post( "../InventoryManager/Model/editSet.php", { id: $(this).data("idItem") });
+        
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
       modal.style.display = "none";

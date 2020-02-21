@@ -276,8 +276,24 @@ else{
                         <td><input type="hidden" name="i-d" value="<?php echo $item['idItem'] ?>" /></td>
                         <td style="text-align: left;">
                             <!-- Trigger the modal with a button -->
-                            <button type="button" id="editBtn" class="reg-btn editBtn" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo$item['name'] ?>" data-sales-price="<?php echo number_format($item['salesPrice'], 2);?>" data-unit-price="<?php echo number_format($item['unitPrice'], 2) ?>" data-current-amount="<?php echo$item['amount'] ?>" onclick="editFunction()"><?php echo$item['name'] ?></button>
+                            <button type="button" id="editBtn" class="reg-btn editBtn" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo$item['name'] ?>" data-sales-price="<?php echo number_format($item['salesPrice'], 2);?>" data-unit-price="<?php echo number_format($item['unitPrice'], 2) ?>" data-current-amount="<?php echo$item['amount'] ?>" data-par-amount="<?php echo$item['parAmount'] ?>" onclick="editFunction()"><?php echo$item['name'] ?></button>
+                            <script>
+                            //editFunction Script
+                            $(".editBtn").click(function(){
+                                id = $(this).data('idItem');
+                                name = $(this).data("name");
+                                console.log($(this).data("name"));
 
+                                //Sets the modal info with the current info
+                                $("#idEdit").val($(this).data('idItem'));
+                                $("#itemNameEdit").val(name);
+                                $("#amountEdit").val($(".editBtn").data('currentAmount'));
+                                $("#unitCostEdit").val($(".editBtn").data('unitPost'));
+                                $("#salesPriceEdit").val($(".editBtn").data('salesPrice'));
+                                $("#parAmountEdit").val($(".editBtn").data('parAmount'));
+
+                            });
+                            </script>
                             <!-- Modal -->
                             <div class="modal" id="editModal">
 
@@ -300,7 +316,7 @@ else{
                                             <div class="form-group">
                                                 <div class="form-row">
                                                     <label class="control-label" for="unitCost">Current Amount in Inventory:</label>        
-                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="unitCostEdit"  value=""  name="unitCost" >
+                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="amountEdit"  value=""  name="amount" >
                                                     <div class="invalid-feedback">Please enter your Current Inventory Amount as a whole number.</div>
                                                 </div>
                                             </div>
@@ -339,7 +355,7 @@ else{
                         <td><?php echo$item['parAmount'] ?></td>
                         <td><?php echo$item['amount'] ?></td>
                         <td class="numSelectTd">
-                            <input class="d-block m-auto" type="number" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo$item['name'] ?>" data-unit-price="<?php echo number_format($item['unitPrice'], 2) ?>" data-current-amount="<?php echo$item['amount'] ?>" id="quantity" name="quantity" min="1" max="25">
+                            <input class="d-block m-auto" type="number" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo $item['name'] ?>" data-unit-price="<?php echo number_format($item['unitPrice'], 2) ?>" data-current-amount="<?php echo$item['amount'] ?>" id="quantity" name="quantity" min="1" max="25">
                             
                         
                             <div id="confirmOrderModal" class="modal">
