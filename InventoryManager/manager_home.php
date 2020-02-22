@@ -10,6 +10,13 @@ if( isset($_SESSION["usertype"])){
         $salesWeek = getWeekSale();//Most recent week in sales table
         $currentWeek = getWeek();//Most recent week in purchasing table
         $bestSelling = getBestSellingLastWeek($salesWeek['week']);//Pulls the most beers sold in the most recent week ordered by most sold
+        $count = count($bestSelling); //Pulls back 1 if 1
+        if(count($bestSelling)<3){
+            $count;
+            $bestSelling += [ $count => ['name' => ""]];
+            $count++;
+            $bestSelling += [ $count => ['name' => ""]];
+        }
         if($salesWeek['week']===$currentWeek['week']){//Increases the current week only if there is already sales for the week
             $currentWeek['week']++;
         }
@@ -41,6 +48,10 @@ if( isset($_SESSION["usertype"])){
                 $salesPrice = filter_input(INPUT_POST, 'salesPriceEdit');
                 $parAmount = filter_input(INPUT_POST, 'parAmountEdit');
                 updateItem($itemId, $itemName, $amount, $unitCost, $salesPrice, $parAmount);
+            }
+            else if ($action === 'delItem'){
+                $itemId = filter_input(INPUT_POST, 'idDel');
+                deleteItem($itemId);
             }
         }
         $inventory = getInventoryOrderedLow();
@@ -119,7 +130,7 @@ else{
                     <h4>Best Selling</h4>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
+                    <li class="list-group-item cardLists">
                         <!-- Trigger the modal with a button -->
                             <button type="button" class="reg-btn display" onclick="displayFunction()"><?php echo $bestSelling[0]['name']; ?></button>
 
@@ -137,8 +148,8 @@ else{
                                 </div>           
                             </div>
                     </li>
-                    <li class="list-group-item"><?php echo $bestSelling[1]['name']; ?></li>
-                    <li class="list-group-item"><?php echo $bestSelling[2]['name']; ?></li>
+                    <li class="list-group-item cardLists"><?php echo $bestSelling[1]['name']; ?></li>
+                    <li class="list-group-item cardLists"><?php echo $bestSelling[2]['name']; ?></li>
                 </ul>
             </div>
         </div>
@@ -149,9 +160,9 @@ else{
                     <h4>Low Inventory</h4>
                 </div>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Cras justo odio</li>
-                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                  <li class="list-group-item">Vestibulum at eros</li>
+                  <li class="list-group-item cardLists">Cras justo odio</li>
+                  <li class="list-group-item cardLists">Dapibus ac facilisis in</li>
+                  <li class="list-group-item cardLists">Vestibulum at eros</li>
                 </ul>
             </div>
         </div>
@@ -162,9 +173,9 @@ else{
                     <h4>Recent Sales</h4>
                 </div>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Cras justo odio</li>
-                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                  <li class="list-group-item">Vestibulum at eros</li>
+                  <li class="list-group-item cardLists">Cras justo odio</li>
+                  <li class="list-group-item cardLists">Dapibus ac facilisis in</li>
+                  <li class="list-group-item cardLists">Vestibulum at eros</li>
                 </ul>
             </div>
         </div>
@@ -394,8 +405,9 @@ else{
 
                           </div>
                         </td>
+                        
                         <td class="delSelectTd">
-                            <button type="button" id="delIcon" class="btn- far fa-trash-alt" style="color:#5380b7; border-color: #5380b7; border-radius: 10%; background-color: white;" onclick="confirmDel()"></button>
+                            <button type="button" id="delIcon" class="delBtn far fa-trash-alt" style="color:#5380b7; border-color: #5380b7; border-radius: 10%; background-color: white;" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo$item['name'] ?>" onclick="confirmDel()" ></button>
                             
                             <div id="confirmDelModal" class="modal">
 
@@ -404,15 +416,33 @@ else{
                                   <span class="close">&times;</span>
                                 </div>
     
-                                <div style="text-align: center;">
-                                  <div>
-                                      <p>Are you sure you want to delete this item?</p>
-                                  </div>
-                                  <div>
-                                      <button type="button" onclick="closeConfirmDel()">Confirm</button>
-                                      <button type='button' onclick='closeDelModal()'>Cancel</button>
-                                  </div>
-                                </div>    
+                                <form action="manager_home.php" method="POST">
+                                        <input type="hidden" name="action" value ="delItem">
+                                        <table class="table" id="invTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Delete</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr>
+                                                    <input type="hidden" id="idDel" name="idDel">
+                                                    <td id="nameDel"></td>
+                                                </tr>
+                                            
+                                            </tbody>
+
+                                        </table>
+                                        <div style="text-align: center;">
+                                          <div>
+                                              <button type="submit">Confirm</button>
+                                              <button type='button' onclick='closeOrderModal()'>Cancel</button>
+                                          </div>
+                                        </div>  
+                                    </form>
+                                    
+                                    
                               
                             </div>
 
@@ -422,6 +452,18 @@ else{
                 <?php endforeach; ?>
             </table>
         </div>
+    <script>
+    //deleteFunction Script
+    $(".delBtn").click(function(){
+        id = $(this).data('idItem');
+        name = $(this).data("name");
+
+        //Sets the modal info with the current info
+        $("#idDel").val(id);
+        $("#nameDel").html(name);
+
+    });
+    </script>
    
 </div>
 </body>
