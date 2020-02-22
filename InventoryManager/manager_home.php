@@ -34,14 +34,15 @@ if( isset($_SESSION["usertype"])){
                 $_SESSION["purchaseAmount"] = array();
             }
             else if ($action === 'editItem'){
-                var_dump($_SESSION['editItem']);
-                $itemId = filter_input(INPUT_POST, 'id');
-                $itemName = filter_input(INPUT_POST, 'itemName');
-                $amount = filter_input(INPUT_POST, 'amount');
-                $unitCost = filter_input(INPUT_POST, 'unitCost');
-                $salesPrice = filter_input(INPUT_POST, 'salesPrice');
-                $parAmount = filter_input(INPUT_POST, 'parAmount');
-                updateItem($itemId, $itemName, $amount, $unitCost, $salesPrice, $parAmount);
+                $itemId = filter_input(INPUT_POST, 'idEdit');
+                $itemName = filter_input(INPUT_POST, 'itemNameEdit');
+                $amount = filter_input(INPUT_POST, 'amountEdit');
+                $unitCost = filter_input(INPUT_POST, 'unitCostEdit');
+                $salesPrice = filter_input(INPUT_POST, 'salesPriceEdit');
+                $parAmount = filter_input(INPUT_POST, 'parAmountEdit');
+                echo $itemId . "+" . $itemName . "+" . $amount . "+" . $unitCost . $salesPrice . $parAmount;
+                $answer = updateItem($itemId, $itemName, $amount, $unitCost, $salesPrice, $parAmount);
+                echo $answer;
             }
         }
         $inventory = getInventoryOrderedLow();
@@ -311,37 +312,37 @@ else{
                                             <div class="form-group">
                                                 <div class="form-row">
                                                     <input type="hidden" name="action" value ="editItem">
-                                                    <input type="hidden" name="idEdit" value="">
+                                                    <input type="hidden" id="idEdit" name="idEdit" value="">
                                                     <label class="control-label" for="itemNameEdit">Item Name:</label>
-                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="itemNameEdit" value=""  name="itemName" >
+                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="itemNameEdit" value=""  name="itemNameEdit" >
                                                     <div class="invalid-feedback">Please type the item's name.</div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="form-row">
                                                     <label class="control-label" for="amountEdit">Current Amount in Inventory:</label>        
-                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="amountEdit"  value=""  name="amount" >
+                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="amountEdit"  value=""  name="amountEdit" >
                                                     <div class="invalid-feedback">Please enter your Current Inventory Amount as a whole number.</div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="form-row">
                                                     <label class="control-label" for="unitCostEdit">Unit Cost:</label>        
-                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="unitCostEdit"  name="unitCost" >
+                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="unitCostEdit"  name="unitCostEdit" >
                                                     <div class="invalid-feedback">Please enter a unit price. Only use numbers and one decimal point</div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="form-row">
                                                     <label class="control-label" for="salesPriceEdit">Sales Price:</label>        
-                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="salesPriceEdit" name="salesPrice" >
+                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="salesPriceEdit" name="salesPriceEdit" >
                                                     <div class="invalid-feedback">Please enter a sales price. Only use numbers and one decimal point</div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="form-row">
                                                     <label class="control-label" for="parAmountEdit">Par Amount:</label>        
-                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="parAmountEdit" name="parAmount" >
+                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="parAmountEdit" name="parAmountEdit" >
                                                     <div class="invalid-feedback">Please enter your Par Amount as a whole number.</div>
                                                 </div>
                                             </div>					
