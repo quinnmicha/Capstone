@@ -17,7 +17,6 @@ if( isset($_SESSION["usertype"])){
             else{
                 array_push($lowInventory, '');//adds empty string to array incase less than three items are low
             }
-            var_dump($lowInventory);
         }
         $salesWeek = getWeekSale();//Most recent week in sales table
         $currentWeek = getWeek();//Most recent week in purchasing table

@@ -431,7 +431,21 @@
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $results;
         }
+    }
+    function getHighestProfitLastWeek($week){
+        global $db;
         
+        $stmt=$db->prepare("SELECT week, sales.idItem, inventory.`name`, SUM(sales.money) AS totalMoney FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem WHERE `week` = :week GROUP BY sales.idItem ORDER BY totalMoney DESC;");
+        
+        $binds = array(
+            ":week" => $week
+        );
+        
+        $results=[];
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        }
     }
     
     //Pulls the most recent week from purchases table
