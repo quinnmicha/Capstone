@@ -7,6 +7,18 @@ session_start();
 
 if( isset($_SESSION["usertype"])){
     if($_SESSION["usertype"]=="admin"){
+        $inventory = getInventoryOrderedLow();//Pull ordered Inventory
+        //Set Low inventory card
+        $lowInventory= array();
+        for($i=0;$i<3;$i++){
+            if ($inventory[$i]['orderAmount']<100){
+                array_push($lowInventory, $inventory[$i]['name']);
+            }
+            else{
+                array_push($lowInventory, '');//adds empty string to array incase less than three items are low
+            }
+            var_dump($lowInventory);
+        }
         $salesWeek = getWeekSale();//Most recent week in sales table
         $currentWeek = getWeek();//Most recent week in purchasing table
         $bestSelling = getBestSellingLastWeek($salesWeek['week']);//Pulls the most beers sold in the most recent week ordered by most sold
@@ -54,7 +66,7 @@ if( isset($_SESSION["usertype"])){
                 deleteItem($itemId);
             }
         }
-        $inventory = getInventoryOrderedLow();
+        
         
         
     }
@@ -127,7 +139,7 @@ else{
         <div class="col-sm-offset-1 col-sm-3">
             <div class="card card-border">
                 <div class="card-header">
-                    <h4>Best Selling</h4>
+                    <h4>Top Selling</h4>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item cardLists">
@@ -160,9 +172,9 @@ else{
                     <h4>Low Inventory</h4>
                 </div>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item cardLists">Cras justo odio</li>
-                  <li class="list-group-item cardLists">Dapibus ac facilisis in</li>
-                  <li class="list-group-item cardLists">Vestibulum at eros</li>
+                  <li class="list-group-item cardLists"><?php echo $lowInventory[0]; ?></li>
+                  <li class="list-group-item cardLists"><?php echo $lowInventory[1]; ?></li>
+                  <li class="list-group-item cardLists"><?php echo $lowInventory[2]; ?></li>
                 </ul>
             </div>
         </div>
@@ -170,7 +182,7 @@ else{
             
             <div class="card card-border">
                 <div class="card-header">
-                    <h4>Recent Sales</h4>
+                    <h4>Highest Profit</h4>
                 </div>
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item cardLists">Cras justo odio</li>
