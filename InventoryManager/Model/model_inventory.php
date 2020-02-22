@@ -116,6 +116,30 @@
             return false;
         }
     }
+    
+    //Searches thorugh the inventory
+    function searchInventory ($searchValue) {
+        global $db;
+        
+      
+      //$stmt = $db->prepare("SELECT * FROM schools WHERE $column LIKE :search");
+
+           
+      
+        $results = [];
+        $stmt = $db->prepare("SELECT idItem, `name`, amount, unitPrice, salesPrice, parAmount FROM inventory WHERE name LIKE :search");
+        $search = '%'.$searchValue.'%';
+        $binds = array(
+              ":search" => $search
+        );
+
+        if ( $stmt->execute($binds) && $stmt->rowCount() > 0 ) {
+             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+         }
+
+         return ($results);
+  }
 	
 	//Pulls recs on a single idItem from inventory
     function getItem($id){
@@ -495,5 +519,6 @@
     }
     */
    
+
     
 ?>

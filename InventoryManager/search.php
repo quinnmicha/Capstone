@@ -217,7 +217,7 @@ else{
         <div class="col-3" style="text-align: right;">
             
                 <!--Add Button-->
-                <button type="button" id="addBtn" class="btn-lg fas fa-plus" style="color:#5380b7; border-color: #5380b7; background-color: white;" onclick="addFunction()"></button>
+                <button type="button" id="addBtn" class="btn-lg fas fa-plus" style="display: none;" onclick="addFunction()"></button>
 
                 <div id="addModal" class="modal">
 
@@ -273,11 +273,25 @@ else{
                 <button type="button" id="deleteBtn" class="btn-lg fas fa-trash-alt" style="color:#5380b7; border-color: #5380b7; background-color: white;" onclick="deleteFunction()"></button>        
         </div>
     </div>
-    <div class="row" style="margin-top: 2%;">
-        <table class="table" id="invTable">
+    <?php
+        $searchValue =""; 
+        $order ="";
+        //$result = [];
+        $action = filter_input(INPUT_GET, 'action');
+        
+        if ( $action === 'search' ) {
+            
+            
+            $searchValue = filter_input(INPUT_GET, 'fieldValue');
+            
+            
+            $result = searchInventory($searchValue);
+        ?>
+        <div class="row" style="margin-top: 2%;">
+            <table class="table">
                 <thead class="thead-light-blue">
-                    <tr>
-                        <th style="text-align: center; display:none;">ID</th>
+                <tr>
+                    <th style="text-align: center; display:none;">ID</th>
                         <th></th>
                         <th>Name</th>
                         <th>Unit Price</th>
@@ -287,20 +301,18 @@ else{
                         <th id="numSelectTh">Purchase Amount</th>
                         <th id="delSelectTh">
                             
-                        </th>
-                    </tr>
+                    </th>
+                </tr>
                 </thead>
-                <tbody>
-
-
-                <?php foreach ($inventory as $item): ?>
+                <tbody>  
+                    <?php foreach ($result as $row): ?>
                     <?php //To set proper row colors
                         $color='';//default nothing if amount above par
-                        if($item['amount']<$item['parAmount']){
-                            if($item['amount']===0){//This is to catch error
+                        if($row['amount']<$row['parAmount']){
+                            if($row['amount']===0){//This is to catch error
                                 $color = 'table-danger';//bootstrap background color red
                             }
-                            else if(($item['amount']/$item['parAmount']*100)<50){//Yellow if 50% or above, Red if bellow 50%
+                            else if(($row['amount']/$row['parAmount']*100)<50){//Yellow if 50% or above, Red if bellow 50%
                                 $color = 'table-danger';//bootstrap background color red
                             }
                             else{
@@ -309,10 +321,10 @@ else{
                         }
                     ?>
                     <tr class="<?php echo $color; ?>">
-                        <td><input type="hidden" name="i-d" value="<?php echo $item['idItem'] ?>" /></td>
+                        <td><input type="hidden" name="i-d" value="<?php echo $row['idItem'] ?>" /></td>
                         <td style="text-align: left;">
                             <!-- Trigger the modal with a button -->
-                            <button type="button" id="editBtn" class="reg-btn editBtn" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo$item['name'] ?>" data-sales-price="<?php echo number_format($item['salesPrice'], 2);?>" data-unit-price="<?php echo number_format($item['unitPrice'], 2) ?>" data-current-amount="<?php echo$item['amount'] ?>" data-par-amount="<?php echo$item['parAmount'] ?>" onclick="editFunction()"><?php echo$item['name'] ?></button>
+                            <button type="button" id="editBtn" class="reg-btn editBtn" data-id-item="<?php echo $row['idItem'] ?>" data-name="<?php echo$row['name'] ?>" data-sales-price="<?php echo number_format($row['salesPrice'], 2);?>" data-unit-price="<?php echo number_format($row['unitPrice'], 2) ?>" data-current-amount="<?php echo$row['amount'] ?>" data-par-amount="<?php echo$row['parAmount'] ?>" onclick="editFunction()"><?php echo$row['name'] ?></button>
                             <script>
                             //editFunction Script
                             $(".editBtn").click(function(){
@@ -390,12 +402,12 @@ else{
                                 </div>           
                             </div>
                         </td>
-                        <td>$<?php echo number_format($item['unitPrice'], 2) ?></td>
-                        <td>$<?php echo number_format($item['salesPrice'], 2) ?></td>
-                        <td><?php echo$item['parAmount'] ?></td>
-                        <td><?php echo$item['amount'] ?></td>
+                        <td>$<?php echo number_format($row['unitPrice'], 2) ?></td>
+                        <td>$<?php echo number_format($row['salesPrice'], 2) ?></td>
+                        <td><?php echo$row['parAmount'] ?></td>
+                        <td><?php echo$row['amount'] ?></td>
                         <td class="numSelectTd">
-                            <input class="d-block m-auto" type="number" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo $item['name'] ?>" data-unit-price="<?php echo number_format($item['unitPrice'], 2) ?>" data-current-amount="<?php echo$item['amount'] ?>" id="quantity" name="quantity" min="1" max="25">
+                            <input class="d-block m-auto" type="number" data-id-item="<?php echo $row['idItem'] ?>" data-name="<?php echo $row['name'] ?>" data-unit-price="<?php echo number_format($row['unitPrice'], 2) ?>" data-current-amount="<?php echo$row['amount'] ?>" id="quantity" name="quantity" min="1" max="25">
                             
                         
                             <div id="confirmOrderModal" class="modal">
@@ -433,7 +445,7 @@ else{
                         </td>
                         
                         <td class="delSelectTd">
-                            <button type="button" id="delIcon" class="delBtn far fa-trash-alt" style="color:#5380b7; border-color: #5380b7; border-radius: 10%; background-color: white;" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo$item['name'] ?>" onclick="confirmDel()" ></button>
+                            <button type="button" id="delIcon" class="delBtn far fa-trash-alt" style="color:#5380b7; border-color: #5380b7; border-radius: 10%; background-color: white;" data-id-item="<?php echo $row['idItem'] ?>" data-name="<?php echo$row['name'] ?>" onclick="confirmDel()" ></button>
                             
                             <div id="confirmDelModal" class="modal">
 
@@ -476,24 +488,14 @@ else{
                         </td>
                     </tr>
                 <?php endforeach; ?>
-            </table>
+                </tbody>
+        </table>
         </div>
-    
-    
-    <script>
-    //deleteFunction Script
-    $(".delBtn").click(function(){
-        id = $(this).data('idItem');
-        name = $(this).data("name");
-
-        //Sets the modal info with the current info
-        $("#idDel").val(id);
-        $("#nameDel").html(name);
-
-    });
-    </script>
-   
-</div>
-</body>
-</html>
+    </body>
+  </html>
+        <?php
+            
+            
+            
+        }
 

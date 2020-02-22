@@ -63,6 +63,11 @@ function closeOrderModal(){
     modal.style.display = "none";
 }
 
+function closeDelModal(){
+    var modal = document.getElementById("confirmDelModal");
+    modal.style.display = "none";
+}
+
 function confirmOrder(){
     // Get the modal
     var modal = document.getElementById("confirmOrderModal");
