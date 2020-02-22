@@ -7,7 +7,16 @@ session_start();
 
 if( isset($_SESSION["usertype"])){
     if($_SESSION["usertype"]=="admin"){
+        //Gets the most recent week from the sales and increments
+        $salesWeek = getWeekSale();//Most recent week in sales table
+        $currentWeek = getWeek();//Most recent week in purchasing table
+        if($salesWeek['week']===$currentWeek['week']){//Increases the current week only if there is already sales for the week
+            $currentWeek['week']++;
+        }
+        
         $inventory = getInventoryOrderedLow();//Pull ordered Inventory
+        //Setting the Cards
+        //
         //Set Low inventory card
         $lowInventory= array();
         for($i=0;$i<3;$i++){
@@ -18,8 +27,7 @@ if( isset($_SESSION["usertype"])){
                 array_push($lowInventory, '');//adds empty string to array incase less than three items are low
             }
         }
-        $salesWeek = getWeekSale();//Most recent week in sales table
-        $currentWeek = getWeek();//Most recent week in purchasing table
+        //Sets the best selling Card
         $bestSelling = getBestSellingLastWeek($salesWeek['week']);//Pulls the most beers sold in the most recent week ordered by most sold
         $count = count($bestSelling); //Pulls back 1 if 1
         if(count($bestSelling)<3){
@@ -28,9 +36,15 @@ if( isset($_SESSION["usertype"])){
             $count++;
             $bestSelling += [ $count => ['name' => ""]];
         }
-        if($salesWeek['week']===$currentWeek['week']){//Increases the current week only if there is already sales for the week
-            $currentWeek['week']++;
+        //Sets the Highest Profit Card
+        $highestProfit = getHighestProfitLastWeek($salesWeek['week']);
+        if(count($highestProfit)<3){
+            $count;
+            $highestProfit += [ $count => ['name' => "", 'totalProfit' => ""]];
+            $count++;
+            $highestProfit += [ $count => ['name' => "", 'totalProfit' => ""]];
         }
+        
         if(isPostRequest()){
             $action = filter_input(INPUT_POST, 'action');               //Checks if the POST is for the adding an Item
             if($action === 'addItem'){
@@ -184,9 +198,9 @@ else{
                     <h4>Highest Profit</h4>
                 </div>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item cardLists">Cras justo odio</li>
-                  <li class="list-group-item cardLists">Dapibus ac facilisis in</li>
-                  <li class="list-group-item cardLists">Vestibulum at eros</li>
+                  <li class="list-group-item cardLists" data-total-money="<?php echo $highestProfit[0]['totalProfit']; ?>"><?php echo $highestProfit[0]['name'];?></li>
+                  <li class="list-group-item cardLists" data-total-money="<?php echo $highestProfit[1]['totalProfit']; ?>"><?php echo $highestProfit[1]['name'];?></li>
+                  <li class="list-group-item cardLists" data-total-money="<?php echo $highestProfit[2]['totalPRofit']; ?>"><?php echo $highestProfit[2]['name'];?></li>
                 </ul>
             </div>
         </div>

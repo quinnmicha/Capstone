@@ -432,10 +432,13 @@
             return $results;
         }
     }
+    
+    //Pulls total money and total profit from the sales week
     function getHighestProfitLastWeek($week){
         global $db;
         
-        $stmt=$db->prepare("SELECT week, sales.idItem, inventory.`name`, SUM(sales.money) AS totalMoney FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem WHERE `week` = :week GROUP BY sales.idItem ORDER BY totalMoney DESC;");
+        $stmt=$db->prepare("SELECT inventory.`name`, SUM(sales.money) AS totalMoney, SUM(sales.money) - (inventory.unitPrice * SUM(sales.amount)) AS TotalProfit  FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem WHERE `week` = 8 GROUP BY sales.idItem ORDER BY totalProfit DESC;
+");
         
         $binds = array(
             ":week" => $week
