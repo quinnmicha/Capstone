@@ -437,8 +437,7 @@
     function getHighestProfitLastWeek($week){
         global $db;
         
-        $stmt=$db->prepare("SELECT inventory.`name`, SUM(sales.money) AS totalMoney, SUM(sales.money) - (inventory.unitPrice * SUM(sales.amount)) AS TotalProfit  FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem WHERE `week` = 8 GROUP BY sales.idItem ORDER BY totalProfit DESC;
-");
+        $stmt=$db->prepare("SELECT inventory.`name`, SUM(sales.money) AS totalMoney, SUM(sales.money) - (inventory.unitPrice * SUM(sales.amount)) AS totalProfit  FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem WHERE `week` = :week GROUP BY sales.idItem ORDER BY totalProfit DESC;");
         
         $binds = array(
             ":week" => $week
@@ -447,8 +446,8 @@
         $results=[];
         if($stmt->execute($binds) && $stmt->rowCount()>0){
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $results;
         }
+        return $results;
     }
     
     //Pulls the most recent week from purchases table

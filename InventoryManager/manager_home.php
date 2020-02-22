@@ -198,9 +198,9 @@ else{
                     <h4>Highest Profit</h4>
                 </div>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item cardLists" data-total-money="<?php echo $highestProfit[0]['totalProfit']; ?>"><?php echo $highestProfit[0]['name'];?></li>
-                  <li class="list-group-item cardLists" data-total-money="<?php echo $highestProfit[1]['totalProfit']; ?>"><?php echo $highestProfit[1]['name'];?></li>
-                  <li class="list-group-item cardLists" data-total-money="<?php echo $highestProfit[2]['totalPRofit']; ?>"><?php echo $highestProfit[2]['name'];?></li>
+                  <li class="list-group-item cardLists" data-total-profit="<?php echo $highestProfit[0]['totalProfit']; ?>"><?php echo $highestProfit[0]['name'];?></li>
+                  <li class="list-group-item cardLists" data-total-profit="<?php echo $highestProfit[1]['totalProfit']; ?>"><?php echo $highestProfit[1]['name'];?></li>
+                  <li class="list-group-item cardLists" data-total-profit="<?php echo $highestProfit[2]['totalProfit']; ?>"><?php echo $highestProfit[2]['name'];?></li>
                 </ul>
             </div>
         </div>
