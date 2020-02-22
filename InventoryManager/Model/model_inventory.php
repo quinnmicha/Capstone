@@ -106,7 +106,7 @@
     function getInventoryOrderedLow(){
         global $db;
         
-        $stmt=$db->prepare("SELECT idItem, `name`, amount, unitPrice, salesPrice, parAmount FROM inventory ORDER BY amount ASC;");
+        $stmt=$db->prepare("SELECT idItem, `name`, amount, unitPrice, salesPrice, parAmount, (amount / parAmount) AS orderAmount FROM inventory ORDER BY orderAmount ASC;");
         
         if($stmt->execute() && $stmt->rowCount()>0){
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
