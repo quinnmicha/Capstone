@@ -40,9 +40,7 @@ if( isset($_SESSION["usertype"])){
                 $unitCost = filter_input(INPUT_POST, 'unitCostEdit');
                 $salesPrice = filter_input(INPUT_POST, 'salesPriceEdit');
                 $parAmount = filter_input(INPUT_POST, 'parAmountEdit');
-                echo $itemId . "+" . $itemName . "+" . $amount . "+" . $unitCost . $salesPrice . $parAmount;
-                $answer = updateItem($itemId, $itemName, $amount, $unitCost, $salesPrice, $parAmount);
-                echo $answer;
+                updateItem($itemId, $itemName, $amount, $unitCost, $salesPrice, $parAmount);
             }
         }
         $inventory = getInventoryOrderedLow();
