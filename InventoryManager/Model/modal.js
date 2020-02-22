@@ -77,7 +77,7 @@ function confirmOrder(){
     var output="";
     $("input[name=quantity").each(function(index){
         
-        if($(this).val()>1){
+        if($(this).val()>0){
             output+="<tr>";
             output+='<td>' + $(this).data("name") + '</td>';
             output+='<td>' + $(this).val() + '</td>';
@@ -191,8 +191,10 @@ function editFunction(){
 
     // When the user clicks on the button, open the modal
     modal.style.display = "block";
-
-
+    
+    //JQuery AJAX call
+    //$.post( "../InventoryManager/Model/editSet.php", { id: $(this).data("idItem") });
+        
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {
       modal.style.display = "none";

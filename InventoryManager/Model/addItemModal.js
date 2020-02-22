@@ -39,17 +39,90 @@ $(document).ready(function(){
           $(this).removeClass('is-valid');
         }
     });
-    /*$("#submitAdd").click (function (e) {
-        var name = $("input[name='name']").val();
-        alert(name);
-        $.post ("vote.php", {characterId: $(this).data("characterId")}, function (data) {
-            //location.reload(true);
-        })
-    });*/
+    $("#itemNameEdit").blur(function() {
+        if($(this).val()!=""){
+          $(this).addClass('is-valid');
+          $(this).removeClass('is-invalid');
+        }
+        else{
+          $(this).addClass('is-invalid');
+          $(this).removeClass('is-valid');
+        }
+    });
+    $("#amountEdit").blur(function() {
+        if((parseFloat($(this).val())>=parseFloat('0.01')) && ($(this).val()!="")){
+          $(this).addClass('is-valid');
+          $(this).removeClass('is-invalid');
+        }
+        else{
+          $(this).addClass('is-invalid');
+          $(this).removeClass('is-valid');
+        }
+    });
+    $("#unitCostEdit").blur(function() {
+        if((parseFloat($(this).val())>=parseFloat('0.01')) && ($(this).val()!="")){
+          $(this).addClass('is-valid');
+          $(this).removeClass('is-invalid');
+        }
+        else{
+          $(this).addClass('is-invalid');
+          $(this).removeClass('is-valid');
+        }
+    });
+    $("#salesPriceEdit").blur(function() {
+        if((parseInt($(this).val())>=parseInt('1')) && ($(this).val()!="")){
+          $(this).addClass('is-valid');
+          $(this).removeClass('is-invalid');
+        }
+        else{
+          $(this).addClass('is-invalid');
+          $(this).removeClass('is-valid');
+        }
+    });
+    $("#parAmountEdit").blur(function() {
+        if((parseInt($(this).val())>=parseInt('1')) && ($(this).val()!="")){
+          $(this).addClass('is-valid');
+          $(this).removeClass('is-invalid');
+        }
+        else{
+          $(this).addClass('is-invalid');
+          $(this).removeClass('is-valid');
+        }
+    });
+    
 });
 
 
 //Returns true if validated
+function checkDataEdit(){
+    var errorCheck = 0;
+    if($("#itemNameEdit").val()===""){
+        errorCheck++;
+    }
+    if((parseFloat($("#unitCostEdit").val())>=parseFloat('0.01')) && ($("#unitCostEdit").val()!="")){}
+    else{
+        errorCheck++;
+    }
+    if((parseFloat($("#salesPriceEdit").val())>=parseFloat('0.01')) && ($("#salesPriceEdit").val()!="")){}
+    else{
+        errorCheck++;
+    }
+    if((parseFloat($("#parAmountEdit").val())>=parseFloat('0.01')) && ($("#parAmountEdit").val()!="")){}
+    else{
+        errorCheck++;
+    }
+    if((parseFloat($("#amountEdit").val())>=parseFloat('0.01')) && ($("#parAmountEdit").val()!="")){}
+    else{
+        errorCheck++;
+    }
+    
+    if(errorCheck>0){
+        return false;
+        }
+    else{ return true; }
+  }
+  
+  //Returns true if validated
 function checkData(){
     var errorCheck = 0;
     if($("#itemName").val()===""){

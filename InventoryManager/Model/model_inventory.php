@@ -116,6 +116,25 @@
             return false;
         }
     }
+	
+	//Pulls recs on a single idItem from inventory
+    function getItem($id){
+        global $db;
+        
+        $stmt=$db->prepare("SELECT idItem, `name`, amount, unitPrice, salesPrice, parAmount FROM inventory WHERE idItem = :id");
+        
+		$binds= array(
+			":id"=>$id
+		);
+		
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return ($results);
+        }
+        else{
+            return false;
+        }
+    }
     
     //Gives abiltity to update every part of an item
     function updateItem($idItem, $name, $amount, $unitPrice, $salesPrice, $parAmount){
