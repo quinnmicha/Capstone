@@ -94,9 +94,7 @@ else{
     
    <!--/header ----------------------------------------------------------------> 
    
-   <div>
-        <canvas id="myChart" width="400" height="400"></canvas>
-    </div>
+   <canvas class="mt-4" id="myChart" width="400" height="400"></canvas>
    <script>
        $(document).ready(function(){
            $.get("ajaxProfitYTD.php", function (data) {
@@ -108,20 +106,20 @@ else{
                  week.push(profitData[0][i]);
              }
              for(i in profitData[1]){
-                 profit.push(profitData[1][i]);
+                 profit.push(profitData[1][i].toFixed(2));
              }
              var ctx = document.getElementById('myChart').getContext('2d');
              var myChart = new Chart(ctx, {
-                 type: line,
+                 type: 'line',
                  data: {
                    labels: week,
                    datasets: [
-                     {
+                    {
                        label: "week",
                        data: profit,
-                     }
-                   ]
-                 },
+                    }
+                    ]
+                },
                  options: {
                     maintainAspectRatio: false,
                    legend: { display: false },
@@ -133,12 +131,12 @@ else{
                          yAxes: [{
                              ticks: {
                                  beginAtZero:true
-                             }
-                         }]
-                     }
-                 }
-             });
-         });
+                                }
+                            }]
+                        }
+                    }
+                });
+            });
        });
    </script>
    
