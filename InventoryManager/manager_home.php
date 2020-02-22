@@ -42,6 +42,10 @@ if( isset($_SESSION["usertype"])){
                 $parAmount = filter_input(INPUT_POST, 'parAmountEdit');
                 updateItem($itemId, $itemName, $amount, $unitCost, $salesPrice, $parAmount);
             }
+            else if ($action === 'delItem'){
+                $itemId = filter_input(INPUT_POST, 'idDel');
+                deleteItem($itemId);
+            }
         }
         $inventory = getInventoryOrderedLow();
         
@@ -394,8 +398,9 @@ else{
 
                           </div>
                         </td>
+                        
                         <td class="delSelectTd">
-                            <button type="button" id="delIcon" class="btn- far fa-trash-alt" style="color:#5380b7; border-color: #5380b7; border-radius: 10%; background-color: white;" onclick="confirmDel()"></button>
+                            <button type="button" id="delIcon" class="delBtn far fa-trash-alt" style="color:#5380b7; border-color: #5380b7; border-radius: 10%; background-color: white;" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo$item['name'] ?>" onclick="confirmDel()" ></button>
                             
                             <div id="confirmDelModal" class="modal">
 
@@ -404,15 +409,33 @@ else{
                                   <span class="close">&times;</span>
                                 </div>
     
-                                <div style="text-align: center;">
-                                  <div>
-                                      <p>Are you sure you want to delete this item?</p>
-                                  </div>
-                                  <div>
-                                      <button type="button" onclick="closeConfirmDel()">Confirm</button>
-                                      <button type='button' onclick='closeDelModal()'>Cancel</button>
-                                  </div>
-                                </div>    
+                                <form action="manager_home.php" method="POST">
+                                        <input type="hidden" name="action" value ="delItem">
+                                        <table class="table" id="invTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Delete</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <tr>
+                                                    <input type="hidden" id="idDel" name="idDel">
+                                                    <td id="nameDel"></td>
+                                                </tr>
+                                            
+                                            </tbody>
+
+                                        </table>
+                                        <div style="text-align: center;">
+                                          <div>
+                                              <button type="submit">Confirm</button>
+                                              <button type='button' onclick='closeOrderModal()'>Cancel</button>
+                                          </div>
+                                        </div>  
+                                    </form>
+                                    
+                                    
                               
                             </div>
 
@@ -422,6 +445,18 @@ else{
                 <?php endforeach; ?>
             </table>
         </div>
+    <script>
+    //deleteFunction Script
+    $(".delBtn").click(function(){
+        id = $(this).data('idItem');
+        name = $(this).data("name");
+
+        //Sets the modal info with the current info
+        $("#idDel").val(id);
+        $("#nameDel").html(name);
+
+    });
+    </script>
    
 </div>
 </body>
