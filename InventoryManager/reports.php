@@ -102,12 +102,22 @@ else{
              //votes = $.parseJSON(votes);
              var week =[];
              var profit =[];
+             var color =[];
+             totalProfit=0;
              for(i in profitData[0]){
                  week.push(profitData[0][i]);
              }
              for(i in profitData[1]){
                  profit.push(profitData[1][i].toFixed(2));
+                 totalProfit+=profit[i];
              }
+             if (totalProfit>0){
+                     console.log(profit[i]);
+                     color.push('rgba(77, 240, 41, 0.5)');
+                 }
+                 else{
+                     color.push('rgba(240, 41, 41, 0.5)');
+                 }
              var ctx = document.getElementById('myChart').getContext('2d');
              var myChart = new Chart(ctx, {
                  type: 'line',
@@ -117,6 +127,7 @@ else{
                     {
                        label: "week",
                        data: profit,
+                       backgroundColor: color,
                     }
                     ]
                 },
