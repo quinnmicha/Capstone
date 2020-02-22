@@ -16,7 +16,6 @@ if( isset($_SESSION["usertype"])){
             $bestSelling += [ $count => ['name' => ""]];
             $count++;
             $bestSelling += [ $count => ['name' => ""]];
-            var_dump($bestSelling);
         }
         if($salesWeek['week']===$currentWeek['week']){//Increases the current week only if there is already sales for the week
             $currentWeek['week']++;
@@ -131,7 +130,7 @@ else{
                     <h4>Best Selling</h4>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
+                    <li class="list-group-item cardLists">
                         <!-- Trigger the modal with a button -->
                             <button type="button" class="reg-btn display" onclick="displayFunction()"><?php echo $bestSelling[0]['name']; ?></button>
 
@@ -149,8 +148,8 @@ else{
                                 </div>           
                             </div>
                     </li>
-                    <li class="list-group-item"><?php echo $bestSelling[1]['name']; ?></li>
-                    <li class="list-group-item"><?php echo $bestSelling[2]['name']; ?></li>
+                    <li class="list-group-item cardLists"><?php echo $bestSelling[1]['name']; ?></li>
+                    <li class="list-group-item cardLists"><?php echo $bestSelling[2]['name']; ?></li>
                 </ul>
             </div>
         </div>
@@ -161,9 +160,9 @@ else{
                     <h4>Low Inventory</h4>
                 </div>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Cras justo odio</li>
-                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                  <li class="list-group-item">Vestibulum at eros</li>
+                  <li class="list-group-item cardLists">Cras justo odio</li>
+                  <li class="list-group-item cardLists">Dapibus ac facilisis in</li>
+                  <li class="list-group-item cardLists">Vestibulum at eros</li>
                 </ul>
             </div>
         </div>
@@ -174,9 +173,9 @@ else{
                     <h4>Recent Sales</h4>
                 </div>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Cras justo odio</li>
-                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                  <li class="list-group-item">Vestibulum at eros</li>
+                  <li class="list-group-item cardLists">Cras justo odio</li>
+                  <li class="list-group-item cardLists">Dapibus ac facilisis in</li>
+                  <li class="list-group-item cardLists">Vestibulum at eros</li>
                 </ul>
             </div>
         </div>

@@ -123,3 +123,7 @@ td, th{
     display:none;
     text-align: left;
 }
+
+.cardLists{
+     min-height:50px
+}
