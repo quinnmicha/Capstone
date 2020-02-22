@@ -41,8 +41,8 @@ if( isset($_SESSION["usertype"])){
                 $unitCost = filter_input(INPUT_POST, 'unitCost');
                 $salesPrice = filter_input(INPUT_POST, 'salesPrice');
                 $parAmount = filter_input(INPUT_POST, 'parAmount');
-				//updateItem($itemId, $itemName, $amount, $unitCost, $salesPrice, $parAmount);
-			}
+                updateItem($itemId, $itemName, $amount, $unitCost, $salesPrice, $parAmount);
+            }
         }
         $inventory = getInventoryOrderedLow();
         
@@ -282,15 +282,19 @@ else{
                             $(".editBtn").click(function(){
                                 id = $(this).data('idItem');
                                 name = $(this).data("name");
+                                unitCost = $(this).data("unitPrice");
+                                salesCost = $(this).data("salesPrice");
+                                currentAmount = $(this).data("currentAmount");
+                                parAmount = $(this).data("parAmount");
                                 console.log($(this).data("name"));
 
                                 //Sets the modal info with the current info
-                                $("#idEdit").val($(this).data('idItem'));
+                                $("#idEdit").val(id);
                                 $("#itemNameEdit").val(name);
-                                $("#amountEdit").val($(".editBtn").data('currentAmount'));
-                                $("#unitCostEdit").val($(".editBtn").data('unitPost'));
-                                $("#salesPriceEdit").val($(".editBtn").data('salesPrice'));
-                                $("#parAmountEdit").val($(".editBtn").data('parAmount'));
+                                $("#amountEdit").val(currentAmount);
+                                $("#unitCostEdit").val(unitCost);
+                                $("#salesPriceEdit").val(salesCost);
+                                $("#parAmountEdit").val(parAmount);
 
                             });
                             </script>
@@ -302,7 +306,7 @@ else{
                                     <div>
                                        <span class="close">&times;</span> 
                                     </div>
-                                    <form action="manager_home.php" method="post">
+                                    <form action="manager_home.php" method="POST">
                                         <div class="modal-body container-fluid">
                                             <div class="form-group">
                                                 <div class="form-row">
@@ -315,36 +319,36 @@ else{
                                             </div>
                                             <div class="form-group">
                                                 <div class="form-row">
-                                                    <label class="control-label" for="unitCost">Current Amount in Inventory:</label>        
+                                                    <label class="control-label" for="amountEdit">Current Amount in Inventory:</label>        
                                                     <input type="text" class="form-control" style="border-color: #5380b7;" id="amountEdit"  value=""  name="amount" >
                                                     <div class="invalid-feedback">Please enter your Current Inventory Amount as a whole number.</div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="form-row">
-                                                    <label class="control-label" for="unitCost">Unit Cost:</label>        
+                                                    <label class="control-label" for="unitCostEdit">Unit Cost:</label>        
                                                     <input type="text" class="form-control" style="border-color: #5380b7;" id="unitCostEdit"  name="unitCost" >
                                                     <div class="invalid-feedback">Please enter a unit price. Only use numbers and one decimal point</div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="form-row">
-                                                    <label class="control-label" for="salesPrice">Sales Price:</label>        
+                                                    <label class="control-label" for="salesPriceEdit">Sales Price:</label>        
                                                     <input type="text" class="form-control" style="border-color: #5380b7;" id="salesPriceEdit" name="salesPrice" >
                                                     <div class="invalid-feedback">Please enter a sales price. Only use numbers and one decimal point</div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="form-row">
-                                                    <label class="control-label" for="parAmount">Par Amount:</label>        
+                                                    <label class="control-label" for="parAmountEdit">Par Amount:</label>        
                                                     <input type="text" class="form-control" style="border-color: #5380b7;" id="parAmountEdit" name="parAmount" >
                                                     <div class="invalid-feedback">Please enter your Par Amount as a whole number.</div>
                                                 </div>
                                             </div>					
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="submit" class="btn btn-success" onclick='return checkData()' id="submitEdit">Submit Changes</button>
-                                                <script type="text/javascript" src="Model/addItemModal.js"></script>
+                                                <button type="submit" class="btn btn-success" onclick='return checkDataEdit()' id="submitEdit">Submit Changes</button>
+                                                
                                         </div>
                                     </form>                                   
                                 </div>           
