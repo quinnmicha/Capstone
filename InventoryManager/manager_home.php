@@ -10,6 +10,14 @@ if( isset($_SESSION["usertype"])){
         $salesWeek = getWeekSale();//Most recent week in sales table
         $currentWeek = getWeek();//Most recent week in purchasing table
         $bestSelling = getBestSellingLastWeek($salesWeek['week']);//Pulls the most beers sold in the most recent week ordered by most sold
+        $count = count($bestSelling); //Pulls back 1 if 1
+        if(count($bestSelling)<3){
+            $count;
+            $bestSelling += [ $count => ['name' => ""]];
+            $count++;
+            $bestSelling += [ $count => ['name' => ""]];
+            var_dump($bestSelling);
+        }
         if($salesWeek['week']===$currentWeek['week']){//Increases the current week only if there is already sales for the week
             $currentWeek['week']++;
         }
