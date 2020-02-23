@@ -156,26 +156,29 @@ else{
                     <h4>Top Selling</h4>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item cardLists">
-                        <!-- Trigger the modal with a button -->
-                            <button type="button" class="reg-btn display" onclick="displayFunction()"><?php echo $bestSelling[0]['name']; ?></button>
-
-                            <!-- Modal -->
-                            <div class="modal" id="displayModal0">
-
-                                <!-- Modal content-->
-                                <div class="modal-content">
-                                    <div>
-                                       <span class="closeModal">&times;</span> 
-                                    </div>
-                                    <div style="text-align: center;">
-                                        <p>Some text in the Modal..</p>
-                                    </div>                                   
-                                </div>           
-                            </div>
+                    <li class="list-group-item cardLists li-form">
+                        
+                        <form action="search.php" method="get">
+                            <input type="hidden" name="action" value="search"/>
+                            <input class="form-control" type="hidden" name="fieldValue" value="<?php echo $bestSelling[0]['name']; ?>" placeholder="Search Inventory" aria-label="Search">
+                            <button type="submit" class="reg-btn display"><?php echo $bestSelling[0]['name']; ?></button>
+                        </form>
                     </li>
-                    <li class="list-group-item cardLists"><?php echo $bestSelling[1]['name']; ?></li>
-                    <li class="list-group-item cardLists"><?php echo $bestSelling[2]['name']; ?></li>
+                    <li class="list-group-item cardLists li-form">
+                        <form action="search.php" method="get">
+                            <input type="hidden" name="action" value="search"/>
+                            <input class="form-control" type="hidden" name="fieldValue" value="<?php echo $bestSelling[1]['name']; ?>" placeholder="Search Inventory" aria-label="Search">
+                            <button type="submit" class="reg-btn display"><?php echo $bestSelling[1]['name']; ?></button>
+                        </form>
+                    </li>
+                    <li class="list-group-item cardLists li-form">
+                        <form action="search.php" method="get">
+                            <input type="hidden" name="action" value="search"/>
+                            <input class="form-control" type="hidden" name="fieldValue" value="<?php echo $bestSelling[2]['name']; ?>" placeholder="Search Inventory" aria-label="Search">
+                            <button type="submit" class="reg-btn display"><?php echo $bestSelling[2]['name']; ?></button>
+                        </form>
+                    
+                    </li>
                 </ul>
             </div>
         </div>
@@ -186,9 +189,29 @@ else{
                     <h4>Low Inventory</h4>
                 </div>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item cardLists"><?php echo $lowInventory[0]; ?></li>
-                  <li class="list-group-item cardLists"><?php echo $lowInventory[1]; ?></li>
-                  <li class="list-group-item cardLists"><?php echo $lowInventory[2]; ?></li>
+                  <li class="list-group-item cardLists li-form">
+                        
+                        <form action="search.php" method="get">
+                            <input type="hidden" name="action" value="search"/>
+                            <input class="form-control" type="hidden" name="fieldValue" value="<?php echo $lowInventory[0]; ?>" placeholder="Search Inventory" aria-label="Search">
+                            <button type="submit" class="reg-btn display"><?php echo $lowInventory[0]; ?></button>
+                        </form>
+                    </li>
+                    <li class="list-group-item cardLists li-form">
+                        <form action="search.php" method="get">
+                            <input type="hidden" name="action" value="search"/>
+                            <input class="form-control" type="hidden" name="fieldValue" value="<?php echo $lowInventory[1]; ?>" placeholder="Search Inventory" aria-label="Search">
+                            <button type="submit" class="reg-btn display"><?php echo $lowInventory[1]; ?></button>
+                        </form>
+                    </li>
+                    <li class="list-group-item cardLists li-form">
+                        <form action="search.php" method="get">
+                            <input type="hidden" name="action" value="search"/>
+                            <input class="form-control" type="hidden" name="fieldValue" value="<?php echo $lowInventory[2]; ?>" placeholder="Search Inventory" aria-label="Search">
+                            <button type="submit" class="reg-btn display"><?php echo $lowInventory[2]; ?></button>
+                        </form>
+                    
+                    </li>
                 </ul>
             </div>
         </div>

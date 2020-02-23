@@ -127,3 +127,7 @@ td, th{
 .cardLists{
      min-height:50px
 }
+
+.li-form{
+    max-height: 50px;
+}
