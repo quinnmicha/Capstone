@@ -110,6 +110,14 @@ td, th{
 }
 
 .reg-btn{
+    text-decoration: underline;
+    border:none;
+    background-color: inherit;
+    font-size:inherit;
+}
+.reg-btn:hover{
+    text-shadow: 0px 1px grey;
+    text-decoration: underline;
     border:none;
     background-color: inherit;
     font-size:inherit;
