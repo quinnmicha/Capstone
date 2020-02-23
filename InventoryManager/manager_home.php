@@ -108,6 +108,7 @@ else{
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   <script type="text/javascript" src="Model/modal.js"></script>
+  <script type="text/javascript" src="Model/sort.js"></script>
 
 </head>
 <body>
@@ -321,11 +322,11 @@ else{
                     <tr>
                         <th style="text-align: center; display:none;">ID</th>
                         <th></th>
-                        <th>Name</th>
-                        <th>Unit Price</th>
-                        <th>Sales Price</th>
-                        <th>Par Amount</th>
-                        <th>Current Amount</th>
+                        <th><button type="button" class="sort-btn" onclick="sortBy(1)">Name</button></th>
+                        <th><button type="button" class="sort-btn" onclick="sortBy(2)">Unit Price</button></th>
+                        <th><button type="button" class="sort-btn" onclick="sortBy(3)">Sales Price</button></th>
+                        <th><button type="button" class="sort-btn" onclick="sortBy(4)">Par Amount</button></th>
+                        <th><button type="button" class="sort-btn" onclick="sortBy(5)">Current Amount</button></th>
                         <th id="numSelectTh">Purchase Amount</th>
                         <th id="delSelectTh">
                             
@@ -350,7 +351,7 @@ else{
                             }
                         }
                     ?>
-                    <tr class="<?php echo $color; ?>">
+                    <tr id="colorRow" class="<?php echo $color; ?>">
                         <td><input type="hidden" name="i-d" value="<?php echo $item['idItem'] ?>" /></td>
                         <td style="text-align: left;">
                             <!-- Trigger the modal with a button -->

@@ -123,6 +123,24 @@ td, th{
     font-size:inherit;
 }
 
+.sort-btn{
+    font-weight: inherit;
+    text-decoration: underline;
+    color:inherit;
+    border:none;
+    background-color: inherit;
+    font-size:inherit;
+}
+
+.sort-btn:hover{
+    
+    text-shadow: 1px 0px grey;
+    text-decoration: underline;
+    border:none;
+    background-color: inherit;
+    font-size:inherit;
+}
+
 #numSelectTh{
     display:none;
 }
