@@ -97,9 +97,9 @@ else{
    <canvas class="mt-4" id="myChart" width="400" height="400"></canvas>
    <script>
        $(document).ready(function(){
-           $.get("ajaxProfitYTD.php", function (data) {
+           $.get("../InventoryManager/ajaxProfitYTD.php", function (data) {
             profitData = $.parseJSON(data);
-             //votes = $.parseJSON(votes);
+             console.log(profitData);
              var week =[];
              var profit =[];
              var color =[];
@@ -108,7 +108,10 @@ else{
                  week.push(profitData[0][i]);
              }
              for(i in profitData[1]){
-                 profit.push(profitData[1][i].toFixed(2));
+				 //.toFixed kept throwing an error on neitServer
+                 //profit.push(profitData[1][i].toFixed(2));
+				 //Bellow is the fix without .toFixed
+				 profit.push(profitData[1][i]);
                  totalProfit+=profit[i];
              }
              if (totalProfit>0){
