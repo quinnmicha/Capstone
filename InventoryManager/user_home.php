@@ -138,7 +138,7 @@ if( isset($_SESSION["usertype"])){
                         <td><?php echo$item['parAmount'] ?></td>
                         <td><?php echo$item['amount'] ?></td>
                         <td class="numSelectTd" style="text-align: center;">
-                            <input class="d-block m-auto" type="number" id="quantity" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo $item['name'] ?>" data-unit-price="<?php echo number_format($item['salesPrice'], 2); //This is read as 'unitPrice' but is supposed to be salesPrice !this is not a mistake ?>" data-current-amount="<?php echo$item['amount'] ?>" name="quantity" min="1" max="25"><span class="validation"></span>
+                            <input class="d-block m-auto" type="number" id="quantity" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo $item['name'] ?>" data-unit-price="<?php echo number_format($item['salesPrice'], 2); //This is read as 'unitPrice' but is supposed to be salesPrice !this is not a mistake ?>" data-current-amount="<?php echo$item['amount'] ?>" name="quantity" min="1" max="25"><span style="color:red;" class="validation"></span>
                             
                         
                             <div id="confirmSaleModal" class="modal">
