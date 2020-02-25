@@ -127,9 +127,6 @@ if( isset($_SESSION["usertype"])){
 
                                 <!-- Modal content-->
                                 <div class="modal-content">
-                                    <div>
-                                       <span class="close">&times;</span> 
-                                    </div>
                                     <div style="text-align: center;">
                                         <p>Some text in the Modal..</p>
                                     </div>                                   
@@ -157,7 +154,8 @@ if( isset($_SESSION["usertype"])){
                                           <thead>
                                               <tr>
                                                   <th>Name</th>
-                                                  <th>Purchase</th>
+                                                  <th>Sell</th>
+                                                  <th>Price</th>
                                               </tr>
                                           </thead>
 
