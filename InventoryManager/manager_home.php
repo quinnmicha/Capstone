@@ -7,6 +7,52 @@ session_start();
 
 if( isset($_SESSION["usertype"])){
     if($_SESSION["usertype"]=="admin"){
+        
+        //Post request moved to the top to fix the lack of inventory refresh after post bug
+        if(isPostRequest()){
+            echo 'isPostRequest ||';
+            $action = filter_input(INPUT_POST, 'action');               //Checks if the POST is for the adding an Item
+            echo 'action = ' . $action;
+            if($action === 'addItem'){
+                $itemName = filter_input(INPUT_POST, 'itemName');
+                $unitCost = filter_input(INPUT_POST, 'unitCost');
+                $salesPrice = filter_input(INPUT_POST, 'salesPrice');
+                $parAmount = filter_input(INPUT_POST, 'parAmount');
+                addItem($itemName, $unitCost, $parAmount, $salesPrice);
+            }
+            else if($action === 'purchaseItem'){
+                $count = count($_SESSION["itemId"]);
+                echo 'We made it past the first line';
+                if($count>0){
+                    for( $i=0; $i<$count; $i++){
+                        $answer = purchaseItem($_SESSION["itemId"][$i], $_SESSION["unitPrice"][$i], $_SESSION["purchaseAmount"][$i], $currentWeek['week']);
+                    }
+                }
+                //Resets the SESSION variables
+                $_SESSION["itemId"] = array();
+                $_SESSION["unitPrice"] = array();
+                $_SESSION["purchaseAmount"] = array();
+                //The page wasn't reloading, So bellow is a workaround
+                echo '|| we are after the session reset';
+                header('Location: ../InventoryManager/manager_home.php');
+            }
+            else if ($action === 'editItem'){
+                $itemId = filter_input(INPUT_POST, 'idEdit');
+                $itemName = filter_input(INPUT_POST, 'itemNameEdit');
+                $amount = filter_input(INPUT_POST, 'amountEdit');
+                $unitCost = filter_input(INPUT_POST, 'unitCostEdit');
+                $salesPrice = filter_input(INPUT_POST, 'salesPriceEdit');
+                $parAmount = filter_input(INPUT_POST, 'parAmountEdit');
+                updateItem($itemId, $itemName, $amount, $unitCost, $salesPrice, $parAmount);
+                header('Location: ../InventoryManager/manager_home.php');
+            }
+            else if ($action === 'delItem'){
+                $itemId = filter_input(INPUT_POST, 'idDel');
+                deleteItem($itemId);
+            }
+        }
+        
+        
         //Gets the most recent week from the sales and increments
         $salesWeek = getWeekSale();//Most recent week in sales table
         $currentWeek = getWeek();//Most recent week in purchasing table
@@ -44,43 +90,6 @@ if( isset($_SESSION["usertype"])){
             $count++;
             $highestProfit += [ $count => ['name' => "", 'totalProfit' => ""]];
         }
-        
-        if(isPostRequest()){
-            $action = filter_input(INPUT_POST, 'action');               //Checks if the POST is for the adding an Item
-            if($action === 'addItem'){
-                $itemName = filter_input(INPUT_POST, 'itemName');
-                $unitCost = filter_input(INPUT_POST, 'unitCost');
-                $salesPrice = filter_input(INPUT_POST, 'salesPrice');
-                $parAmount = filter_input(INPUT_POST, 'parAmount');
-                addItem($itemName, $unitCost, $parAmount, $salesPrice);
-            }
-            else if($action === 'purchaseItem'){
-                $count = count($_SESSION["itemId"]);
-                if($count>0){
-                    for( $i=0; $i<$count; $i++){
-                        $answer = purchaseItem($_SESSION["itemId"][$i], $_SESSION["unitPrice"][$i], $_SESSION["purchaseAmount"][$i], $currentWeek['week']);
-                    }
-                }
-                $_SESSION["itemId"] = array();
-                $_SESSION["unitPrice"] = array();
-                $_SESSION["purchaseAmount"] = array();
-            }
-            else if ($action === 'editItem'){
-                $itemId = filter_input(INPUT_POST, 'idEdit');
-                $itemName = filter_input(INPUT_POST, 'itemNameEdit');
-                $amount = filter_input(INPUT_POST, 'amountEdit');
-                $unitCost = filter_input(INPUT_POST, 'unitCostEdit');
-                $salesPrice = filter_input(INPUT_POST, 'salesPriceEdit');
-                $parAmount = filter_input(INPUT_POST, 'parAmountEdit');
-                updateItem($itemId, $itemName, $amount, $unitCost, $salesPrice, $parAmount);
-            }
-            else if ($action === 'delItem'){
-                $itemId = filter_input(INPUT_POST, 'idDel');
-                deleteItem($itemId);
-            }
-        }
-        
-        
         
     }
     else{
@@ -268,7 +277,7 @@ else{
                       <div>
                           <span class="close">&times;</span>
                       </div>
-                      <form action="manager_home.php" method="post">
+                      <form action="../InventoryManager/manager_home.php" method="post">
                             <div class="modal-body container-fluid">
                                 <div class="form-group">
                                     <div class="form-row">
@@ -301,7 +310,7 @@ else{
                                 </div>					
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-success" onclick='return checkData()' id="submitAdd">Add Item</button>
+                                <input type="submit" class="btn btn-success" onclick='return checkData()' value="Add Item" id="submitAdd">
                                     <script type="text/javascript" src="Model/addItemModal.js"></script>
                             </div>
 			</form>
