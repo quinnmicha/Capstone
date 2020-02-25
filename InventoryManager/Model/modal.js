@@ -81,29 +81,31 @@ function confirmOrder(){
     
     //Loops through the number pickers
     var output="";
-    var totalAmount = 0;
-    var totalCost = 0;
+    var totalAmount = 0.0;
+    var totalCost = 0.0;
     $("input[name=quantity").each(function(index){
-        
+        unitCost = parseFloat($(this).data("unitPrice"));
+        amount = parseFloat($(this).val());
+        cost = unitCost * amount;
         //Outputs and Sets Session variables of the summary of purchases
         if($(this).val()>0){
             output+="<tr>";
             output+='<td>' + $(this).data("name") + '</td>';
-            output+='<td>' + $(this).val() + '</td>';
-            totalAmount += parseFloat($(this).val());
-            totalCost += parseFloat($(this).data('unitPrice') * $(this).val());
-            output+='<td>' + parseFloat($(this).data('unitCost')) * parseFloat($(this).val()) + '</td>';
+            output+='<td>' + amount + '</td>';
+            totalAmount += amount;
+            totalCost += cost;
+            output+='<td>$' + cost.toFixed(2) + '</td>';
             output+='</tr>';
             $("#purchaseConfirmOutput").html(output);
             $.post( "../InventoryManager/Model/purchase.php", { id: $(this).data("idItem"), unitPrice: $(this).data("unitPrice"), purchaseAmount: $(this).val() } );
         }
     });
     //Totals the confirmation summary
-    output+="<tr></tr>";
+    output+="<tr style='background-color: #254063;'><td></td><td></td><td></td></tr>";
     output+="<tr>";
     output+='<td> Totals </td>';
     output+='<td>' + totalAmount + '</td>';
-    output+='<td>' + totalCost + '</td>';
+    output+='<td> $' + totalCost.toFixed(2) + '</td>';
     output+='</tr>';
     $("#purchaseConfirmOutput").html(output);
 
@@ -120,10 +122,6 @@ function confirmOrder(){
     };
 }
 
-$('.cancelPurchase').click(function(){
-    //unsets Session variables to prevent phantom purchasing
-    $.post( "../InventoryManager/Model/cancelPurchase.php");
-});
 
 function closeConfirmOrder(){
     var modal = document.getElementById("confirmOrderModal");
