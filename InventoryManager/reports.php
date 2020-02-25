@@ -108,10 +108,10 @@ else{
                  week.push(profitData[0][i]);
              }
              for(i in profitData[1]){
-				 //.toFixed kept throwing an error on neitServer
-                 //profit.push(profitData[1][i].toFixed(2));
-				 //Bellow is the fix without .toFixed
-				 profit.push(profitData[1][i]);
+                //.toFixed kept throwing an error on neitServer
+                profit.push(parseFloat(profitData[1][i]).toFixed(2));
+                //Bellow is the fix without .toFixed
+                //profit.push(profitData[1][i]);
                  totalProfit+=profit[i];
              }
              if (totalProfit>0){
@@ -128,7 +128,7 @@ else{
                    labels: week,
                    datasets: [
                     {
-                       label: "week",
+                       label: "profit",
                        data: profit,
                        backgroundColor: color,
                     }
