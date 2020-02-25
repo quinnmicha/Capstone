@@ -495,6 +495,18 @@
         return $results;
     }
     
+    function getProfitByWeek(){
+        global $db;
+        
+        $stmt=$db->prepare("SELECT week, SUM(revenue) - SUM(expense) AS 'profit' FROM invoices GROUP BY week");
+        
+        $results= false;
+        if($stmt->execute() && $stmt->rowCount()>0){
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return $results;
+    }
+    
     //Returns the Year to date profit/loss
     function getProfitYTD(){
         global $db;
