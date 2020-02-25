@@ -17,9 +17,7 @@ if( isset($_SESSION["usertype"])){
         
         //Post request moved to the top to fix the lack of inventory refresh after post bug
         if(isPostRequest()){
-            echo 'isPostRequest ||';
             $action = filter_input(INPUT_POST, 'action');               //Checks if the POST is for the adding an Item
-            echo 'action = ' . $action;
             if($action === 'addItem'){
                 $itemName = filter_input(INPUT_POST, 'itemName');
                 $unitCost = filter_input(INPUT_POST, 'unitCost');
@@ -29,7 +27,6 @@ if( isset($_SESSION["usertype"])){
             }
             else if($action === 'purchaseItem'){
                 $count = count($_SESSION["itemId"]);
-                echo 'We made it past the first line';
                 if($count>0){
                     for( $i=0; $i<$count; $i++){
                         $answer = purchaseItem($_SESSION["itemId"][$i], $_SESSION["unitPrice"][$i], $_SESSION["purchaseAmount"][$i], $currentWeek['week']);
@@ -40,7 +37,6 @@ if( isset($_SESSION["usertype"])){
                 $_SESSION["unitPrice"] = array();
                 $_SESSION["purchaseAmount"] = array();
                 //The page wasn't reloading, So bellow is a workaround
-                echo '|| we are after the session reset';
                 header('Location: ../InventoryManager/manager_home.php');
             }
             else if ($action === 'editItem'){

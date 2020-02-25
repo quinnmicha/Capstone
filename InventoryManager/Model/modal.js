@@ -63,6 +63,11 @@ function closeOrderModal(){
     $.post( "../InventoryManager/Model/cancelPurchase.php");
     modal.style.display = "none";
 }
+function closeSaleModal(){
+    var modal = document.getElementById("confirmSaleModal");
+    $.post( "../InventoryManager/Model/cancelPurchase.php");
+    modal.style.display = "none";
+}
 
 function closeDelModal(){
     var modal = document.getElementById("confirmDelModal");
@@ -114,7 +119,64 @@ function confirmOrder(){
       modal.style.display = "none";
     };
 
-    // When the user clicks anywhere outside of the modal, close it
+    // When the user clicks anywhere outside of the modal, 
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "block";
+      }
+    };
+}
+
+function confirmSale(){
+    // Get the modal
+    var modal = document.getElementById("confirmSaleModal");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[2];
+
+    // When the user clicks on the button, open the modal
+    modal.style.display = "block";
+    
+    //Loops through the number pickers
+    var output="";
+    var totalAmount = 0.0;
+    var totalCost = 0.0;
+    validation = $(".validation");
+    console.log($(".validation", [0]));
+    $("input[name=quantity").each(function(index){
+        unitCost = parseFloat($(this).data("unitPrice"));
+        amount = parseFloat($(this).val());
+        currentAmount = parseFloat($(this).data("currentAmount"))
+        cost = unitCost * amount;
+        //Outputs and Sets Session variables of the summary of purchases
+        if(amount >0 && amount <= currentAmount){
+            output+="<tr>";
+            output+='<td>' + $(this).data("name") + '</td>';
+            output+='<td>' + amount + '</td>';
+            totalAmount += amount;
+            totalCost += cost;
+            output+='<td>$' + cost.toFixed(2) + '</td>';
+            output+='</tr>';
+            $("#saleConfirmOutput").html(output);
+            $.post( "../InventoryManager/Model/purchase.php", { id: $(this).data("idItem"), unitPrice: $(this).data("unitPrice"), purchaseAmount: $(this).val() } );
+            $(".validation").eq(index).text("");
+        }
+        else if($(this).val()>0 && $(this).val()> $(this).data("currentAmount")){
+            var message = "Cannot sell more than we have";
+            $(".validation").eq(index).text(message);
+        }
+    });
+    //Totals the confirmation summary
+    output+="<tr style='background-color: #254063;'><td></td><td></td><td></td></tr>";
+    output+="<tr>";
+    output+='<td> Totals </td>';
+    output+='<td>' + totalAmount + '</td>';
+    output+='<td> $' + totalCost.toFixed(2) + '</td>';
+    output+='</tr>';
+    $("#saleConfirmOutput").html(output);
+
+
+    // When the user clicks anywhere outside of the modal, 
     window.onclick = function(event) {
       if (event.target == modal) {
         modal.style.display = "block";
