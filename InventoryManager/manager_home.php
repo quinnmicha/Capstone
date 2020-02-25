@@ -8,6 +8,13 @@ session_start();
 if( isset($_SESSION["usertype"])){
     if($_SESSION["usertype"]=="admin"){
         
+        //Gets the most recent week from the sales and increments
+        $salesWeek = getWeekSale();//Most recent week in sales table
+        $currentWeek = getWeek();//Most recent week in purchasing table
+        if($salesWeek['week']===$currentWeek['week']){//Increases the current week only if there is already sales for the week
+            $currentWeek['week']++;
+        }
+        
         //Post request moved to the top to fix the lack of inventory refresh after post bug
         if(isPostRequest()){
             echo 'isPostRequest ||';
@@ -50,14 +57,6 @@ if( isset($_SESSION["usertype"])){
                 $itemId = filter_input(INPUT_POST, 'idDel');
                 deleteItem($itemId);
             }
-        }
-        
-        
-        //Gets the most recent week from the sales and increments
-        $salesWeek = getWeekSale();//Most recent week in sales table
-        $currentWeek = getWeek();//Most recent week in purchasing table
-        if($salesWeek['week']===$currentWeek['week']){//Increases the current week only if there is already sales for the week
-            $currentWeek['week']++;
         }
         
         $inventory = getInventoryOrderedLow();//Pull ordered Inventory
@@ -453,9 +452,6 @@ else{
                             <div id="confirmOrderModal" class="modal">
 
                                 <div class="modal-content">
-                                    <div>
-                                      <span class="close">&times;</span>
-                                    </div>
                                     <form action="manager_home.php" method="POST">
                                         <input type="hidden" name="action" value ="purchaseItem">
                                         <table class="table" id="invTable">
@@ -463,6 +459,7 @@ else{
                                                 <tr>
                                                     <th>Name</th>
                                                     <th>Purchase</th>
+                                                    <th>Cost</th>
                                                 </tr>
                                             </thead>
 
