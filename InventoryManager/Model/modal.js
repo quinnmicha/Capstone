@@ -159,6 +159,7 @@ function confirmSale(){
             output+='</tr>';
             $("#saleConfirmOutput").html(output);
             $.post( "../InventoryManager/Model/purchase.php", { id: $(this).data("idItem"), unitPrice: $(this).data("unitPrice"), purchaseAmount: $(this).val() } );
+            //.eq(index) is required to access the object at that index of the array of objects
             $(".validation").eq(index).text("");
         }
         else if($(this).val()>0 && $(this).val()> $(this).data("currentAmount")){
