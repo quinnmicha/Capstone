@@ -88,7 +88,7 @@ if( isset($_SESSION["usertype"])){
         </div>
         
         <div id="orderDiv" class="col-6 btn-lg" style="padding:0%; height:100%; display:none; text-align: right;">
-            <button class="btn-lg" type="button" id="orderBtn" style="color:#5380b7; border-color: #5380b7; border-radius: 7%; background-color: white;" onclick="confirmOrder()">Confirm</button>
+            <button class="btn-lg" type="button" id="orderBtn" style="color:#5380b7; border-color: #5380b7; border-radius: 7%; background-color: white;" onclick="confirmSale()">Confirm</button>
         </div>
         
     </div>
@@ -138,15 +138,12 @@ if( isset($_SESSION["usertype"])){
                         <td><?php echo$item['parAmount'] ?></td>
                         <td><?php echo$item['amount'] ?></td>
                         <td class="numSelectTd" style="text-align: center;">
-                            <input class="d-block m-auto" type="number" id="quantity" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo $item['name'] ?>" data-unit-price="<?php echo number_format($item['salesPrice'], 2); //This is read as 'unitPrice' but is supposed to be salesPrice !this is not a mistake ?>" data-current-amount="<?php echo$item['amount'] ?>" name="quantity" min="1" max="25">
+                            <input class="d-block m-auto" type="number" id="quantity" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo $item['name'] ?>" data-unit-price="<?php echo number_format($item['salesPrice'], 2); //This is read as 'unitPrice' but is supposed to be salesPrice !this is not a mistake ?>" data-current-amount="<?php echo$item['amount'] ?>" name="quantity" min="1" max="25"><span class="validation"></span>
                             
                         
-                            <div id="confirmOrderModal" class="modal">
+                            <div id="confirmSaleModal" class="modal">
 
                             <div class="modal-content">
-                                <div>
-                                  <span class="close">&times;</span>
-                                </div>
     
                                 <form action="user_home.php" method="POST">
                                       <input type="hidden" name="action" value ="sellItem">
@@ -159,7 +156,7 @@ if( isset($_SESSION["usertype"])){
                                               </tr>
                                           </thead>
 
-                                          <tbody id="purchaseConfirmOutput">
+                                          <tbody id="saleConfirmOutput">
 
                                           </tbody>
 
@@ -167,7 +164,7 @@ if( isset($_SESSION["usertype"])){
                                       <div style="text-align: center;">
                                         <div>
                                             <button type="submit">Confirm</button>
-                                            <button type='button' onclick='closeOrderModal()'>Cancel</button>
+                                            <button type='button' onclick='closeSaleModal()'>Cancel</button>
                                         </div>
                                       </div>  
                                   </form>  
