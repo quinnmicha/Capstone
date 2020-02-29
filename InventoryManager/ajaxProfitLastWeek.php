@@ -2,14 +2,14 @@
 include __DIR__ . '/Model/model_inventory.php';
 
 $profitData = getReportLastWeek();
-$results[0] = array(); // week 
-$results[1] = array(); // profit
+$results[0] = array(); // expense 
+$results[1] = array(); // revenue
+$results[2] = array(); // week selected
 
-    foreach ($profitData as $v) {
-        array_push($results[0], $v['expense']);
-        array_push($results[1], $v['profit']);
-    }
-    $jsonResults= json_encode($results);
-    echo $jsonResults;
+array_push($results[0], number_format($profitData['expense'], 2, '.', ''));
+array_push($results[1], number_format($profitData['revenue'], 2, '.', ''));
+array_push($results[2], $profitData['week']);
+$jsonResults= json_encode($results);
+echo $jsonResults;
 
 ?>

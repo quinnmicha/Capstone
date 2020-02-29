@@ -94,9 +94,49 @@ else{
     
    <!--/header ----------------------------------------------------------------> 
    
-   <canvas class="mt-4" id="myChart" width="400" height="400"></canvas>
+   <canvas class="mt-4" id="lastWeek" width="400" height="400"></canvas>
    <script>
-       $(document).ready(function(){
+       //YTD Profit SCRIPT
+        $(document).ready(function(){
+           $.get("../InventoryManager/ajaxProfitLastWeek.php", function (data) {
+            profitData = $.parseJSON(data);
+             console.log(profitData);
+             
+             var ctx = document.getElementById('lastWeek').getContext('2d');
+             var myChart = new Chart(ctx, {
+                 type: 'bar',
+                 data: {
+                   labels: ['expenses', 'revenue'],
+                   datasets: [
+                    {
+                       label: ['expenses', 'revenue'],
+                       data: [profitData[0][0], profitData[1][0]],
+                       backgroundColor: ['rgba(240, 41, 41, 0.5)','rgba(77, 240, 41, 0.5)'],
+                    }
+                    ]
+                },
+                 options: {
+                    maintainAspectRatio: false,
+                   legend: { display: false },
+                   title: {
+                     display: true,
+                     text: 'Last Week Report: Week ' + profitData[2][0], 
+                   },
+                   scales: {
+                         yAxes: [{
+                             ticks: {
+                                 beginAtZero:true
+                                }
+                            }]
+                        }
+                    }
+                });
+            });
+       });
+   </script>
+   <script>
+       //YTD Profit SCRIPT
+        $(document).ready(function(){
            $.get("../InventoryManager/ajaxProfitYTD.php", function (data) {
             profitData = $.parseJSON(data);
              console.log(profitData);

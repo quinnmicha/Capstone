@@ -502,7 +502,7 @@
         $get = getWeek();//Pulls most recent week from purchasing table
         $week = $get['week'];
         
-        $stmt=$db->prepare("SELECT SUM(revenue) - SUM(expense) AS 'profit' FROM invoices WHERE week = :week");
+        $stmt=$db->prepare("SELECT week, SUM(expense) AS 'expense', SUM(revenue) AS 'revenue' FROM invoices WHERE week = :week");
         
         $binds=array(
             ":week"=>$week
@@ -539,16 +539,6 @@
         return $results;
     }
     
-    /*
-    //checks if Post request
-    function isPostRequest() {
-        return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' );
-    }
-    //checks if Get request
-    function isGetRequest() {
-        return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
-    }
-    */
    
 
     
