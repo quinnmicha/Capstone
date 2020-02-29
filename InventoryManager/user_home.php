@@ -28,6 +28,9 @@ if( isset($_SESSION["usertype"])){
         header('Location: ../InventoryManager/index.php');
     }
 } 
+else{
+        header('Location: ../InventoryManager/index.php');
+    }
 
 ?>
 

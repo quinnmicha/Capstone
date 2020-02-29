@@ -495,6 +495,25 @@
         return $results;
     }
     
+    //Pulls the Sum of expenses and revenue for graph
+    function getReportLastWeek(){
+        global $db;
+        
+        $get = getWeek();//Pulls most recent week from purchasing table
+        $week = $get['week'];
+        
+        $stmt=$db->prepare("SELECT week, SUM(expense) AS 'expense', SUM(revenue) AS 'revenue' FROM invoices WHERE week = :week");
+        
+        $binds=array(
+            ":week"=>$week
+        );
+        $results= false;
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        return $results;
+    }
+    
     function getProfitByWeek(){
         global $db;
         
@@ -520,16 +539,6 @@
         return $results;
     }
     
-    /*
-    //checks if Post request
-    function isPostRequest() {
-        return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'POST' );
-    }
-    //checks if Get request
-    function isGetRequest() {
-        return ( filter_input(INPUT_SERVER, 'REQUEST_METHOD') === 'GET' );
-    }
-    */
    
 
     
