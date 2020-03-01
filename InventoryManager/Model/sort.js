@@ -20,7 +20,7 @@ function sortBy(n){
             if (direction == "ascending") { 
  
                 // Check if 2 rows need to be switched 
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) 
+                if (x.innerHTML.toString() > y.innerHTML.toString()) 
                     { 
                         // If yes, mark Switch as needed and break loop 
                         Switch = true; 
@@ -29,7 +29,7 @@ function sortBy(n){
             } else if (direction == "descending") { 
   
                 // Check direction 
-                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) 
+                if (x.innerHTML.toString() < y.innerHTML.toSting()) 
                     { 
                         // If yes, mark Switch as needed and break loop 
                         Switch = true; 

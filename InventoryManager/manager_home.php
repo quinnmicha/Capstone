@@ -133,7 +133,7 @@ else{
                 <input type="hidden" name="action" value="search" />
                 <div class="form-row">
                     <div class="col-9">
-                        <input class="form-control" type="text" name="fieldValue" placeholder="Search Inventory" aria-label="Search">
+                        <input class="form-control" type="text" name="fieldValue" placeholder="Search Inventory" aria-label="Search">      
                     </div>
                     <div class="col-3">
                         <button class="btn btn-outline-success" style="border-color: #5380b7; color: #5380b7; background-color: white;" type="submit">Search</button>

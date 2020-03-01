@@ -123,6 +123,13 @@ td, th{
     font-size:inherit;
 }
 
+.nav-btn{
+    text-decoration: underline;
+    color: #5380b7;
+    border: 1px solid #5380b7;
+    border-radius: 5px;
+}
+
 .sort-btn{
     font-weight: inherit;
     text-decoration: underline;
@@ -157,3 +164,4 @@ td, th{
 .li-form{
     max-height: 50px;
 }
+
