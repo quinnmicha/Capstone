@@ -528,6 +528,50 @@
         return $results;
     }
     
+    function getReportInventory($week){
+        global $db;
+        $results = false;
+        if ($week==="YTD"){
+            $stmt=$db->prepare("SELECT inventory.`name`, SUM(purchases.amount) AS purchased, SUM(sales.amount) AS sold, (inventory.salesPrice  * SUM(sales.amount))  -  (inventory.unitPrice * SUM(purchases.amount))  AS TotalProfit  FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem INNER JOIN purchases ON sales.idItem=purchases.idItem GROUP BY inventory.name ORDER BY totalProfit DESC;");
+        
+            if($stmt->execute() && $stmt->rowCount()>0){
+                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                return $results;
+            }
+        }
+        else{
+            $stmt=$db->prepare("SELECT inventory.`name`, SUM(purchases.amount) AS purchased, SUM(sales.amount) AS sold, (inventory.salesPrice  * SUM(sales.amount))  -  (inventory.unitPrice * SUM(purchases.amount))  AS TotalProfit  FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem INNER JOIN purchases ON sales.idItem=purchases.idItem WHERE sales.week = :week1 AND purchases.week = :week2 GROUP BY inventory.name ORDER BY totalProfit DESC;");
+            
+            $binds = array(
+                ":week1"=>$week,
+                ":week2"=>$week
+            );
+            if($stmt->execute($binds) && $stmt->rowCount()>0){
+                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                return $results;
+            }
+            else{//If there is no sales data for the week, this SQL catches that and gives just purchase data
+                $results = getReportInventoryPurchaseOnly($week);
+                return $results;
+            }
+        }
+        return $results;  
+    }
+    
+    function getReportInventoryPurchaseOnly($week){
+        global $db;
+        
+        $stmt=$db->prepare("SELECT inventory.`name`, SUM(purchases.amount) AS purchased, 0 AS sold, 0 -  (inventory.unitPrice * SUM(purchases.amount))  AS TotalProfit  FROM purchases INNER JOIN inventory ON purchases.idItem=inventory.idItem WHERE purchases.week = :week GROUP BY inventory.name ORDER BY totalProfit DESC;");
+                
+        $binds = array(
+            ":week"=>$week
+        );
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        }
+    }
+    
     function getProfitByWeek(){
         global $db;
         
