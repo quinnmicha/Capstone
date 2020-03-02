@@ -152,21 +152,7 @@ else{
 
 
                 <?php foreach ($inventory as $item): ?>
-                    <?php //To set proper row colors
-                        $color='';//default nothing if amount above par
-                        if($item['amount']<$item['parAmount']){
-                            if($item['amount']===0){//This is to catch error
-                                $color = 'table-danger';//bootstrap background color red
-                            }
-                            else if(($item['amount']/$item['parAmount']*100)<50){//Yellow if 50% or above, Red if bellow 50%
-                                $color = 'table-danger';//bootstrap background color red
-                            }
-                            else{
-                                $color = 'table-warning';//boostrap background color yellow
-                            }
-                        }
-                    ?>
-                    <tr id="colorRow" class="<?php echo $color; ?>">
+                    <tr id="colorRow" class="">
                         <td><input type="hidden" name="i-d" value="<?php echo $item['idItem'] ?>" /></td>
                         <td style="text-align: left;">
                             <?php echo $item['name']; ?>

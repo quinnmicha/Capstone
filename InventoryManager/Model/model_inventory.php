@@ -532,7 +532,7 @@
         global $db;
         $results = false;
         if ($week==="YTD"){
-            $stmt=$db->prepare("SELECT inventory.`name`, SUM(purchases.amount) AS purchased, SUM(sales.amount) AS sold, (sales.money  * SUM(sales.amount))  -  (purchases.money * SUM(purchases.amount))  AS TotalProfit  FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem INNER JOIN purchases ON sales.idItem=purchases.idItem GROUP BY sales.idItem ORDER BY totalProfit DESC;");
+            $stmt=$db->prepare("SELECT inventory.`name`, SUM(purchases.amount) AS purchased, SUM(sales.amount) AS sold, (inventory.salesPrice  * SUM(sales.amount))  -  (inventory.unitPrice * SUM(purchases.amount))  AS TotalProfit  FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem INNER JOIN purchases ON sales.idItem=purchases.idItem GROUP BY inventory.name ORDER BY totalProfit DESC;");
         
             if($stmt->execute() && $stmt->rowCount()>0){
                 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -540,7 +540,7 @@
             }
         }
         else{
-            $stmt=$db->prepare("SELECT inventory.`name`, SUM(purchases.amount) AS purchased, SUM(sales.amount) AS sold, (sales.money  * SUM(sales.amount))  -  (purchases.money * SUM(purchases.amount))  AS TotalProfit  FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem INNER JOIN purchases ON sales.idItem=purchases.idItem WHERE sales.week = :week1 AND purchases.week = :week2 GROUP BY sales.idItem ORDER BY totalProfit DESC;");
+            $stmt=$db->prepare("SELECT inventory.`name`, SUM(purchases.amount) AS purchased, SUM(sales.amount) AS sold, (inventory.salesPrice  * SUM(sales.amount))  -  (inventory.unitPrice * SUM(purchases.amount))  AS TotalProfit  FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem INNER JOIN purchases ON sales.idItem=purchases.idItem WHERE sales.week = :week AND purchases.week = :week GROUP BY inventory.name ORDER BY totalProfit DESC;");
             
             $binds = array(
                 ":week1"=>$week,
@@ -554,9 +554,6 @@
         return $results;
         
     }
-    
-    $test=getReportInventory(25);
-    var_dump($test);
     
     function getProfitByWeek(){
         global $db;
