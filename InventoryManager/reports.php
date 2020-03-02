@@ -18,13 +18,20 @@ if( isset($_SESSION["usertype"])){
         }
         //
         
-        
-        
-        
-        
         if(isPostRequest()){
             $action = filter_input(INPUT_POST, 'action');               //Checks if the POST is for the adding an Item
-            
+            if($action === "thisWeek"){
+                $_SESSION["graphWeek"]= $currentWeek;
+                $_SESSION["graphType"]= "bar";
+            }
+            else if($action === "lastWeek"){
+                $_SESSION["graphWeek"]= $currentWeek - 1;
+                $_SESSION["graphType"]= "bar";
+            }
+            else if($action === "YTD"){
+                $_SESSION["graphWeek"]= "YTD";
+                $_SESSION["graphType"]= "line";
+            }
         }
         
         $inventory = getInventoryOrderedLow();//Pull ordered Inventory
@@ -110,19 +117,19 @@ else{
        <div class="col-2">
            <form action="reports.php" method="get">
                <input type="hidden" name="action" value="YTD" />
-               <button class="btn btn-outline-success" style="border-color: #5380b7; color: #5380b7; background-color: white; width: 100%;" type="submit">YTD</button>
+               <button class="btn btn-outline-success" id="YTD" style="border-color: #5380b7; color: #5380b7; background-color: white; width: 100%;" type="submit">YTD</button>
            </form>
        </div>
        <div class="col-2">
            <form action="reports.php" method="get">
                <input type="hidden" name="action" value="thisWeek" />
-               <button class="btn btn-outline-success" style="border-color: #5380b7; color: #5380b7; background-color: white; width: 100%;" type="submit">This Week</button>
+               <button class="btn btn-outline-success" id="thisWeek" data-week="<?php echo $currentWeek;?>" style="border-color: #5380b7; color: #5380b7; background-color: white; width: 100%;" type="submit">This Week</button>
            </form>
        </div>
        <div class="col-2">        
            <form action="reports.php" method="get">
                <input type="hidden" name="action" value="lastWeek" />
-               <button class="btn btn-outline-success" style="border-color: #5380b7; color: #5380b7; background-color: white; width: 100%;" type="submit">Last Week</button>
+               <button class="btn btn-outline-success" id="lastWeek" style="border-color: #5380b7; color: #5380b7; background-color: white; width: 100%;" type="submit">Last Week</button>
            </form>
        </div>
        
@@ -132,8 +139,8 @@ else{
    
    
    
-   
-   <canvas class="mt-4" id="lastWeek" width="400" height="100"></canvas>
+    <canvas class="mt-4" id="barGraph" width="400" height="100"></canvas><!--bar-->
+    <canvas class="mt-4" id="lineGraph" width="400" height="100"></canvas><!--line-->
    
    <div class="row" style="margin-top: 4%;">
         <table class="table" id="invTable">
@@ -257,9 +264,12 @@ else{
             </table>
         </div>
    <script>
-       //YTD Profit SCRIPT
-        $(document).ready(function(){
-           $.get("../InventoryManager/ajaxProfitLastWeek.php", function (data) {
+      
+   </script>
+   <script>
+     //Show Individual week bar graph
+        function displayWeek(week){
+           $.get("../InventoryManager/ajaxProfitByWeek.php", { week: week}, function (data) {
             profitData = $.parseJSON(data);
              console.log(profitData);
              
@@ -293,11 +303,8 @@ else{
                     }
                 });
             });
-       });
-   </script>
-   <script>
-       //YTD Profit SCRIPT
-        $(document).ready(function(){
+       });   
+    
            $.get("../InventoryManager/ajaxProfitYTD.php", function (data) {
             profitData = $.parseJSON(data);
              console.log(profitData);
@@ -322,7 +329,7 @@ else{
                  else{
                      color.push('rgba(240, 41, 41, 0.5)');
                  }
-             var ctx = document.getElementById('myChart').getContext('2d');
+             var ctx = document.getElementById('lineGraph').getContext('2d');
              var myChart = new Chart(ctx, {
                  type: 'line',
                  data: {
