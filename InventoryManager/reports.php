@@ -18,20 +18,24 @@ if( isset($_SESSION["usertype"])){
         }
         //
         
-        if(isPostRequest()){
-            $action = filter_input(INPUT_POST, 'action');               //Checks if the POST is for the adding an Item
+        if(isGetRequest()){
+            $action = filter_input(INPUT_GET, 'action');               //Checks if the POST is for the adding an Item
+            echo "action";
             if($action === "thisWeek"){
                 $_SESSION["graphWeek"]= $currentWeek;
                 $_SESSION["graphType"]= "bar";
             }
             else if($action === "lastWeek"){
                 $_SESSION["graphWeek"]= $currentWeek - 1;
+                echo $_SESSION["graphWeek"];
+                
                 $_SESSION["graphType"]= "bar";
             }
             else if($action === "YTD"){
                 $_SESSION["graphWeek"]= "YTD";
                 $_SESSION["graphType"]= "line";
             }
+            echo "potatoes";
         }
         
         $inventory = getInventoryOrderedLow();//Pull ordered Inventory
@@ -138,8 +142,9 @@ else{
    </div>
    
    
-   
-    <canvas class="mt-4" id="graph" width="400" height="100"></canvas>
+   <div class="graphBox" style="width:100%; height:600px;">
+        <canvas class="mt-4" id="graphProfit"></canvas>
+   </div>
    
    <div class="row" style="margin-top: 4%;">
         <table class="table" id="invTable">
@@ -267,7 +272,7 @@ else{
      
      $(document).ready(function(){
          console.log("document is ready");
-         $.get("../InventoryManager/ajaxGetGraph.php"), function(data){
+         $.get("../InventoryManager/ajaxGetGraph.php", function(data){
              console.log("get has started");
             profitData = $.parseJSON(data);
             console.log(profitData);
@@ -278,12 +283,13 @@ else{
             else{
                 displayWeek(profitData)
             }
-         };
+         });
          console.log("get has been skipped");
      });
      
+     
     function displayWeek(){
-        var ctx = document.getElementById('graph').getContext('2d');
+        var ctx = document.getElementById('graphProfit').getContext('2d');
         var myChart = new Chart(ctx, {
              type: 'bar',
              data: {
@@ -336,7 +342,7 @@ else{
             else{
                 color.push('rgba(240, 41, 41, 0.5)');
             }
-        var ctx = document.getElementById('graph').getContext('2d');
+        var ctx = document.getElementById('graphProfit').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'line',
             data: {
