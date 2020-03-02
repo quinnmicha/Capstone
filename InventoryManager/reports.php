@@ -139,8 +139,7 @@ else{
    
    
    
-    <canvas class="mt-4" id="barGraph" width="400" height="100"></canvas><!--bar-->
-    <canvas class="mt-4" id="lineGraph" width="400" height="100"></canvas><!--line-->
+    <canvas class="mt-4" id="graph" width="400" height="100"></canvas>
    
    <div class="row" style="margin-top: 4%;">
         <table class="table" id="invTable">
@@ -264,102 +263,109 @@ else{
             </table>
         </div>
    <script>
-      
-   </script>
-   <script>
      //Show Individual week bar graph
-        function displayWeek(week){
-           $.get("../InventoryManager/ajaxProfitByWeek.php", { week: week}, function (data) {
+     
+     $(document).ready(function(){
+         console.log("document is ready");
+         $.get("../InventoryManager/ajaxGetGraph.php"), function(data){
+             console.log("get has started");
             profitData = $.parseJSON(data);
-             console.log(profitData);
-             
-             var ctx = document.getElementById('lastWeek').getContext('2d');
-             var myChart = new Chart(ctx, {
-                 type: 'bar',
-                 data: {
-                   labels: ['expenses', 'revenue'],
-                   datasets: [
-                    {
-                       label: ['expenses', 'revenue'],
-                       data: [profitData[0][0], profitData[1][0]],
-                       backgroundColor: ['rgba(240, 41, 41, 0.5)','rgba(77, 240, 41, 0.5)']
+            console.log(profitData);
+            console.log("profit data should have posted");
+            if(profitData[0]==="line"){
+                displayYTD(profitData);
+            }
+            else{
+                displayWeek(profitData)
+            }
+         };
+         console.log("get has been skipped");
+     });
+     
+    function displayWeek(){
+        var ctx = document.getElementById('graph').getContext('2d');
+        var myChart = new Chart(ctx, {
+             type: 'bar',
+             data: {
+               labels: ['expenses', 'revenue'],
+               datasets: [
+                {
+                   label: ['expenses', 'revenue'],
+                   data: [profitData[1][0], profitData[2][0]],
+                   backgroundColor: ['rgba(240, 41, 41, 0.5)','rgba(77, 240, 41, 0.5)']
+                }
+                ]
+            },
+             options: {
+                maintainAspectRatio: false,
+               legend: { display: false },
+               title: {
+                 display: true,
+                 text: 'Last Week Report: Week ' + profitData[3][0] 
+               },
+               scales: {
+                     yAxes: [{
+                         ticks: {
+                             beginAtZero:true
+                            }
+                        }]
                     }
-                    ]
-                },
-                 options: {
-                    maintainAspectRatio: false,
-                   legend: { display: false },
-                   title: {
-                     display: true,
-                     text: 'Last Week Report: Week ' + profitData[2][0] 
-                   },
-                   scales: {
-                         yAxes: [{
-                             ticks: {
-                                 beginAtZero:true
-                                }
-                            }]
-                        }
-                    }
-                });
-            });
-       });   
+                }
+        });
+    }
     
-           $.get("../InventoryManager/ajaxProfitYTD.php", function (data) {
-            profitData = $.parseJSON(data);
-             console.log(profitData);
-             var week =[];
-             var profit =[];
-             var color =[];
-             totalProfit=0;
-             for(i in profitData[0]){
-                 week.push(profitData[0][i]);
-             }
-             for(i in profitData[1]){
-                //.toFixed kept throwing an error on neitServer
-                profit.push(parseFloat(profitData[1][i]).toFixed(2));
-                //Bellow is the fix without .toFixed
-                //profit.push(profitData[1][i]);
-                 totalProfit+=profit[i];
-             }
-             if (totalProfit>0){
-                     console.log(profit[i]);
-                     color.push('rgba(77, 240, 41, 0.5)');
-                 }
-                 else{
-                     color.push('rgba(240, 41, 41, 0.5)');
-                 }
-             var ctx = document.getElementById('lineGraph').getContext('2d');
-             var myChart = new Chart(ctx, {
-                 type: 'line',
-                 data: {
-                   labels: week,
-                   datasets: [
-                    {
-                       label: "profit",
-                       data: profit,
-                       backgroundColor: color,
-                    }
-                    ]
+    function displayYTD(){
+        var week =[];
+        var profit =[];
+        var color =[];
+        totalProfit=0;
+        for(i in profitData[1]){
+            week.push(profitData[1][i]);
+        }
+        for(i in profitData[1]){
+           //.toFixed kept throwing an error on neitServer
+           profit.push(parseFloat(profitData[2][i]).toFixed(2));
+           //Bellow is the fix without .toFixed
+           //profit.push(profitData[1][i]);
+            totalProfit+=profit[i];
+        }
+        if (totalProfit>0){
+                console.log(profit[i]);
+                color.push('rgba(77, 240, 41, 0.5)');
+            }
+            else{
+                color.push('rgba(240, 41, 41, 0.5)');
+            }
+        var ctx = document.getElementById('graph').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: week,
+              datasets: [{
+                label: "profit",
+                data: profit,
+                backgroundColor: color,
+               }]
+           },
+            options: {
+                maintainAspectRatio: false,
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: 'Weekly Profit'
                 },
-                 options: {
-                    maintainAspectRatio: false,
-                   legend: { display: false },
-                   title: {
-                     display: true,
-                     text: 'Weekly Profit'
-                   },
-                   scales: {
-                         yAxes: [{
-                             ticks: {
-                                 beginAtZero:true
-                                }
-                            }]
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
                         }
-                    }
-                });
-            });
-       });
+                    }]
+                   
+                }
+            }
+        });
+    }
+      
    </script>
    
    
