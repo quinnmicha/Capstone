@@ -153,13 +153,13 @@ else{
 
                 <?php foreach ($inventory as $item): ?>
                     <tr id="colorRow" class="">
-                        <td><input type="hidden" name="i-d" value="<?php echo $item['idItem'] ?>" /></td>
+                        <td></td>
                         <td style="text-align: left;">
                             <?php echo $item['name']; ?>
                         </td>
-                        <td>$<?php echo $item["purchased"] ?></td>
-                        <td>$<?php echo $item["sold"] ?></td>
-                        <td><?php echo number_format($item['TotalProfit'], 2) ?></td>
+                        <td><?php echo $item["purchased"] ?></td>
+                        <td><?php echo $item["sold"] ?></td>
+                        <td>$<?php echo number_format($item['TotalProfit'], 2) ?></td>
                     </tr>
                 <?php endforeach; ?>
             </table>
