@@ -20,14 +20,13 @@ if( isset($_SESSION["usertype"])){
         
         if(isGetRequest()){
             $action = filter_input(INPUT_GET, 'action');               //Checks if the POST is for the adding an Item
-            echo "action";
+            
             if($action === "thisWeek"){
                 $_SESSION["graphWeek"]= $currentWeek;
                 $_SESSION["graphType"]= "bar";
             }
             else if($action === "lastWeek"){
                 $_SESSION["graphWeek"]= $currentWeek - 1;
-                echo $_SESSION["graphWeek"];
                 
                 $_SESSION["graphType"]= "bar";
             }
@@ -35,7 +34,6 @@ if( isset($_SESSION["usertype"])){
                 $_SESSION["graphWeek"]= "YTD";
                 $_SESSION["graphType"]= "line";
             }
-            echo "potatoes";
         }
         
         $inventory = getReportInventory($_SESSION["graphWeek"]);//pulls report data based on week chosen for graph
@@ -142,10 +140,9 @@ else{
                         <th style="text-align: center; display:none;">ID</th>
                         <th></th>
                         <th><button type="button" class="sort-btn" onclick="sortBy(1)">Name</button></th>
-                        <th><button type="button" class="sort-btn" onclick="sortBy(2)">Unit Price</button></th>
-                        <th><button type="button" class="sort-btn" onclick="sortBy(3)">Sales Price</button></th>
-                        <th><button type="button" class="sort-btn" onclick="sortBy(4)">Par Amount</button></th>
-                        <th><button type="button" class="sort-btn" onclick="sortBy(5)">Current Amount</button></th>
+                        <th><button type="button" class="sort-btn" onclick="sortBy(2)">Amount Bought</button></th>
+                        <th><button type="button" class="sort-btn" onclick="sortBy(3)">Amount Sold</button></th>
+                        <th><button type="button" class="sort-btn" onclick="sortBy(4)">Total Profit</button></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -169,84 +166,7 @@ else{
                     <tr id="colorRow" class="<?php echo $color; ?>">
                         <td><input type="hidden" name="i-d" value="<?php echo $item['idItem'] ?>" /></td>
                         <td style="text-align: left;">
-                            <!-- Trigger the modal with a button -->
-                            <button type="button" id="editBtn" class="reg-btn editBtn" data-id-item="<?php echo $item['idItem'] ?>" data-name="<?php echo$item['name'] ?>" data-sales-price="<?php echo number_format($item['salesPrice'], 2);?>" data-unit-price="<?php echo number_format($item['unitPrice'], 2) ?>" data-current-amount="<?php echo$item['amount'] ?>" data-par-amount="<?php echo$item['parAmount'] ?>" onclick="editFunction()"><?php echo$item['name'] ?></button>
-                            <script>
-                            //editFunction Script
-                            $(".editBtn").click(function(){
-                                id = $(this).data('idItem');
-                                name = $(this).data("name");
-                                unitCost = $(this).data("unitPrice");
-                                salesCost = $(this).data("salesPrice");
-                                currentAmount = $(this).data("currentAmount");
-                                parAmount = $(this).data("parAmount");
-                                console.log($(this).data("name"));
-
-                                //Sets the modal info with the current info
-                                $("#idEdit").val(id);
-                                $("#itemNameEdit").val(name);
-                                $("#amountEdit").val(currentAmount);
-                                $("#unitCostEdit").val(unitCost);
-                                $("#salesPriceEdit").val(salesCost);
-                                $("#parAmountEdit").val(parAmount);
-
-                            });
-                            </script>
-                            <!-- Modal -->
-                            <div class="modal" id="editModal">
-
-                                <!-- Modal content-->
-                                <div class="modal-content">
-                                    <div>
-                                       <span class="close" style="display: none;">&times;</span> 
-                                    </div>
-                                    <form action="manager_home.php" method="POST">
-                                        <div class="modal-body container-fluid">
-                                            <div class="form-group">
-                                                <div class="form-row">
-                                                    <input type="hidden" name="action" value ="editItem">
-                                                    <input type="hidden" id="idEdit" name="idEdit" value="">
-                                                    <label class="control-label" for="itemNameEdit">Item Name:</label>
-                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="itemNameEdit" value=""  name="itemNameEdit" >
-                                                    <div class="invalid-feedback">Please type the item's name.</div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="form-row">
-                                                    <label class="control-label" for="amountEdit">Current Amount in Inventory:</label>        
-                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="amountEdit"  value=""  name="amountEdit" >
-                                                    <div class="invalid-feedback">Please enter your Current Inventory Amount as a whole number.</div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="form-row">
-                                                    <label class="control-label" for="unitCostEdit">Unit Cost:</label>        
-                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="unitCostEdit"  name="unitCostEdit" >
-                                                    <div class="invalid-feedback">Please enter a unit price. Only use numbers and one decimal point</div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="form-row">
-                                                    <label class="control-label" for="salesPriceEdit">Sales Price:</label>        
-                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="salesPriceEdit" name="salesPriceEdit" >
-                                                    <div class="invalid-feedback">Please enter a sales price. Only use numbers and one decimal point</div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="form-row">
-                                                    <label class="control-label" for="parAmountEdit">Par Amount:</label>        
-                                                    <input type="text" class="form-control" style="border-color: #5380b7;" id="parAmountEdit" name="parAmountEdit" >
-                                                    <div class="invalid-feedback">Please enter your Par Amount as a whole number.</div>
-                                                </div>
-                                            </div>					
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-success" onclick='return checkDataEdit()' id="submitEdit">Submit Changes</button>
-                                                
-                                        </div>
-                                    </form>                                   
-                                </div>           
-                            </div>
+                            <?php echo $item['name']; ?>
                         </td>
                         <td>$<?php echo number_format($item['unitPrice'], 2) ?></td>
                         <td>$<?php echo number_format($item['salesPrice'], 2) ?></td>
