@@ -528,6 +528,27 @@
         return $results;
     }
     
+    function getReportInventory($week){
+        global $db;
+        
+        if ($week==="YTD"){
+            $stmt=$db->prepare("SELECT inventory.`name`, SUM(purchases.amount) AS purchased, SUM(sales.amount) AS sold, SUM(sales.money) - (inventory.unitPrice * SUM(sales.amount)) AS TotalProfit  FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem INNER JOIN purchases ON sales.idItem=purchases.idItem GROUP BY sales.idItem ORDER BY totalProfit DESC;");
+        
+            if($stmt->execute() && $stmt->rowCount()>0){
+                $results = $stmt->fetch(PDO::FETCH_ASSOC);
+            }
+        }
+        else{
+            $stmt=$db->prepare("SELECT inventory.`name`, SUM(purchases.amount) AS purchased, SUM(sales.amount) AS sold, SUM(sales.money) - (inventory.unitPrice * SUM(sales.amount)) AS TotalProfit  FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem INNER JOIN purchases ON sales.idItem=purchases.idItem WHERE `week` = :week GROUP BY sales.idItem ORDER BY totalProfit DESC;");
+            
+            $binds = array(":week"=>$week);
+            if($stmt->execute($binds) && $stmt->rowCount()>0){
+                $results = $stmt->fetch(PDO::FETCH_ASSOC);
+            }
+        }
+        return $results;
+    }
+    
     function getProfitByWeek(){
         global $db;
         

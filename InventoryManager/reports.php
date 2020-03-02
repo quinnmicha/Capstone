@@ -38,19 +38,8 @@ if( isset($_SESSION["usertype"])){
             echo "potatoes";
         }
         
-        $inventory = getInventoryOrderedLow();//Pull ordered Inventory
-        //Setting the Cards
-        //
-        //Set Low inventory card
-        $lowInventory= array();
-        for($i=0;$i<3;$i++){
-            if ($inventory[$i]['orderAmount']<100){
-                array_push($lowInventory, $inventory[$i]['name']);
-            }
-            else{
-                array_push($lowInventory, '');//adds empty string to array incase less than three items are low
-            }
-        }
+        $inventory = getReportInventory($_SESSION["graphWeek"]);//pulls report data based on week chosen for graph
+        
         
     }
     else{
