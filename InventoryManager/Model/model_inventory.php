@@ -532,24 +532,30 @@
         global $db;
         $results = false;
         if ($week==="YTD"){
-            $stmt=$db->prepare("SELECT inventory.`name`, SUM(purchases.amount) AS purchased, SUM(sales.amount) AS sold, SUM(sales.money) - (inventory.unitPrice * SUM(sales.amount)) AS TotalProfit  FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem INNER JOIN purchases ON sales.idItem=purchases.idItem GROUP BY sales.idItem ORDER BY totalProfit DESC;");
+            $stmt=$db->prepare("SELECT inventory.`name`, SUM(purchases.amount) AS purchased, SUM(sales.amount) AS sold, (sales.money  * SUM(sales.amount))  -  (purchases.money * SUM(purchases.amount))  AS TotalProfit  FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem INNER JOIN purchases ON sales.idItem=purchases.idItem GROUP BY sales.idItem ORDER BY totalProfit DESC;");
         
             if($stmt->execute() && $stmt->rowCount()>0){
                 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                return $results;
             }
         }
         else{
-            $stmt=$db->prepare("SELECT inventory.`name`, SUM(purchases.amount) AS purchased, SUM(sales.amount) AS sold, SUM(sales.money) - (inventory.unitPrice * SUM(sales.amount)) AS TotalProfit  FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem INNER JOIN purchases ON sales.idItem=purchases.idItem WHERE `week` = :week GROUP BY sales.idItem ORDER BY totalProfit DESC;");
+            $stmt=$db->prepare("SELECT inventory.`name`, SUM(purchases.amount) AS purchased, SUM(sales.amount) AS sold, (sales.money  * SUM(sales.amount))  -  (purchases.money * SUM(purchases.amount))  AS TotalProfit  FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem INNER JOIN purchases ON sales.idItem=purchases.idItem WHERE sales.week = :week1 AND purchases.week = :week2 GROUP BY sales.idItem ORDER BY totalProfit DESC;");
             
-            $binds = array(":week"=>$week);
+            $binds = array(
+                ":week1"=>$week,
+                ":week2"=>$week
+            );
             if($stmt->execute($binds) && $stmt->rowCount()>0){
                 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                return $results;
             }
         }
         return $results;
+        
     }
     
-    $test=getReportInventory("YTD");
+    $test=getReportInventory(25);
     var_dump($test);
     
     function getProfitByWeek(){

@@ -16,6 +16,9 @@ if( isset($_SESSION["usertype"])){
         else{
             $currentWeek = $purchaseWeek['week'];
         }
+        //init session variables for load
+        $_SESSION["graphWeek"]= $currentWeek;
+        $_SESSION["graphType"]= "bar";
         //
         
         if(isGetRequest()){
@@ -168,10 +171,9 @@ else{
                         <td style="text-align: left;">
                             <?php echo $item['name']; ?>
                         </td>
-                        <td>$<?php echo number_format($item['unitPrice'], 2) ?></td>
-                        <td>$<?php echo number_format($item['salesPrice'], 2) ?></td>
-                        <td><?php echo$item['parAmount'] ?></td>
-                        <td><?php echo$item['amount'] ?></td>
+                        <td>$<?php echo $item["purchased"] ?></td>
+                        <td>$<?php echo $item["sold"] ?></td>
+                        <td><?php echo number_format($item['TotalProfit'], 2) ?></td>
                     </tr>
                 <?php endforeach; ?>
             </table>
