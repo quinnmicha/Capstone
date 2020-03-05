@@ -79,13 +79,13 @@ if( isset($_SESSION["usertype"])){
         }
         //Sets the Highest Profit Card
         $highestProfit = getHighestProfitLastWeek($salesWeek['week']);
-        if(count($highestProfit)<3){
+        $count = count($highestProfit);
+        if($count<3){
             $count;
             $highestProfit += [ $count => ['name' => "", 'totalProfit' => ""]];
             $count++;
             $highestProfit += [ $count => ['name' => "", 'totalProfit' => ""]];
         }
-        
     }
     else{
         header('Location: ../InventoryManager/index.php');
