@@ -577,7 +577,7 @@
     function getProfitByWeek(){
         global $db;
         
-        $stmt=$db->prepare("SELECT week, SUM(revenue) - SUM(expense) AS 'profit' FROM invoices GROUP BY week");
+        $stmt=$db->prepare("SELECT week, IFNULL(SUM(revenue), 0) - IFNULL(SUM(expense), 0) AS 'profit' FROM invoices GROUP BY week");
         
         $results= false;
         if($stmt->execute() && $stmt->rowCount()>0){
