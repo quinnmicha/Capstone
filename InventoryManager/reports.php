@@ -240,10 +240,7 @@ else{
            //Bellow is the fix without .toFixed
            //profit.push(profitData[1][i]);
             totalProfit+=parseFloat(profit[i]);
-            console.log(totalProfit);
         }
-        console.log("we OUT");
-        console.log(totalProfit);
         if (totalProfit>0){
                 console.log(profit[i]);
                 color.push('rgba(77, 240, 41, 0.5)');
