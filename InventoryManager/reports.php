@@ -151,17 +151,26 @@ else{
                 <tbody>
 
 
-                <?php foreach ($inventory as $item): ?>
+                <?php $totalProfit = 0; 
+                foreach ($inventory as $item): ?>
                     <tr id="colorRow" class="">
                         <td></td>
                         <td style="text-align: left;">
                             <?php echo $item['name']; ?>
                         </td>
-                        <td><?php echo $item["purchased"] ?></td>
+                        <td><?php echo $item["bought"] ?></td>
                         <td><?php echo $item["sold"] ?></td>
-                        <td>$<?php echo number_format($item['TotalProfit'], 2) ?></td>
+                        <td>$<?php echo number_format($item['totalProfit'], 2); $totalProfit+=$item['totalProfit']; ?></td>
                     </tr>
                 <?php endforeach; ?>
+                    <tr style="border-top:2px solid black;">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Total Profit</td>
+                        <td class="<?php if($totalProfit>0){ echo 'text-success';} else{echo 'text-danger';}?>">$<?php echo number_format($totalProfit, 2); ?></td>
+
+                    </tr>
             </table>
         </div>
    <script>
