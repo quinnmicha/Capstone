@@ -345,7 +345,6 @@
         global $db;
         
         $money = $amount * $unitCost;
-        
         $stmt=$db->prepare("INSERT INTO purchases (week, idItem, amount, money) VALUES (:week, :idItem, :amount, :money)");
         
         $binds= array (
@@ -532,7 +531,7 @@
         global $db;
         $results = false;
         if ($week==="YTD"){
-            $stmt=$db->prepare("SELECT inventory.`name`, SUM(purchases.amount) AS bought, SUM(sales.amount) AS sold, (inventory.salesPrice  * SUM(sales.amount))  -  (inventory.unitPrice * SUM(purchases.amount))  AS totalProfit  FROM sales INNER JOIN inventory ON sales.idItem=inventory.idItem INNER JOIN purchases ON sales.idItem=purchases.idItem GROUP BY inventory.name ORDER BY totalProfit DESC;");
+            $stmt=$db->prepare("SELECT `name`, bought, sold, (IFNULL(revenue, 0) - IFNULL(expense, 0)) AS totalProfit FROM (SELECT salesTable.`name`, IFNULL(SUM(sold), 0) AS sold, IFNULL(SUM(bought), 0) AS bought, expense, revenue FROM (SELECT `name`, SUM(sales.amount) AS sold, SUM(money) AS revenue FROM sales JOIN inventory ON sales.idItem = inventory.idItem GROUP BY sales.idItem) AS salesTable LEFT JOIN (SELECT `name`, SUM(purchases.amount) AS bought, SUM(purchases.money) AS expense FROM purchases JOIN inventory ON purchases.idItem = inventory.idItem GROUP BY purchases.idItem ) AS purchasesTable ON salesTable.`name` = purchasesTable.`name` GROUP BY `name` UNION ALL SELECT purchasesTable.`name`, IFNULL(sold, 0) AS sold, IFNULL(bought, 0) AS bought, expense, revenue FROM (SELECT `name`, SUM(sales.amount) AS sold, SUM(money) AS revenue FROM sales JOIN inventory ON sales.idItem = inventory.idItem GROUP By sales.idItem) AS salesTable RIGHT JOIN (SELECT `name`, SUM(purchases.amount) AS bought, SUM(purchases.money) AS expense FROM purchases JOIN inventory ON purchases.idItem = inventory.idItem GROUP BY purchases.idItem) AS purchasesTable ON salesTable.`name` = purchasesTable.`name` GROUP BY `name`) AS reportsTable GROUP BY `name`;");
         
             if($stmt->execute() && $stmt->rowCount()>0){
                 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
