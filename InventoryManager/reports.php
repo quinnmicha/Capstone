@@ -16,6 +16,8 @@ if( isset($_SESSION["usertype"])){
         else{
             $currentWeek = $purchaseWeek['week'];
         }
+        
+        $allWeeks = getWeeksAll();
         //init session variables for load
         $_SESSION["graphWeek"]= $currentWeek;
         $_SESSION["graphType"]= "bar";
@@ -36,6 +38,10 @@ if( isset($_SESSION["usertype"])){
             else if($action === "YTD"){
                 $_SESSION["graphWeek"]= "YTD";
                 $_SESSION["graphType"]= "line";
+            }
+            else if(is_numeric($action)){
+                $_SESSION["graphWeek"]= $action;
+                $_SESSION["graphType"]= "bar";
             }
         }
         
@@ -126,6 +132,16 @@ else{
                <button class="btn btn-outline-success" id="lastWeek" style="border-color: #5380b7; color: #5380b7; background-color: white; width: 100%;" type="submit">Last Week</button>
            </form>
        </div>
+       <div class="dropdown col-2">
+            <button class="btn btn-secondary dropdown-toggle" style="border-color: #5380b7; color: #5380b7; background-color: white; width: 100%;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Choose Week
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <?php foreach ($allWeeks AS $w): ?>
+                <a class="dropdown-item" href="../InventoryManager/reports.php?action=<?php echo $w['week']; ?>"><?php echo $w['week']; ?></a>
+                <?php                endforeach; ?>
+            </div>
+      </div>
        
        
        
