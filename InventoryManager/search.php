@@ -38,6 +38,7 @@ if( isset($_SESSION["usertype"])){
         }
         //Sets the Highest Profit Card
         $highestProfit = getHighestProfitLastWeek($salesWeek['week']);
+        $count = count($highestProfit);
         if(count($highestProfit)<3){
             $count;
             $highestProfit += [ $count => ['name' => "", 'totalProfit' => ""]];
@@ -218,15 +219,34 @@ else{
         <div class=" col-sm-offset-1 col-sm-3">
             
             <div class="card card-border">
-                <div class="card-header">
-                    <h4>Highest Profit</h4>
-                </div>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item cardLists" data-total-profit="<?php echo $highestProfit[0]['totalProfit']; ?>"><?php echo $highestProfit[0]['name'];?></li>
-                  <li class="list-group-item cardLists" data-total-profit="<?php echo $highestProfit[1]['totalProfit']; ?>"><?php echo $highestProfit[1]['name'];?></li>
-                  <li class="list-group-item cardLists" data-total-profit="<?php echo $highestProfit[2]['totalProfit']; ?>"><?php echo $highestProfit[2]['name'];?></li>
-                </ul>
-            </div>
+                        <div class="card-header">
+                            <h4>Highest Profit</h4>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item cardLists li-form" data-total-profit="<?php echo $highestProfit[0]['totalProfit']; ?>">
+                                <form action="search.php" method="get">
+                                    <input type="hidden" name="action" value="search"/>
+                                    <input class="form-control" type="hidden" name="fieldValue" value="<?php echo $highestProfit[0]['name']; ?>" placeholder="Search Inventory" aria-label="Search">
+                                    <button type="submit" class="reg-btn display"><?php echo $highestProfit[0]['name']; ?></button>
+                                </form>
+
+                            </li>
+                            <li class="list-group-item cardLists li-form" data-total-profit="<?php echo $highestProfit[1]['totalProfit']; ?>">
+                                <form action="search.php" method="get">
+                                    <input type="hidden" name="action" value="search"/>
+                                    <input class="form-control" type="hidden" name="fieldValue" value="<?php echo $highestProfit[1]['name']; ?>" placeholder="Search Inventory" aria-label="Search">
+                                    <button type="submit" class="reg-btn display"><?php echo $highestProfit[1]['name']; ?></button>
+                                </form>
+                            </li>
+                            <li class="list-group-item cardLists li-form" data-total-profit="<?php echo $highestProfit[2]['totalProfit']; ?>">
+                                <form action="search.php" method="get">
+                                    <input type="hidden" name="action" value="search"/>
+                                    <input class="form-control" type="hidden" name="fieldValue" value="<?php echo $highestProfit[2]['name']; ?>" placeholder="Search Inventory" aria-label="Search">
+                                    <button type="submit" class="reg-btn display"><?php echo $highestProfit[2]['name']; ?></button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
         </div>
     </div>
     

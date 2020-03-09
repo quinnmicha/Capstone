@@ -81,7 +81,7 @@ else if(isPostRequest()){
             </div>              
             <div class="form-group">
                 <label class="control-label" for="password">Password:</label>        
-                <input type="text" class="form-control login" style="border-color: #5380b7;" id="password" placeholder="Enter Password" name="password" >
+                <input type="password" class="form-control login" style="border-color: #5380b7;" id="password" placeholder="Enter Password" name="password" >
                 <div class="invalid-feedback">Please type your Password.</div>
             </div>
             <div class="row justify-content-center">        

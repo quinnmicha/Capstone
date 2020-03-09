@@ -100,13 +100,13 @@ if(isPostRequest()){
             <div class="form-group">
                 <label class="control-label" for="password">Password:</label>
                           
-                    <input type="text" class="form-control login" style="border-color: #5380b7;" id="password" placeholder="Enter Password" name="password" >
+                    <input type="password" class="form-control login" style="border-color: #5380b7;" id="password" placeholder="Enter Password" name="password" >
                 
             </div>
             <div class="form-group">
                 <label class="control-label" for="confirm_password">Confirm Password:</label>
                           
-                    <input type="text" class="form-control login" style="border-color: #5380b7;" id="confirm_password" placeholder="Confirm Password" name="confirm_password" >
+                    <input type="password" class="form-control login" style="border-color: #5380b7;" id="confirm_password" placeholder="Confirm Password" name="confirm_password" >
                     <div class="invalid-feedback">
                         Password and Confirm Password must match.
                     </div>
