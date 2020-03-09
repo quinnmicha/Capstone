@@ -345,7 +345,6 @@
         global $db;
         
         $money = $amount * $unitCost;
-        
         $stmt=$db->prepare("INSERT INTO purchases (week, idItem, amount, money) VALUES (:week, :idItem, :amount, :money)");
         
         $binds= array (
@@ -499,7 +498,7 @@
     function getReportLastWeek(){
         global $db;
         
-        $get = getWeek();//Pulls most recent week from purchasing table
+        $get = getWeekSale();//Pulls most recent week from purchasing table
         $week = $get['week'];
         
         $stmt=$db->prepare("SELECT week, SUM(expense) AS 'expense', SUM(revenue) AS 'revenue' FROM invoices WHERE week = :week");
@@ -513,11 +512,71 @@
         }
         return $results;
     }
+    function getReportByWeek($week){
+        global $db;
+        
+        $stmt=$db->prepare("SELECT week, SUM(expense) AS 'expense', SUM(revenue) AS 'revenue' FROM invoices WHERE week = :week");
+        
+        $binds=array(
+            ":week"=>$week
+        );
+        $results= false;
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            $results = $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        return $results;
+    }
+    
+    function getReportInventory($week){
+        global $db;
+        $results = false;
+        if ($week==="YTD"){
+            $stmt=$db->prepare("SELECT `name`, bought, sold, (IFNULL(revenue, 0) - IFNULL(expense, 0)) AS totalProfit FROM (SELECT salesTable.`name`, IFNULL(SUM(sold), 0) AS sold, IFNULL(SUM(bought), 0) AS bought, expense, revenue FROM (SELECT `name`, SUM(sales.amount) AS sold, SUM(money) AS revenue FROM sales JOIN inventory ON sales.idItem = inventory.idItem GROUP BY sales.idItem) AS salesTable LEFT JOIN (SELECT `name`, SUM(purchases.amount) AS bought, SUM(purchases.money) AS expense FROM purchases JOIN inventory ON purchases.idItem = inventory.idItem GROUP BY purchases.idItem ) AS purchasesTable ON salesTable.`name` = purchasesTable.`name` GROUP BY `name` UNION ALL SELECT purchasesTable.`name`, IFNULL(sold, 0) AS sold, IFNULL(bought, 0) AS bought, expense, revenue FROM (SELECT `name`, SUM(sales.amount) AS sold, SUM(money) AS revenue FROM sales JOIN inventory ON sales.idItem = inventory.idItem GROUP By sales.idItem) AS salesTable RIGHT JOIN (SELECT `name`, SUM(purchases.amount) AS bought, SUM(purchases.money) AS expense FROM purchases JOIN inventory ON purchases.idItem = inventory.idItem GROUP BY purchases.idItem) AS purchasesTable ON salesTable.`name` = purchasesTable.`name` GROUP BY `name`) AS reportsTable GROUP BY `name`;");
+        
+            if($stmt->execute() && $stmt->rowCount()>0){
+                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                return $results;
+            }
+        }
+        else{
+            $stmt=$db->prepare("SELECT `name`, bought, sold, `week`, (IFNULL(revenue, 0) - IFNULL(expense, 0)) AS totalProfit FROM (SELECT salesTable.`name`, IFNULL(SUM(sold), 0) AS sold, IFNULL(SUM(bought), 0) AS bought, salesTable.`week`, expense, revenue  FROM (SELECT `name`, SUM(sales.amount) AS sold, `week`, SUM(money) AS revenue FROM sales JOIN inventory ON sales.idItem = inventory.idItem WHERE week= :week1 GROUP BY sales.idItem) AS salesTable LEFT JOIN (SELECT `name`, SUM(purchases.amount) AS bought, `week`, SUM(purchases.money) AS expense FROM purchases JOIN inventory ON purchases.idItem = inventory.idItem WHERE week= :week2 GROUP BY purchases.idItem ) AS purchasesTable ON salesTable.`name` = purchasesTable.`name` GROUP BY `name` UNION ALL SELECT purchasesTable.`name`, IFNULL(sold, 0) AS sold, IFNULL(bought, 0) AS bought, purchasesTable.`week`, expense, revenue FROM (SELECT `name`, SUM(sales.amount) AS sold, `week`, SUM(money) AS revenue FROM sales JOIN inventory ON sales.idItem = inventory.idItem WHERE week= :week3 GROUP By sales.idItem) AS salesTable RIGHT JOIN (SELECT `name`, SUM(purchases.amount) AS bought, `week`, SUM(purchases.money) AS expense FROM purchases JOIN inventory ON purchases.idItem = inventory.idItem WHERE week= :week4 GROUP BY purchases.idItem) AS purchasesTable ON salesTable.`name` = purchasesTable.`name` GROUP BY `name`) AS reportsTable GROUP BY `name`;");
+            
+            $binds = array(//Since week is referred to 4 times within the SQL statement, the binds needed to reflect that
+                ":week1"=>$week,
+                ":week2"=>$week,
+                ":week3"=>$week,
+                ":week4"=>$week
+            );
+            if($stmt->execute($binds) && $stmt->rowCount()>0){
+                $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                return $results;
+            }
+            else{//If there is no sales data for the week, this SQL catches that and gives just purchase data
+                $results = getReportInventoryPurchaseOnly($week);
+                return $results;
+            }
+        }
+        return $results;  
+    }
+    
+    function getReportInventoryPurchaseOnly($week){
+        global $db;
+        
+        $stmt=$db->prepare("SELECT inventory.`name`, SUM(purchases.amount) AS purchased, 0 AS sold, 0 -  (inventory.unitPrice * SUM(purchases.amount))  AS TotalProfit  FROM purchases INNER JOIN inventory ON purchases.idItem=inventory.idItem WHERE purchases.week = :week GROUP BY inventory.name ORDER BY totalProfit DESC;");
+                
+        $binds = array(
+            ":week"=>$week
+        );
+        if($stmt->execute($binds) && $stmt->rowCount()>0){
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $results;
+        }
+    }
     
     function getProfitByWeek(){
         global $db;
         
-        $stmt=$db->prepare("SELECT week, SUM(revenue) - SUM(expense) AS 'profit' FROM invoices GROUP BY week");
+        $stmt=$db->prepare("SELECT week, IFNULL(SUM(revenue), 0) - IFNULL(SUM(expense), 0) AS 'profit' FROM invoices GROUP BY week");
         
         $results= false;
         if($stmt->execute() && $stmt->rowCount()>0){

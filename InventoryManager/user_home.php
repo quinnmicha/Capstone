@@ -3,6 +3,7 @@
 include_once __DIR__. "/Model/includes/functions.php";
 include __DIR__ . '/Model/model_inventory.php';
 
+
 session_start();
 
 if( isset($_SESSION["usertype"])){
@@ -56,13 +57,14 @@ else{
     <div class="row nav" style="margin-top: 1%;">
         
         <div class="nav-item col-sm-4" style="margin-top: 1%;">
-            <a href="manager_home.php"><b>Home</b></a>
+            <a href="manager_home.php"></a>
         </div>
         <div class="form col-sm-4">
-            <form>
+            <form action="userSearch.php" method="get">
+                <input type="hidden" name="action" value="search" />
                 <div class="form-row">
                     <div class="col-9">
-                        <input class="form-control" type="search" placeholder="Search Inventory" aria-label="Search">
+                        <input class="form-control" type="text" name="fieldValue" placeholder="Search Inventory" aria-label="Search">
                     </div>
                     <div class="col-3">
                         <button class="btn btn-outline-success" style="border-color: #5380b7; color: #5380b7; background-color: white;" type="submit">Search</button>
@@ -121,21 +123,7 @@ else{
                     <tr>
                         <td style="display:none;"><?php echo $item['idItem'] ?></td>
                         <td><input type="hidden" name="i-d" value="<?php echo $item['idItem'] ?>" /></td>
-                        <td style="text-align: left;">
-                            <!-- Trigger the modal with a button -->
-                            <button type="button" id="editBtn" class="reg-btn" onclick="editFunction()"><?php echo$item['name'] ?></button>
-
-                            <!-- Modal -->
-                            <div class="modal" id="editModal">
-
-                                <!-- Modal content-->
-                                <div class="modal-content">
-                                    <div style="text-align: center;">
-                                        <p>Some text in the Modal..</p>
-                                    </div>                                   
-                                </div>           
-                            </div>
-                        </td>
+                        <td style="text-align: left;"><?php echo$item['name'] ?></td>                                                 
                         <td>$<?php echo number_format($item['unitPrice'], 2) ?></td>
                         <td>$<?php echo number_format($item['salesPrice'], 2) ?></td>
                         <td><?php echo$item['parAmount'] ?></td>
