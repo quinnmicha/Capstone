@@ -239,6 +239,18 @@
         }
     }
     
+    //Gets all weeks for Reports page Dropdown
+    function getWeeksAll(){
+        global $db;
+        $stmt=$db->prepare("SELECT DISTINCT week FROM purchases ORDER BY week");
+        if($stmt->execute() && $stmt->rowCount()>0){
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        else{
+            return NULL;
+        }
+    }
+    
     function getWeekSale(){
         global $db;
         
